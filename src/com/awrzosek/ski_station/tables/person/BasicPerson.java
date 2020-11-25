@@ -6,7 +6,7 @@ import java.util.Date;
 
 public abstract class BasicPerson extends BasicTable {
     private String firstName;
-    private String SecondName;
+    private String secondName;
     private String surname;
     private String fullName;
     private Date dateOfBirth;
@@ -15,14 +15,14 @@ public abstract class BasicPerson extends BasicTable {
     private String phone;
     private String eMail;
 
-    public BasicPerson(Long id, String firstName, String secondName, String surname, String fullName, Date dateOfBirth, String pesel,
+    public BasicPerson(Long id, String firstName, String secondName, String surname, Date dateOfBirth, String pesel,
                        String personalIdNumber, String phone, String eMail)
     {
         super(id);
         this.firstName = firstName;
-        SecondName = secondName;
+        this.secondName = secondName;
         this.surname = surname;
-        this.fullName = fullName;
+        setFullName(firstName, secondName, surname);
         this.dateOfBirth = dateOfBirth;
         this.pesel = pesel;
         this.personalIdNumber = personalIdNumber;
@@ -38,16 +38,18 @@ public abstract class BasicPerson extends BasicTable {
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
+        setFullName(firstName, this.secondName, this.surname);
     }
 
     public String getSecondName()
     {
-        return SecondName;
+        return secondName;
     }
 
     public void setSecondName(String secondName)
     {
-        SecondName = secondName;
+        this.secondName = secondName;
+        setFullName(this.firstName, secondName, this.surname);
     }
 
     public String getSurname()
@@ -58,6 +60,7 @@ public abstract class BasicPerson extends BasicTable {
     public void setSurname(String surname)
     {
         this.surname = surname;
+        setFullName(this.firstName, this.secondName, surname);
     }
 
     public String getFullName()
@@ -65,9 +68,8 @@ public abstract class BasicPerson extends BasicTable {
         return fullName;
     }
 
-    public void setFullName(String fullName)
-    {
-        this.fullName = fullName;
+    private void setFullName(String firstName, String secondName, String surname){
+        this.fullName = firstName + " " + (secondName.isEmpty() ? "" : secondName + " " ) + surname;
     }
 
     public Date getDateOfBirth()
@@ -119,4 +121,6 @@ public abstract class BasicPerson extends BasicTable {
     {
         this.eMail = eMail;
     }
+
+
 }

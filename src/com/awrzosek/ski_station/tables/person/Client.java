@@ -8,7 +8,7 @@ public class Client extends BasicPerson{
     public Client(Long id, String firstName, String secondName, String surname, String fullName, Date dateOfBirth, String pesel,
                   String personalIdNumber, String phone, String eMail, Date dateEntered)
     {
-        super(id, firstName, secondName, surname, fullName, dateOfBirth, pesel, personalIdNumber, phone, eMail);
+        super(id, firstName, secondName, surname, dateOfBirth, pesel, personalIdNumber, phone, eMail);
         this.dateEntered = dateEntered;
     }
 

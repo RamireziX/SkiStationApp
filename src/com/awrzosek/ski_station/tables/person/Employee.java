@@ -19,7 +19,7 @@ public class Employee extends BasicPerson{
                     String personalIdNumber, String phone, String eMail, String buildingNr, String aptNr, String streetNr, String streetName,
                     String city, String voivodeship, String zipcode, String login, String passwd, String accountNr, String bankName)
     {
-        super(id, firstName, secondName, surname, fullName, dateOfBirth, pesel, personalIdNumber, phone, eMail);
+        super(id, firstName, secondName, surname, dateOfBirth, pesel, personalIdNumber, phone, eMail);
         this.buildingNr = buildingNr;
         this.aptNr = aptNr;
         this.streetNr = streetNr;
