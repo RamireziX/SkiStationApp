@@ -72,6 +72,10 @@ public abstract class BasicPerson extends BasicTable {
         this.fullName = firstName + " " + (secondName.isEmpty() ? "" : secondName + " " ) + surname;
     }
 
+    private void setFullName(String fullName){
+        this.fullName = fullName;
+    }
+
     public Date getDateOfBirth()
     {
         return dateOfBirth;
@@ -112,12 +116,12 @@ public abstract class BasicPerson extends BasicTable {
         this.phone = phone;
     }
 
-    public String geteMail()
+    public String getEMail()
     {
         return eMail;
     }
 
-    public void seteMail(String eMail)
+    public void setEMail(String eMail)
     {
         this.eMail = eMail;
     }
