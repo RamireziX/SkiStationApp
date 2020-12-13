@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.tables.ski.equipment;
+package com.awrzosek.ski_station.tables.ski.equipment.rent;
 
 import com.awrzosek.ski_station.tables.basic.BasicTable;
 

@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.tables.ski.equipment;
+package com.awrzosek.ski_station.tables.ski.equipment.rent;
 
 public enum RentType {
     TO_GO("Zabierany przez klienta"),

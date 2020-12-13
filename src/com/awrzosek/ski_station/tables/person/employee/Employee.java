@@ -1,8 +1,10 @@
-package com.awrzosek.ski_station.tables.person;
+package com.awrzosek.ski_station.tables.person.employee;
+
+import com.awrzosek.ski_station.tables.person.BasicPerson;
 
 import java.util.Date;
 
-public class Employee extends BasicPerson{
+public class Employee extends BasicPerson {
     private String buildingNr;
     private String aptNr;
     private String streetNr;

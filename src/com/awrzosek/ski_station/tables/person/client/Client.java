@@ -1,8 +1,10 @@
-package com.awrzosek.ski_station.tables.person;
+package com.awrzosek.ski_station.tables.person.client;
+
+import com.awrzosek.ski_station.tables.person.BasicPerson;
 
 import java.util.Date;
 
-public class Client extends BasicPerson{
+public class Client extends BasicPerson {
     Date dateEntered;
 
     public Client(Long id, String firstName, String secondName, String surname, String fullName, Date dateOfBirth, String pesel,

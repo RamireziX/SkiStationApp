@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.tables.ski.equipment;
+package com.awrzosek.ski_station.tables.ski.equipment.rent;
 
 public final class EquipmentRentConsts {
     public final static String TAB_NAME = "EQUIPMENT_RENT";

@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.tables.ski.skipass;
+package com.awrzosek.ski_station.tables.ski.skipass.type;
 
 public enum DiscountType {
     KIDS("Dzieci do 10 roku życia"),

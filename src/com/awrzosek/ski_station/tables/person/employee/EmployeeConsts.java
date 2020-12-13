@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.tables.person;
+package com.awrzosek.ski_station.tables.person.employee;
 
 public final class EmployeeConsts {
     public final static String TAB_NAME = "EMPLOYEE";
