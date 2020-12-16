@@ -7,7 +7,6 @@ public final class ClientConsts {
     public final static String FLD_FIRST_NAME = "FIRST_NAME";
     public final static String FLD_SECOND_NAME = "SECOND_NAME";
     public final static String FLD_SURNAME = "SURNAME";
-    public final static String FLD_FULL_NAME = "FULL_NAME";
     public final static String FLD_DATE_OF_BIRTH = "DATE_OF_BIRTH";
     public final static String FLD_PESEL = "PESEL";
     public final static String FLD_PERSONAL_ID_NUMBER = "PERSONAL_ID_NUMBER";

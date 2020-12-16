@@ -1,9 +1,8 @@
 CREATE TABLE `CLIENT` (
-  `ID` bigint PRIMARY KEY,
+  `ID` INTEGER PRIMARY KEY,
   `FIRST_NAME` varchar(30),
   `SECOND_NAME` varchar(30),
   `SURNAME` varchar(30),
-  `FULL_NAME` varchar(100),
   `DATE_OF_BIRTH` date,
   `PESEL` varchar(15),
   `PERSONAL_ID_NUMBER` varchar(15),
@@ -13,16 +12,16 @@ CREATE TABLE `CLIENT` (
 );
 
 CREATE TABLE `SKIPASS_TYPE` (
-  `ID` bigint PRIMARY KEY,
+  `ID` INTEGER PRIMARY KEY,
   `DURATION` int,
   `DISCOUNT_TYPE` varchar(30),
   `PRICE` double
 );
 
 CREATE TABLE `SKIPASS` (
-  `ID` bigint PRIMARY KEY,
-  `CLIENT_ID` bigint,
-  `SKIPASS_TYPE_ID` bigint,
+  `ID` INTEGER PRIMARY KEY,
+  `CLIENT_ID` INTEGER,
+  `SKIPASS_TYPE_ID` INTEGER,
   `RENTED` boolean,
   `ACTIVE` boolean,
   `DATE_FROM` date,
@@ -36,7 +35,7 @@ CREATE TABLE `SKIPASS` (
 );
 
 CREATE TABLE `EQUIPMENT` (
-  `ID` bigint PRIMARY KEY,
+  `ID` INTEGER PRIMARY KEY,
   `NAME` varchar(50),
   `SERIAL_NUMBER` varchar(30),
   `TYPE` varchar(30),
@@ -45,9 +44,9 @@ CREATE TABLE `EQUIPMENT` (
 );
 
 CREATE TABLE `EQUIPMENT_RENT` (
-  `ID` bigint PRIMARY KEY,
-  `CLIENT_ID` bigint,
-  `EQUIPMENT_ID` bigint,
+  `ID` INTEGER PRIMARY KEY,
+  `CLIENT_ID` INTEGER,
+  `EQUIPMENT_ID` INTEGER,
   `RENT_DATE` date,
   `RETURN_DATE` date,
   `RENT_TYPE` varchar(30),
@@ -60,11 +59,10 @@ CREATE TABLE `EQUIPMENT_RENT` (
 );
 
 CREATE TABLE `EMPLOYEE` (
-  `ID` bigint PRIMARY KEY,
+  `ID` INTEGER PRIMARY KEY,
   `FIRST_NAME` varchar(30),
   `SECOND_NAME` varchar(30),
   `SURNAME` varchar(30),
-  `FULL_NAME` varchar(100),
   `DATE_OF_BIRTH` date,
   `PESEL` varchar(15),
   `PERSONAL_ID_NUMBER` varchar(15),

@@ -69,7 +69,7 @@ public abstract class BasicPerson extends BasicTable {
     }
 
     private void setFullName(String firstName, String secondName, String surname){
-        this.fullName = firstName + " " + (secondName.isEmpty() ? "" : secondName + " " ) + surname;
+        this.fullName = firstName + " " + ((secondName == null || secondName.isEmpty())  ? "" : secondName + " " ) + surname;
     }
 
     private void setFullName(String fullName){

@@ -1,33 +1,17 @@
 package com.awrzosek.ski_station;
 
-import com.awrzosek.ski_station.basic.BasicConsts;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.awrzosek.ski_station.tables.person.client.Client;
+import com.awrzosek.ski_station.tables.person.client.ClientDao;
 
 public class Main {
 
     public static void main(String[] args) {
-        //just to test if connection is ok
-        Connection conn;
-        Statement stat;
-        try {
-            Class.forName(BasicConsts.DRIVER);
-            System.out.println("ok");
-        } catch (ClassNotFoundException e) {
-            System.err.println("err");
-            e.printStackTrace();
-        }
 
-        try {
-            conn = DriverManager.getConnection(BasicConsts.DB_URL);
-            stat = conn.createStatement();
-            System.out.println("ok");
-        } catch (SQLException e) {
-            System.err.println("err");
-            e.printStackTrace();
-        }
+        Client client = new Client(null, "jan", "marek", "kowalski", null, null,
+                null, null,null, null);
+        ClientDao clientDao = new ClientDao();
+        clientDao.add(client);
+        //List<Client> clients = clientDao.getAll();
+        System.out.println(" ");
     }
 }

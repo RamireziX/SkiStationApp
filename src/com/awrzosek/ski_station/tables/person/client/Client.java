@@ -7,7 +7,7 @@ import java.util.Date;
 public class Client extends BasicPerson {
     Date dateEntered;
 
-    public Client(Long id, String firstName, String secondName, String surname, String fullName, Date dateOfBirth, String pesel,
+    public Client(Long id, String firstName, String secondName, String surname, Date dateOfBirth, String pesel,
                   String personalIdNumber, String phone, String eMail, Date dateEntered)
     {
         super(id, firstName, secondName, surname, dateOfBirth, pesel, personalIdNumber, phone, eMail);
