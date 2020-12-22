@@ -19,20 +19,20 @@ public class EquipmentDao implements BasicDao<Equipment> {
     }
 
     @Override
-    public void add(Equipment equipment)
+    public boolean add(Equipment equipment)
     {
-
+        return true;
     }
 
     @Override
-    public void update(Equipment equipment)
+    public boolean update(Equipment equipment)
     {
-
+        return true;
     }
 
     @Override
-    public void delete(Equipment equipment)
+    public boolean delete(Equipment equipment)
     {
-
+        return true;
     }
 }

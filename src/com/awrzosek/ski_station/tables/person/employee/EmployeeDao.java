@@ -19,20 +19,20 @@ public class EmployeeDao implements BasicDao<Employee> {
     }
 
     @Override
-    public void add(Employee employee)
+    public boolean add(Employee employee)
     {
-
+        return true;
     }
 
     @Override
-    public void update(Employee employee)
+    public boolean update(Employee employee)
     {
-
+        return true;
     }
 
     @Override
-    public void delete(Employee employee)
+    public boolean delete(Employee employee)
     {
-
+        return true;
     }
 }

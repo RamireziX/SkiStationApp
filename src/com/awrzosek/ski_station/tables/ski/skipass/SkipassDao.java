@@ -19,20 +19,20 @@ public class SkipassDao implements BasicDao<Skipass> {
     }
 
     @Override
-    public void add(Skipass skipass)
+    public boolean add(Skipass skipass)
     {
-
+        return true;
     }
 
     @Override
-    public void update(Skipass skipass)
+    public boolean update(Skipass skipass)
     {
-
+        return true;
     }
 
     @Override
-    public void delete(Skipass skipass)
+    public boolean delete(Skipass skipass)
     {
-
+        return true;
     }
 }

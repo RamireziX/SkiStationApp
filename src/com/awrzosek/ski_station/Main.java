@@ -20,5 +20,10 @@ public class Main {
             System.out.println(c.getFirstName());
             System.out.println(c.getDateOfBirth());
         }
+
+        boolean test = clientDao.delete(new Client(10L, null, null, null, null, null, null,
+                null,null,null));
+
+        System.out.println(test);
     }
 }

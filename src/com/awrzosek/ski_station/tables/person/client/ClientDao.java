@@ -36,7 +36,7 @@ public class ClientDao implements BasicDao<Client> {
     }
 
     @Override
-    public void add(Client client)
+    public boolean add(Client client)
     {
         //@formatter:off
         String query =
@@ -57,25 +57,38 @@ public class ClientDao implements BasicDao<Client> {
             PreparedStatement preparedStatement = connection.prepareStatement(query))
         {
             processClientForAdding(client, preparedStatement);
-            preparedStatement.execute();
-
+            return preparedStatement.execute();
         } catch (SQLException e)
         {
             e.printStackTrace();
-            throw new RuntimeException(e.getMessage(), e);
+            return false;
         }
     }
 
     @Override
-    public void update(Client client)
+    public boolean update(Client client)
     {
-
+        return true;
     }
 
     @Override
-    public void delete(Client client)
+    public boolean delete(Client client)
     {
+        //@formatter:off
+        String query =
+                "delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
+        //@formatter:on
 
+        try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query))
+        {
+            preparedStatement.setLong(1, client.getId());
+            return preparedStatement.execute();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private Client processClientForSelect(ResultSet result) throws SQLException

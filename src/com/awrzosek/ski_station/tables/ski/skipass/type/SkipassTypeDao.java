@@ -5,34 +5,34 @@ import com.awrzosek.ski_station.basic.BasicDao;
 import java.util.List;
 import java.util.Optional;
 
-public class SkipassTypeDao implements BasicDao {
+public class SkipassTypeDao implements BasicDao<SkipassType> {
     @Override
-    public Optional get(Long id)
+    public Optional<SkipassType> get(Long id)
     {
         return Optional.empty();
     }
 
     @Override
-    public List getAll()
+    public List<SkipassType> getAll()
     {
         return null;
     }
 
     @Override
-    public void add(Object o)
+    public boolean add(SkipassType skipassType)
     {
-
+        return true;
     }
 
     @Override
-    public void update(Object o)
+    public boolean update(SkipassType skipassType)
     {
-
+        return true;
     }
 
     @Override
-    public void delete(Object o)
+    public boolean delete(SkipassType skipassType)
     {
-
+        return true;
     }
 }

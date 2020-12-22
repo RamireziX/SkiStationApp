@@ -19,20 +19,20 @@ public class EquipmentRentDao implements BasicDao<EquipmentRent> {
     }
 
     @Override
-    public void add(EquipmentRent equipmentRent)
+    public boolean add(EquipmentRent equipmentRent)
     {
-
+        return true;
     }
 
     @Override
-    public void update(EquipmentRent equipmentRent)
+    public boolean update(EquipmentRent equipmentRent)
     {
-
+        return true;
     }
 
     @Override
-    public void delete(EquipmentRent equipmentRent)
+    public boolean delete(EquipmentRent equipmentRent)
     {
-
+        return true;
     }
 }

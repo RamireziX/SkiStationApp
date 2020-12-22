@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface BasicDao<T> {
     Optional<T> get(Long id);
     List<T> getAll();
-    void add(T t);
-    void update(T t);
-    void delete(T t);
+    boolean add(T t);
+    boolean update(T t);
+    boolean delete(T t);
 
     default Connection getConnection() throws SQLException
     {
