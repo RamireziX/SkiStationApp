@@ -14,6 +14,17 @@ public class ClientDao implements BasicDao<Client> {
     @Override
     public Optional<Client> get(Long id)
     {
+        String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = " + id;
+        try(Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet result = statement.executeQuery(query))
+        {
+            if (result.next())
+                return Optional.of(processClientForSelect(result));
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
         return Optional.empty();
     }
 
@@ -30,8 +41,8 @@ public class ClientDao implements BasicDao<Client> {
         } catch (SQLException e)
         {
             e.printStackTrace();
-            throw new RuntimeException(e.getMessage(), e);
         }
+
         return clients;
     }
 
@@ -68,7 +79,32 @@ public class ClientDao implements BasicDao<Client> {
     @Override
     public boolean update(Client client)
     {
-        return true;
+        //@formatter:off
+        String query =
+                "update " + TAB_NAME +
+                " set " + FLD_FIRST_NAME + " = ?, " +
+                        FLD_SECOND_NAME + " = ?, " +
+                        FLD_SURNAME + " = ?, " +
+                        FLD_DATE_OF_BIRTH + " = ?, " +
+                        FLD_PESEL + " = ?, " +
+                        FLD_PERSONAL_ID_NUMBER + " = ?, " +
+                        FLD_DATE_ENTERED + " = ?, " +
+                        FLD_PHONE + " = ?, " +
+                        FLD_E_MAIL + " = ? " +
+                "where " + FLD_ID + " = ?";
+        //@formatter:on
+
+        try(Connection connection = getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query))
+        {
+            processClientForAdding(client, preparedStatement);
+            preparedStatement.setLong(10, client.getId());
+            return preparedStatement.execute();
+        } catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
