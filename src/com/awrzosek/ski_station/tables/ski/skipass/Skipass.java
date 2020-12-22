@@ -2,17 +2,17 @@ package com.awrzosek.ski_station.tables.ski.skipass;
 
 import com.awrzosek.ski_station.tables.basic.BasicTable;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Skipass extends BasicTable {
     private Long clientId;
     private Long skipassTypeId;
     private boolean rented;
     private boolean active;
-    private Date dateFrom;
-    private Date dateTo;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
 
-    public Skipass(Long id, Long clientId, Long skipassTypeId, boolean rented, boolean active, Date dateFrom, Date dateTo)
+    public Skipass(Long id, Long clientId, Long skipassTypeId, boolean rented, boolean active, LocalDate dateFrom, LocalDate dateTo)
     {
         super(id);
         this.clientId = clientId;
@@ -63,22 +63,22 @@ public class Skipass extends BasicTable {
         this.active = active;
     }
 
-    public Date getDateFrom()
+    public LocalDate getDateFrom()
     {
         return dateFrom;
     }
 
-    public void setDateFrom(Date dateFrom)
+    public void setDateFrom(LocalDate dateFrom)
     {
         this.dateFrom = dateFrom;
     }
 
-    public Date getDateTo()
+    public LocalDate getDateTo()
     {
         return dateTo;
     }
 
-    public void setDateTo(Date dateTo)
+    public void setDateTo(LocalDate dateTo)
     {
         this.dateTo = dateTo;
     }

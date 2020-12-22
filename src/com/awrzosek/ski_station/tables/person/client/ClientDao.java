@@ -1,13 +1,14 @@
 package com.awrzosek.ski_station.tables.person.client;
 
 import com.awrzosek.ski_station.basic.BasicDao;
-import static com.awrzosek.ski_station.tables.person.client.ClientConsts.*;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static com.awrzosek.ski_station.tables.person.client.ClientConsts.*;
 
 public class ClientDao implements BasicDao<Client> {
     @Override
@@ -37,12 +38,25 @@ public class ClientDao implements BasicDao<Client> {
     @Override
     public void add(Client client)
     {
+        //@formatter:off
+        String query =
+                "insert into " + TAB_NAME +
+                        " ( " + FLD_FIRST_NAME + ", " +
+                        FLD_SECOND_NAME + ", " +
+                        FLD_SURNAME + ", " +
+                        FLD_DATE_OF_BIRTH + ", " +
+                        FLD_PESEL + ", " +
+                        FLD_PERSONAL_ID_NUMBER + ", " +
+                        FLD_DATE_ENTERED + ", " +
+                        FLD_PHONE + ", " +
+                        FLD_E_MAIL + ") " +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        //@formatter:on
+
         try(Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "insert into " + TAB_NAME + " (FIRST_NAME) values (\"name\");"))
+            PreparedStatement preparedStatement = connection.prepareStatement(query))
         {
-            //processClientForAdding(client, preparedStatement);
+            processClientForAdding(client, preparedStatement);
             preparedStatement.execute();
 
         } catch (SQLException e)
@@ -50,8 +64,6 @@ public class ClientDao implements BasicDao<Client> {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e);
         }
-
-
     }
 
     @Override
@@ -68,10 +80,10 @@ public class ClientDao implements BasicDao<Client> {
 
     private Client processClientForSelect(ResultSet result) throws SQLException
     {
-        Date dateOfBirth = result.getTimestamp(FLD_DATE_OF_BIRTH);
-        Date dateEntered = result.getTimestamp(FLD_DATE_ENTERED);
+        LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
+        LocalDate dateEntered = result.getDate(FLD_DATE_ENTERED).toLocalDate();
 
-        return new Client( Long.valueOf(result.getLong(FLD_ID)), result.getString(FLD_FIRST_NAME), result.getString(FLD_SECOND_NAME),
+        return new Client(result.getLong(FLD_ID), result.getString(FLD_FIRST_NAME), result.getString(FLD_SECOND_NAME),
                 result.getString(FLD_SURNAME), dateOfBirth, result.getString(FLD_PESEL),
                 result.getString(FLD_PERSONAL_ID_NUMBER), result.getString(FLD_PHONE),
                 result.getString(FLD_E_MAIL), dateEntered);
@@ -82,10 +94,10 @@ public class ClientDao implements BasicDao<Client> {
         preparedStatement.setString(1, client.getFirstName());
         preparedStatement.setString(2, client.getSecondName());
         preparedStatement.setString(3, client.getSurname());
-        preparedStatement.setDate(4, (java.sql.Date) client.getDateOfBirth());
+        preparedStatement.setDate(4, Date.valueOf(client.getDateOfBirth()));
         preparedStatement.setString(5, client.getPesel());
         preparedStatement.setString(6, client.getPersonalIdNumber());
-        preparedStatement.setDate(7, (java.sql.Date) client.getDateEntered());
+        preparedStatement.setDate(7, Date.valueOf(client.getDateEntered()));
         preparedStatement.setString(8, client.getPhone());
         preparedStatement.setString(9, client.getEMail());
     }

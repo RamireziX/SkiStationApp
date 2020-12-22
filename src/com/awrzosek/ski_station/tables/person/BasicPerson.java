@@ -2,6 +2,7 @@ package com.awrzosek.ski_station.tables.person;
 
 import com.awrzosek.ski_station.tables.basic.BasicTable;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public abstract class BasicPerson extends BasicTable {
@@ -9,13 +10,13 @@ public abstract class BasicPerson extends BasicTable {
     private String secondName;
     private String surname;
     private String fullName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String pesel;
     private String personalIdNumber;
     private String phone;
     private String eMail;
 
-    public BasicPerson(Long id, String firstName, String secondName, String surname, Date dateOfBirth, String pesel,
+    public BasicPerson(Long id, String firstName, String secondName, String surname, LocalDate dateOfBirth, String pesel,
                        String personalIdNumber, String phone, String eMail)
     {
         super(id);
@@ -76,12 +77,12 @@ public abstract class BasicPerson extends BasicTable {
         this.fullName = fullName;
     }
 
-    public Date getDateOfBirth()
+    public LocalDate getDateOfBirth()
     {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth)
+    public void setDateOfBirth(LocalDate dateOfBirth)
     {
         this.dateOfBirth = dateOfBirth;
     }

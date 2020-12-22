@@ -2,16 +2,16 @@ package com.awrzosek.ski_station.tables.ski.equipment.rent;
 
 import com.awrzosek.ski_station.tables.basic.BasicTable;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class EquipmentRent extends BasicTable {
     private Long clientId;
     private Long equipmentId;
-    private Date rentDate;
-    private Date returnDate;
+    private LocalDate rentDate;
+    private LocalDate returnDate;
     private RentType rentType;
 
-    public EquipmentRent(Long id, Long clientId, Long equipmentId, Date rentDate, Date returnDate,
+    public EquipmentRent(Long id, Long clientId, Long equipmentId, LocalDate rentDate, LocalDate returnDate,
                          RentType rentType)
     {
         super(id);
@@ -42,22 +42,22 @@ public class EquipmentRent extends BasicTable {
         this.equipmentId = equipmentId;
     }
 
-    public Date getRentDate()
+    public LocalDate getRentDate()
     {
         return rentDate;
     }
 
-    public void setRentDate(Date rentDate)
+    public void setRentDate(LocalDate rentDate)
     {
         this.rentDate = rentDate;
     }
 
-    public Date getReturnDate()
+    public LocalDate getReturnDate()
     {
         return returnDate;
     }
 
-    public void setReturnDate(Date returnDate)
+    public void setReturnDate(LocalDate returnDate)
     {
         this.returnDate = returnDate;
     }

@@ -2,7 +2,7 @@ package com.awrzosek.ski_station.tables.person.employee;
 
 import com.awrzosek.ski_station.tables.person.BasicPerson;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Employee extends BasicPerson {
     private String buildingNr;
@@ -17,7 +17,7 @@ public class Employee extends BasicPerson {
     private String accountNr;
     private String bankName;
 
-    public Employee(Long id, String firstName, String secondName, String surname, Date dateOfBirth, String pesel,
+    public Employee(Long id, String firstName, String secondName, String surname, LocalDate dateOfBirth, String pesel,
                     String personalIdNumber, String phone, String eMail, String buildingNr, String aptNr, String streetNr, String streetName,
                     String city, String voivodeship, String zipcode, String login, String passwd, String accountNr, String bankName)
     {
