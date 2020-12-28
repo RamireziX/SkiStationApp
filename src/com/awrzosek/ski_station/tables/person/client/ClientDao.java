@@ -14,13 +14,17 @@ public class ClientDao implements BasicDao<Client> {
     @Override
     public Optional<Client> get(Long id)
     {
-        String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = " + id;
+        String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
         try(Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet result = statement.executeQuery(query))
+            PreparedStatement preparedStatement = connection.prepareStatement(query))
         {
-            if (result.next())
-                return Optional.of(processClientForSelect(result));
+            preparedStatement.setLong(1, id);
+
+            try (ResultSet result = preparedStatement.executeQuery())
+            {
+                if (result.next())
+                    return Optional.of(processClientForSelect(result));
+            }
         } catch (SQLException e)
         {
             e.printStackTrace();
