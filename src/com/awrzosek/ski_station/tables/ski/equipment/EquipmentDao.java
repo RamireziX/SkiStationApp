@@ -57,11 +57,11 @@ public class EquipmentDao implements BasicDao<Equipment> {
 		String query =
 				"insert into " + TAB_NAME +
 						" ( " +
-							FLD_NAME + ", " +
-							FLD_SERIAL_NUMBER + ", " +
-							FLD_TYPE + ", " +
-							FLD_RENT_PRICE + ", " +
-							FLD_CONDITION + ") " +
+						FLD_NAME + ", " +
+						FLD_SERIAL_NUMBER + ", " +
+						FLD_TYPE + ", " +
+						FLD_RENT_PRICE + ", " +
+						FLD_CONDITION + ") " +
 						"values " +
 						"(?, ?, ?, ?, ?);";
 		//@formatter:on
