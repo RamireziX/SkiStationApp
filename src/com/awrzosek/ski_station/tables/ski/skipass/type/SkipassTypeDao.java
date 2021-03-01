@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeConsts.*;
 
-public class SkipassTypeDao implements BasicDao<SkipassType> {
+public class SkipassTypeDao extends BasicDao<SkipassType> {
 	@Override
 	public Optional<SkipassType> get(Long id)
 	{
@@ -23,7 +23,7 @@ public class SkipassTypeDao implements BasicDao<SkipassType> {
 			try (ResultSet result = preparedStatement.executeQuery())
 			{
 				if (result.next())
-					return Optional.of(processSkipassTypeForSelect(result));
+					return Optional.of(processForSelect(result));
 			}
 		} catch (SQLException e)
 		{
@@ -41,7 +41,7 @@ public class SkipassTypeDao implements BasicDao<SkipassType> {
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
-				skipassTypes.add(processSkipassTypeForSelect(result));
+				skipassTypes.add(processForSelect(result));
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -67,7 +67,7 @@ public class SkipassTypeDao implements BasicDao<SkipassType> {
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
-			processSkipassTypeForAdding(skipassType, preparedStatement);
+			processForAdding(skipassType, preparedStatement);
 			return preparedStatement.execute();
 		} catch (SQLException e)
 		{
@@ -91,7 +91,7 @@ public class SkipassTypeDao implements BasicDao<SkipassType> {
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
-			processSkipassTypeForAdding(skipassType, preparedStatement);
+			processForAdding(skipassType, preparedStatement);
 			preparedStatement.setLong(4, skipassType.getId());
 			return preparedStatement.execute();
 		} catch (SQLException e)
@@ -121,7 +121,7 @@ public class SkipassTypeDao implements BasicDao<SkipassType> {
 		}
 	}
 
-	private SkipassType processSkipassTypeForSelect(ResultSet result) throws SQLException
+	protected SkipassType processForSelect(ResultSet result) throws SQLException
 	{
 		DiscountType discountType = DiscountType.valueOf(result.getString(FLD_DISCOUNT_TYPE));
 
@@ -129,7 +129,7 @@ public class SkipassTypeDao implements BasicDao<SkipassType> {
 				BigDecimal.valueOf(result.getDouble(FLD_PRICE)));
 	}
 
-	private void processSkipassTypeForAdding(SkipassType skipassType, PreparedStatement preparedStatement)
+	protected void processForAdding(SkipassType skipassType, PreparedStatement preparedStatement)
 			throws SQLException
 	{
 		preparedStatement.setString(1, String.valueOf(skipassType.getDuration()));

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static com.awrzosek.ski_station.tables.ski.equipment.EquipmentConsts.*;
 
-public class EquipmentDao implements BasicDao<Equipment> {
+public class EquipmentDao extends BasicDao<Equipment> {
 	@Override
 	public Optional<Equipment> get(Long id)
 	{
@@ -23,7 +23,7 @@ public class EquipmentDao implements BasicDao<Equipment> {
 			try (ResultSet result = preparedStatement.executeQuery())
 			{
 				if (result.next())
-					return Optional.of(processEquipmentForSelect(result));
+					return Optional.of(processForSelect(result));
 			}
 		} catch (SQLException e)
 		{
@@ -41,7 +41,7 @@ public class EquipmentDao implements BasicDao<Equipment> {
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
-				equipments.add(processEquipmentForSelect(result));
+				equipments.add(processForSelect(result));
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -69,7 +69,7 @@ public class EquipmentDao implements BasicDao<Equipment> {
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
-			processEquipmentForAdding(equipment, preparedStatement);
+			processForAdding(equipment, preparedStatement);
 			return preparedStatement.execute();
 		} catch (SQLException e)
 		{
@@ -95,7 +95,7 @@ public class EquipmentDao implements BasicDao<Equipment> {
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
-			processEquipmentForAdding(equipment, preparedStatement);
+			processForAdding(equipment, preparedStatement);
 			preparedStatement.setLong(6, equipment.getId());
 			return preparedStatement.execute();
 		} catch (SQLException e)
@@ -125,7 +125,7 @@ public class EquipmentDao implements BasicDao<Equipment> {
 		}
 	}
 
-	private Equipment processEquipmentForSelect(ResultSet result) throws SQLException
+	protected Equipment processForSelect(ResultSet result) throws SQLException
 	{
 		EquipmentType type = EquipmentType.valueOf(result.getString(FLD_TYPE));
 		Condition condition = Condition.valueOf(result.getString(FLD_CONDITION));
@@ -134,7 +134,7 @@ public class EquipmentDao implements BasicDao<Equipment> {
 				type, BigDecimal.valueOf(result.getDouble(FLD_RENT_PRICE)), condition);
 	}
 
-	private void processEquipmentForAdding(Equipment equipment, PreparedStatement preparedStatement) throws SQLException
+	protected void processForAdding(Equipment equipment, PreparedStatement preparedStatement) throws SQLException
 	{
 		preparedStatement.setString(1, equipment.getName());
 		preparedStatement.setString(2, equipment.getSerialNumber());

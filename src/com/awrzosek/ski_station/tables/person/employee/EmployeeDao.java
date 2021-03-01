@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static com.awrzosek.ski_station.tables.person.employee.EmployeeConsts.*;
 
-public class EmployeeDao implements BasicDao<Employee> {
+public class EmployeeDao extends BasicDao<Employee> {
 	@Override
 	public Optional<Employee> get(Long id)
 	{
@@ -23,7 +23,7 @@ public class EmployeeDao implements BasicDao<Employee> {
 			try (ResultSet result = preparedStatement.executeQuery())
 			{
 				if (result.next())
-					return Optional.of(processEmployeeForSelect(result));
+					return Optional.of(processForSelect(result));
 			}
 		} catch (SQLException e)
 		{
@@ -41,7 +41,7 @@ public class EmployeeDao implements BasicDao<Employee> {
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
-				employees.add(processEmployeeForSelect(result));
+				employees.add(processForSelect(result));
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
@@ -82,7 +82,7 @@ public class EmployeeDao implements BasicDao<Employee> {
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
-			processEmployeeForAdding(employee, preparedStatement);
+			processForAdding(employee, preparedStatement);
 			return preparedStatement.execute();
 		} catch (SQLException e)
 		{
@@ -122,7 +122,7 @@ public class EmployeeDao implements BasicDao<Employee> {
 		try (Connection connection = getConnection();
 			 PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
-			processEmployeeForAdding(employee, preparedStatement);
+			processForAdding(employee, preparedStatement);
 			preparedStatement.setLong(20, employee.getId());
 			return preparedStatement.execute();
 		} catch (SQLException e)
@@ -152,7 +152,7 @@ public class EmployeeDao implements BasicDao<Employee> {
 		}
 	}
 
-	private Employee processEmployeeForSelect(ResultSet result) throws SQLException
+	protected Employee processForSelect(ResultSet result) throws SQLException
 	{
 		LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
 
@@ -165,7 +165,7 @@ public class EmployeeDao implements BasicDao<Employee> {
 				result.getString(FLD_PASSWD), result.getString(FLD_ACCOUNT_NR), result.getString(FLD_BANK_NAME));
 	}
 
-	private void processEmployeeForAdding(Employee employee, PreparedStatement preparedStatement) throws SQLException
+	protected void processForAdding(Employee employee, PreparedStatement preparedStatement) throws SQLException
 	{
 		preparedStatement.setString(1, employee.getFirstName());
 		preparedStatement.setString(2, employee.getSecondName());

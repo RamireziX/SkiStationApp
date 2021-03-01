@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static com.awrzosek.ski_station.tables.person.client.ClientConsts.*;
 
-public class ClientDao implements BasicDao<Client> {
+public class ClientDao extends BasicDao<Client> {
     @Override
     public Optional<Client> get(Long id)
     {
@@ -23,7 +23,7 @@ public class ClientDao implements BasicDao<Client> {
             try (ResultSet result = preparedStatement.executeQuery())
             {
                 if (result.next())
-                    return Optional.of(processClientForSelect(result));
+                    return Optional.of(processForSelect(result));
             }
         } catch (SQLException e)
         {
@@ -41,7 +41,7 @@ public class ClientDao implements BasicDao<Client> {
             ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
         {
             while(result.next())
-                clients.add(processClientForSelect(result));
+                clients.add(processForSelect(result));
         } catch (SQLException e)
         {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class ClientDao implements BasicDao<Client> {
         try(Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query))
         {
-            processClientForAdding(client, preparedStatement);
+            processForAdding(client, preparedStatement);
             return preparedStatement.execute();
         } catch (SQLException e)
         {
@@ -101,7 +101,7 @@ public class ClientDao implements BasicDao<Client> {
         try(Connection connection = getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query))
         {
-            processClientForAdding(client, preparedStatement);
+            processForAdding(client, preparedStatement);
             preparedStatement.setLong(10, client.getId());
             return preparedStatement.execute();
         } catch (SQLException e)
@@ -131,7 +131,7 @@ public class ClientDao implements BasicDao<Client> {
         }
     }
 
-    private Client processClientForSelect(ResultSet result) throws SQLException
+    protected Client processForSelect(ResultSet result) throws SQLException
     {
         LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
         LocalDate dateEntered = result.getDate(FLD_DATE_ENTERED).toLocalDate();
@@ -142,7 +142,7 @@ public class ClientDao implements BasicDao<Client> {
                 result.getString(FLD_E_MAIL), dateEntered);
     }
 
-    private void processClientForAdding(Client client, PreparedStatement preparedStatement) throws SQLException
+    protected void processForAdding(Client client, PreparedStatement preparedStatement) throws SQLException
     {
         preparedStatement.setString(1, client.getFirstName());
         preparedStatement.setString(2, client.getSecondName());

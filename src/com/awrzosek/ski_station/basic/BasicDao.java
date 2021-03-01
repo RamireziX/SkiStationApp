@@ -1,20 +1,26 @@
 package com.awrzosek.ski_station.basic;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 
-public interface BasicDao<T> {
-    Optional<T> get(Long id);
-    List<T> getAll();
-    boolean add(T t);
-    boolean update(T t);
-    boolean delete(T t);
+public abstract class BasicDao<T> {
+	public abstract Optional<T> get(Long id);
 
-    default Connection getConnection() throws SQLException
-    {
-        return DriverManager.getConnection(BasicConsts.DB_URL);
-    }
+	public abstract List<T> getAll();
+
+	public abstract boolean add(T t);
+
+	public abstract boolean update(T t);
+
+	public abstract boolean delete(T t);
+
+	protected abstract T processForSelect(ResultSet result) throws SQLException;
+
+	protected abstract void processForAdding(T t, PreparedStatement preparedStatement) throws SQLException;
+
+	protected Connection getConnection() throws SQLException
+	{
+		return DriverManager.getConnection(BasicConsts.DB_URL);
+	}
 }
