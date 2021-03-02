@@ -2,11 +2,9 @@ package com.awrzosek.ski_station.tables.ski.equipment.rent;
 
 import com.awrzosek.ski_station.basic.BasicDao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,25 +35,94 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 	@Override
 	public List<EquipmentRent> getAll()
 	{
-		return null;
+		List<EquipmentRent> equipmentRents = new ArrayList<>();
+		try (Connection connection = getConnection();
+			 Statement statement = connection.createStatement();
+			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
+		{
+			while (result.next())
+				equipmentRents.add(processForSelect(result));
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+		return equipmentRents;
 	}
 
 	@Override
 	public boolean add(EquipmentRent equipmentRent)
 	{
-		return true;
+		//@formatter:off
+		String query =
+				"insert into " + TAB_NAME +
+						" ( " +
+						FLD_CLIENT_ID + ", " +
+						FLD_EQUIPMENT_ID + ", " +
+						FLD_RENT_DATE + ", " +
+						FLD_RETURN_DATE + ", " +
+						FLD_RENT_TYPE + ") " +
+						"values " +
+						"(?, ?, ?, ?, ?);";
+		//@formatter:on
+
+		try (Connection connection = getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		{
+			processForAdding(equipmentRent, preparedStatement);
+			return preparedStatement.execute();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean update(EquipmentRent equipmentRent)
 	{
-		return true;
+		//@formatter:off
+		String query =
+				"update " + TAB_NAME +
+						" set " + FLD_CLIENT_ID + " = ?, " +
+						FLD_EQUIPMENT_ID + " = ?, " +
+						FLD_RENT_DATE + " = ?, " +
+						FLD_RETURN_DATE + " = ?, " +
+						FLD_RENT_TYPE + " = ? " +
+						"where " + FLD_ID + " = ?";
+		//@formatter:on
+
+		try (Connection connection = getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		{
+			processForAdding(equipmentRent, preparedStatement);
+			preparedStatement.setLong(6, equipmentRent.getId());
+			return preparedStatement.execute();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
 	public boolean delete(EquipmentRent equipmentRent)
 	{
-		return true;
+		//@formatter:off
+		String query =
+				"delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
+		//@formatter:on
+
+		try (Connection connection = getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		{
+			preparedStatement.setLong(1, equipmentRent.getId());
+			return preparedStatement.execute();
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	protected EquipmentRent processForSelect(ResultSet result) throws SQLException
@@ -72,14 +139,10 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 	protected void processForAdding(EquipmentRent equipmentRent, PreparedStatement preparedStatement)
 			throws SQLException
 	{
-//		preparedStatement.setString(1, client.getFirstName());
-//		preparedStatement.setString(2, client.getSecondName());
-//		preparedStatement.setString(3, client.getSurname());
-//		preparedStatement.setDate(4, Date.valueOf(client.getDateOfBirth()));
-//		preparedStatement.setString(5, client.getPesel());
-//		preparedStatement.setString(6, client.getPersonalIdNumber());
-//		preparedStatement.setDate(7, Date.valueOf(client.getDateEntered()));
-//		preparedStatement.setString(8, client.getPhone());
-//		preparedStatement.setString(9, client.getEMail());
+		preparedStatement.setLong(1, equipmentRent.getClientId());
+		preparedStatement.setLong(2, equipmentRent.getEquipmentId());
+		preparedStatement.setDate(3, Date.valueOf(equipmentRent.getRentDate()));
+		preparedStatement.setDate(4, Date.valueOf(equipmentRent.getReturnDate()));
+		preparedStatement.setString(5, equipmentRent.getRentType().name());
 	}
 }

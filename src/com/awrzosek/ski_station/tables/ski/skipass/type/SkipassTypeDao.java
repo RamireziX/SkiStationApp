@@ -3,7 +3,6 @@ package com.awrzosek.ski_station.tables.ski.skipass.type;
 import com.awrzosek.ski_station.basic.BasicDao;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +133,6 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 	{
 		preparedStatement.setString(1, String.valueOf(skipassType.getDuration()));
 		preparedStatement.setString(2, skipassType.getDiscountType().name());
-		preparedStatement.setString(3, skipassType.getPrice().setScale(2, RoundingMode.HALF_UP).toString());
+		preparedStatement.setBigDecimal(3, skipassType.getPrice());
 	}
 }

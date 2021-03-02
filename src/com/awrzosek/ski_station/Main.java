@@ -1,29 +1,31 @@
 package com.awrzosek.ski_station;
 
-import com.awrzosek.ski_station.tables.ski.skipass.type.DiscountType;
-import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
-import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRent;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
 
-import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Main {
 
 	public static void main(String[] args)
 	{
-		//TODO eq rent i skipass dao - uwaga maja fk
-		SkipassTypeDao skipassTypeDao = new SkipassTypeDao();
-		skipassTypeDao
-				.add(new SkipassType(null, 7, DiscountType.GROUP_20, new BigDecimal(13.32)));
-		skipassTypeDao
-				.add(new SkipassType(null, 14, DiscountType.SENIORS_65, new BigDecimal(10)));
-		skipassTypeDao
-				.add(new SkipassType(null, 30, DiscountType.JUNIORS, new BigDecimal(100)));
-		List<SkipassType> l = skipassTypeDao.getAll();
-		SkipassType skipassType = skipassTypeDao.get(3L).orElse(null);
-		skipassType.setDuration(3000);
-		skipassTypeDao.update(skipassType);
-		skipassTypeDao.delete(skipassType);
+		//TODO skipass dao - uwaga maja fk
+		//TODO - sprawdzić, czy ja wszedzie nie przekazuję string do bazy
+		EquipmentRentDao equipmentRentDao = new EquipmentRentDao();
+		equipmentRentDao
+				.add(new EquipmentRent(null, 1L, 1L, LocalDate.now(), LocalDate.now(), RentType.STAY));
+		equipmentRentDao
+				.add(new EquipmentRent(null, 1L, 2L, LocalDate.now(), LocalDate.now(), RentType.STAY));
+		equipmentRentDao
+				.add(new EquipmentRent(null, 2L, 2L, LocalDate.now(), LocalDate.now(), RentType.STAY));
+
+		List<EquipmentRent> l = equipmentRentDao.getAll();
+		EquipmentRent equipmentRent = equipmentRentDao.get(1L).orElse(null);
+		equipmentRent.setRentType(RentType.TO_GO);
+		equipmentRentDao.update(equipmentRent);
+		equipmentRentDao.delete(equipmentRent);
 
 
 		System.out.println("end");
