@@ -4,6 +4,6 @@ public class Main {
 
 	public static void main(String[] args)
 	{
-		//TODO - sprawdzić, czy ja wszedzie nie przekazuję string do bazy
+		//TODO - funkcje z func requirements - a przynajmniej ich szkielety
 	}
 }

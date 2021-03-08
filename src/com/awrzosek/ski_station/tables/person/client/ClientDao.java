@@ -1,6 +1,6 @@
 package com.awrzosek.ski_station.tables.person.client;
 
-import com.awrzosek.ski_station.basic.BasicDao;
+import com.awrzosek.ski_station.tables.basic.BasicDao;
 
 import java.sql.*;
 import java.time.LocalDate;

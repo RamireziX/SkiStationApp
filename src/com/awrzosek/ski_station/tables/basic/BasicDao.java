@@ -1,4 +1,6 @@
-package com.awrzosek.ski_station.basic;
+package com.awrzosek.ski_station.tables.basic;
+
+import com.awrzosek.ski_station.basic.BasicConsts;
 
 import java.sql.*;
 import java.util.List;

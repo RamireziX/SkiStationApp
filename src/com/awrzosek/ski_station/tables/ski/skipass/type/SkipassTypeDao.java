@@ -1,6 +1,6 @@
 package com.awrzosek.ski_station.tables.ski.skipass.type;
 
-import com.awrzosek.ski_station.basic.BasicDao;
+import com.awrzosek.ski_station.tables.basic.BasicDao;
 
 import java.math.BigDecimal;
 import java.sql.*;
