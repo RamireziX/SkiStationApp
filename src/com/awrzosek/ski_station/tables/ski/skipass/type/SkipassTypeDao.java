@@ -131,7 +131,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 	protected void processForAdding(SkipassType skipassType, PreparedStatement preparedStatement)
 			throws SQLException
 	{
-		preparedStatement.setString(1, String.valueOf(skipassType.getDuration()));
+		preparedStatement.setInt(1, skipassType.getDuration());
 		preparedStatement.setString(2, skipassType.getDiscountType().name());
 		preparedStatement.setBigDecimal(3, skipassType.getPrice());
 	}

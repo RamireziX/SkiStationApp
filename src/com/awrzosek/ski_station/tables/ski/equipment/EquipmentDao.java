@@ -3,7 +3,6 @@ package com.awrzosek.ski_station.tables.ski.equipment;
 import com.awrzosek.ski_station.basic.BasicDao;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +138,7 @@ public class EquipmentDao extends BasicDao<Equipment> {
 		preparedStatement.setString(1, equipment.getName());
 		preparedStatement.setString(2, equipment.getSerialNumber());
 		preparedStatement.setString(3, equipment.getType().name());
-		preparedStatement.setString(4, equipment.getRentPrice().setScale(2, RoundingMode.HALF_UP).toString());
+		preparedStatement.setBigDecimal(4, equipment.getRentPrice());
 		preparedStatement.setString(5, equipment.getCondition().name());
 	}
 }
