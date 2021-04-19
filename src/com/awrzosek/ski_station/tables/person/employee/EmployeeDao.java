@@ -12,7 +12,7 @@ import static com.awrzosek.ski_station.tables.person.employee.EmployeeConsts.*;
 
 public class EmployeeDao extends BasicDao<Employee> {
 	@Override
-	public Optional<Employee> get(Long id)
+	public Optional<Employee> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		try (Connection connection = getConnection();
@@ -25,15 +25,12 @@ public class EmployeeDao extends BasicDao<Employee> {
 				if (result.next())
 					return Optional.of(processForSelect(result));
 			}
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public List<Employee> getAll()
+	public List<Employee> getAll() throws SQLException
 	{
 		List<Employee> employees = new ArrayList<>();
 		try (Connection connection = getConnection();
@@ -42,16 +39,13 @@ public class EmployeeDao extends BasicDao<Employee> {
 		{
 			while (result.next())
 				employees.add(processForSelect(result));
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 
 		return employees;
 	}
 
 	@Override
-	public boolean add(Employee employee)
+	public boolean add(Employee employee) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -84,15 +78,11 @@ public class EmployeeDao extends BasicDao<Employee> {
 		{
 			processForAdding(employee, preparedStatement);
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean update(Employee employee)
+	public boolean update(Employee employee) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -125,15 +115,11 @@ public class EmployeeDao extends BasicDao<Employee> {
 			processForAdding(employee, preparedStatement);
 			preparedStatement.setLong(20, employee.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean delete(Employee employee)
+	public boolean delete(Employee employee) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -145,10 +131,6 @@ public class EmployeeDao extends BasicDao<Employee> {
 		{
 			preparedStatement.setLong(1, employee.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 

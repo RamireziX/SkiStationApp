@@ -12,7 +12,7 @@ import static com.awrzosek.ski_station.tables.person.client.ClientConsts.*;
 
 public class ClientDao extends BasicDao<Client> {
 	@Override
-	public Optional<Client> get(Long id)
+	public Optional<Client> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		try (Connection connection = getConnection();
@@ -25,15 +25,12 @@ public class ClientDao extends BasicDao<Client> {
 				if (result.next())
 					return Optional.of(processForSelect(result));
 			}
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public List<Client> getAll()
+	public List<Client> getAll() throws SQLException
 	{
 		List<Client> clients = new ArrayList<>();
 		try (Connection connection = getConnection();
@@ -42,16 +39,13 @@ public class ClientDao extends BasicDao<Client> {
 		{
 			while (result.next())
 				clients.add(processForSelect(result));
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 
 		return clients;
 	}
 
 	@Override
-	public boolean add(Client client)
+	public boolean add(Client client) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -73,15 +67,11 @@ public class ClientDao extends BasicDao<Client> {
 		{
 			processForAdding(client, preparedStatement);
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean update(Client client)
+	public boolean update(Client client) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -104,15 +94,11 @@ public class ClientDao extends BasicDao<Client> {
 			processForAdding(client, preparedStatement);
 			preparedStatement.setLong(10, client.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean delete(Client client)
+	public boolean delete(Client client) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -124,10 +110,6 @@ public class ClientDao extends BasicDao<Client> {
 		{
 			preparedStatement.setLong(1, client.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 

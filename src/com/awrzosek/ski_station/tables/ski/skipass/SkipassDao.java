@@ -12,7 +12,7 @@ import static com.awrzosek.ski_station.tables.ski.skipass.SkipassConsts.*;
 
 public class SkipassDao extends BasicDao<Skipass> {
 	@Override
-	public Optional<Skipass> get(Long id)
+	public Optional<Skipass> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		try (Connection connection = getConnection();
@@ -25,15 +25,12 @@ public class SkipassDao extends BasicDao<Skipass> {
 				if (result.next())
 					return Optional.of(processForSelect(result));
 			}
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public List<Skipass> getAll()
+	public List<Skipass> getAll() throws SQLException
 	{
 		List<Skipass> skipasses = new ArrayList<>();
 		try (Connection connection = getConnection();
@@ -42,16 +39,13 @@ public class SkipassDao extends BasicDao<Skipass> {
 		{
 			while (result.next())
 				skipasses.add(processForSelect(result));
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 
 		return skipasses;
 	}
 
 	@Override
-	public boolean add(Skipass skipass)
+	public boolean add(Skipass skipass) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -70,15 +64,11 @@ public class SkipassDao extends BasicDao<Skipass> {
 		{
 			processForAdding(skipass, preparedStatement);
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean update(Skipass skipass)
+	public boolean update(Skipass skipass) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -98,15 +88,11 @@ public class SkipassDao extends BasicDao<Skipass> {
 			processForAdding(skipass, preparedStatement);
 			preparedStatement.setLong(7, skipass.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean delete(Skipass skipass)
+	public boolean delete(Skipass skipass) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -118,10 +104,6 @@ public class SkipassDao extends BasicDao<Skipass> {
 		{
 			preparedStatement.setLong(1, skipass.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 

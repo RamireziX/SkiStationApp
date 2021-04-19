@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class BasicDao<T> {
-	public abstract Optional<T> get(Long id);
+	public abstract Optional<T> get(Long id) throws SQLException;
 
-	public abstract List<T> getAll();
+	public abstract List<T> getAll() throws SQLException;
 
-	public abstract boolean add(T t);
+	public abstract boolean add(T t) throws SQLException;
 
-	public abstract boolean update(T t);
+	public abstract boolean update(T t) throws SQLException;
 
-	public abstract boolean delete(T t);
+	public abstract boolean delete(T t) throws SQLException;
 
 	protected abstract T processForSelect(ResultSet result) throws SQLException;
 

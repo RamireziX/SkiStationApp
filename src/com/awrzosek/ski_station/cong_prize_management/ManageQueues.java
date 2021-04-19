@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.cong_prize_mng;
+package com.awrzosek.ski_station.cong_prize_management;
 
 import java.math.BigDecimal;
 

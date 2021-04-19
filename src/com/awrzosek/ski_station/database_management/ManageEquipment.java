@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.db_mng;
+package com.awrzosek.ski_station.database_management;
 
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;

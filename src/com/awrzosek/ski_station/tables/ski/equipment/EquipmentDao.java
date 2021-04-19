@@ -12,7 +12,7 @@ import static com.awrzosek.ski_station.tables.ski.equipment.EquipmentConsts.*;
 
 public class EquipmentDao extends BasicDao<Equipment> {
 	@Override
-	public Optional<Equipment> get(Long id)
+	public Optional<Equipment> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		try (Connection connection = getConnection();
@@ -24,15 +24,12 @@ public class EquipmentDao extends BasicDao<Equipment> {
 				if (result.next())
 					return Optional.of(processForSelect(result));
 			}
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public List<Equipment> getAll()
+	public List<Equipment> getAll() throws SQLException
 	{
 		List<Equipment> equipments = new ArrayList<>();
 		try (Connection connection = getConnection();
@@ -41,16 +38,13 @@ public class EquipmentDao extends BasicDao<Equipment> {
 		{
 			while (result.next())
 				equipments.add(processForSelect(result));
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 
 		return equipments;
 	}
 
 	@Override
-	public boolean add(Equipment equipment)
+	public boolean add(Equipment equipment) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -70,15 +64,11 @@ public class EquipmentDao extends BasicDao<Equipment> {
 		{
 			processForAdding(equipment, preparedStatement);
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean update(Equipment equipment)
+	public boolean update(Equipment equipment) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -97,15 +87,11 @@ public class EquipmentDao extends BasicDao<Equipment> {
 			processForAdding(equipment, preparedStatement);
 			preparedStatement.setLong(6, equipment.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean delete(Equipment equipment)
+	public boolean delete(Equipment equipment) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -117,10 +103,6 @@ public class EquipmentDao extends BasicDao<Equipment> {
 		{
 			preparedStatement.setLong(1, equipment.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 

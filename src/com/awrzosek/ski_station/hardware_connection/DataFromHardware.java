@@ -1,4 +1,4 @@
-package com.awrzosek.ski_station.hw_conn;
+package com.awrzosek.ski_station.hardware_connection;
 
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 

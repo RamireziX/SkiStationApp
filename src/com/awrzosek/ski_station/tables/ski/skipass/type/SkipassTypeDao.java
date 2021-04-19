@@ -12,7 +12,7 @@ import static com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeConsts
 
 public class SkipassTypeDao extends BasicDao<SkipassType> {
 	@Override
-	public Optional<SkipassType> get(Long id)
+	public Optional<SkipassType> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		try (Connection connection = getConnection();
@@ -24,15 +24,12 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 				if (result.next())
 					return Optional.of(processForSelect(result));
 			}
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 		return Optional.empty();
 	}
 
 	@Override
-	public List<SkipassType> getAll()
+	public List<SkipassType> getAll() throws SQLException
 	{
 		List<SkipassType> skipassTypes = new ArrayList<>();
 		try (Connection connection = getConnection();
@@ -41,16 +38,13 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		{
 			while (result.next())
 				skipassTypes.add(processForSelect(result));
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
 		}
 
 		return skipassTypes;
 	}
 
 	@Override
-	public boolean add(SkipassType skipassType)
+	public boolean add(SkipassType skipassType) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -68,15 +62,11 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		{
 			processForAdding(skipassType, preparedStatement);
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean update(SkipassType skipassType)
+	public boolean update(SkipassType skipassType) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -93,15 +83,11 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 			processForAdding(skipassType, preparedStatement);
 			preparedStatement.setLong(4, skipassType.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
 	@Override
-	public boolean delete(SkipassType skipassType)
+	public boolean delete(SkipassType skipassType) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -113,10 +99,6 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		{
 			preparedStatement.setLong(1, skipassType.getId());
 			return preparedStatement.execute();
-		} catch (SQLException e)
-		{
-			e.printStackTrace();
-			return false;
 		}
 	}
 
