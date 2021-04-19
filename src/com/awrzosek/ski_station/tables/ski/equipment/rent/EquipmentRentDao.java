@@ -10,14 +10,17 @@ import java.util.Optional;
 
 import static com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentConsts.*;
 
-//TODO - finish
 public class EquipmentRentDao extends BasicDao<EquipmentRent> {
+	public EquipmentRentDao(Connection connection)
+	{
+		super(connection);
+	}
+
 	@Override
 	public Optional<EquipmentRent> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, id);
 			try (ResultSet result = preparedStatement.executeQuery())
@@ -33,8 +36,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 	public List<EquipmentRent> getAll() throws SQLException
 	{
 		List<EquipmentRent> equipmentRents = new ArrayList<>();
-		try (Connection connection = getConnection();
-			 Statement statement = connection.createStatement();
+		try (Statement statement = connection.createStatement();
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
@@ -60,8 +62,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 						"(?, ?, ?, ?, ?);";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(equipmentRent, preparedStatement);
 			return preparedStatement.execute();
@@ -82,8 +83,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 						"where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(equipmentRent, preparedStatement);
 			preparedStatement.setLong(6, equipmentRent.getId());
@@ -99,8 +99,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 				"delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, equipmentRent.getId());
 			return preparedStatement.execute();

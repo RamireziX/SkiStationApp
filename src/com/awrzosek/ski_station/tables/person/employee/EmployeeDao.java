@@ -11,12 +11,16 @@ import java.util.Optional;
 import static com.awrzosek.ski_station.tables.person.employee.EmployeeConsts.*;
 
 public class EmployeeDao extends BasicDao<Employee> {
+	public EmployeeDao(Connection connection)
+	{
+		super(connection);
+	}
+
 	@Override
 	public Optional<Employee> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, id);
 
@@ -33,8 +37,7 @@ public class EmployeeDao extends BasicDao<Employee> {
 	public List<Employee> getAll() throws SQLException
 	{
 		List<Employee> employees = new ArrayList<>();
-		try (Connection connection = getConnection();
-			 Statement statement = connection.createStatement();
+		try (Statement statement = connection.createStatement();
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
@@ -73,8 +76,7 @@ public class EmployeeDao extends BasicDao<Employee> {
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         //@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(employee, preparedStatement);
 			return preparedStatement.execute();
@@ -109,8 +111,7 @@ public class EmployeeDao extends BasicDao<Employee> {
                 "where " + FLD_ID + " = ?";
         //@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(employee, preparedStatement);
 			preparedStatement.setLong(20, employee.getId());
@@ -126,8 +127,7 @@ public class EmployeeDao extends BasicDao<Employee> {
                 "delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
         //@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, employee.getId());
 			return preparedStatement.execute();

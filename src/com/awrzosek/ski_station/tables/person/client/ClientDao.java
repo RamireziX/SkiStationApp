@@ -11,12 +11,17 @@ import java.util.Optional;
 import static com.awrzosek.ski_station.tables.person.client.ClientConsts.*;
 
 public class ClientDao extends BasicDao<Client> {
+
+	public ClientDao(Connection connection)
+	{
+		super(connection);
+	}
+
 	@Override
 	public Optional<Client> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, id);
 
@@ -33,8 +38,7 @@ public class ClientDao extends BasicDao<Client> {
 	public List<Client> getAll() throws SQLException
 	{
 		List<Client> clients = new ArrayList<>();
-		try (Connection connection = getConnection();
-			 Statement statement = connection.createStatement();
+		try (Statement statement = connection.createStatement();
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
@@ -62,8 +66,7 @@ public class ClientDao extends BasicDao<Client> {
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         //@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(client, preparedStatement);
 			return preparedStatement.execute();
@@ -88,8 +91,7 @@ public class ClientDao extends BasicDao<Client> {
                 "where " + FLD_ID + " = ?";
         //@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(client, preparedStatement);
 			preparedStatement.setLong(10, client.getId());
@@ -105,8 +107,7 @@ public class ClientDao extends BasicDao<Client> {
                 "delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
         //@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, client.getId());
 			return preparedStatement.execute();

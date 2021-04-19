@@ -11,12 +11,16 @@ import java.util.Optional;
 import static com.awrzosek.ski_station.tables.ski.skipass.SkipassConsts.*;
 
 public class SkipassDao extends BasicDao<Skipass> {
+	public SkipassDao(Connection connection)
+	{
+		super(connection);
+	}
+
 	@Override
 	public Optional<Skipass> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, id);
 
@@ -33,8 +37,7 @@ public class SkipassDao extends BasicDao<Skipass> {
 	public List<Skipass> getAll() throws SQLException
 	{
 		List<Skipass> skipasses = new ArrayList<>();
-		try (Connection connection = getConnection();
-			 Statement statement = connection.createStatement();
+		try (Statement statement = connection.createStatement();
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
@@ -59,8 +62,7 @@ public class SkipassDao extends BasicDao<Skipass> {
 						"values (?, ?, ?, ?, ?, ?);";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipass, preparedStatement);
 			return preparedStatement.execute();
@@ -82,8 +84,7 @@ public class SkipassDao extends BasicDao<Skipass> {
 						"where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipass, preparedStatement);
 			preparedStatement.setLong(7, skipass.getId());
@@ -99,8 +100,7 @@ public class SkipassDao extends BasicDao<Skipass> {
 				"delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, skipass.getId());
 			return preparedStatement.execute();

@@ -11,12 +11,16 @@ import java.util.Optional;
 import static com.awrzosek.ski_station.tables.ski.equipment.EquipmentConsts.*;
 
 public class EquipmentDao extends BasicDao<Equipment> {
+	public EquipmentDao(Connection connection)
+	{
+		super(connection);
+	}
+
 	@Override
 	public Optional<Equipment> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, id);
 			try (ResultSet result = preparedStatement.executeQuery())
@@ -32,8 +36,7 @@ public class EquipmentDao extends BasicDao<Equipment> {
 	public List<Equipment> getAll() throws SQLException
 	{
 		List<Equipment> equipments = new ArrayList<>();
-		try (Connection connection = getConnection();
-			 Statement statement = connection.createStatement();
+		try (Statement statement = connection.createStatement();
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
@@ -59,8 +62,7 @@ public class EquipmentDao extends BasicDao<Equipment> {
 						"(?, ?, ?, ?, ?);";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(equipment, preparedStatement);
 			return preparedStatement.execute();
@@ -81,8 +83,7 @@ public class EquipmentDao extends BasicDao<Equipment> {
 						"where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(equipment, preparedStatement);
 			preparedStatement.setLong(6, equipment.getId());
@@ -98,8 +99,7 @@ public class EquipmentDao extends BasicDao<Equipment> {
 				"delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, equipment.getId());
 			return preparedStatement.execute();

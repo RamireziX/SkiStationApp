@@ -11,12 +11,16 @@ import java.util.Optional;
 import static com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeConsts.*;
 
 public class SkipassTypeDao extends BasicDao<SkipassType> {
+	public SkipassTypeDao(Connection connection)
+	{
+		super(connection);
+	}
+
 	@Override
 	public Optional<SkipassType> get(Long id) throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " where " + FLD_ID + " = ?";
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, id);
 			try (ResultSet result = preparedStatement.executeQuery())
@@ -32,8 +36,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 	public List<SkipassType> getAll() throws SQLException
 	{
 		List<SkipassType> skipassTypes = new ArrayList<>();
-		try (Connection connection = getConnection();
-			 Statement statement = connection.createStatement();
+		try (Statement statement = connection.createStatement();
 			 ResultSet result = statement.executeQuery("select * from " + TAB_NAME))
 		{
 			while (result.next())
@@ -57,8 +60,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 						"(?, ?, ?);";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipassType, preparedStatement);
 			return preparedStatement.execute();
@@ -77,8 +79,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 						"where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipassType, preparedStatement);
 			preparedStatement.setLong(4, skipassType.getId());
@@ -94,8 +95,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 				"delete from " + TAB_NAME + " where " + FLD_ID + " = ?";
 		//@formatter:on
 
-		try (Connection connection = getConnection();
-			 PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, skipassType.getId());
 			return preparedStatement.execute();
