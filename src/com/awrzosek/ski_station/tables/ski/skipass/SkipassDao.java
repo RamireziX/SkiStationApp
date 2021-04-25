@@ -107,6 +107,18 @@ public class SkipassDao extends BasicDao<Skipass> {
 		}
 	}
 
+	public List<Skipass> getNotRented(int numberOfSkipasses) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+				" where coalesce(" + FLD_RENTED + ", 0) = 0" +
+				" limit " + numberOfSkipasses;
+		//@formatter:on
+
+		return listByQuery(query);
+	}
+
 	@Override
 	protected Skipass processForSelect(ResultSet result) throws SQLException
 	{
