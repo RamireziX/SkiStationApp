@@ -11,6 +11,11 @@ public class EquipmentRent extends BasicTable {
     private LocalDate returnDate;
     private RentType rentType;
 
+    public EquipmentRent()
+    {
+        super();
+    }
+
     public EquipmentRent(Long id, Long clientId, Long equipmentId, LocalDate rentDate, LocalDate returnDate,
                          RentType rentType)
     {

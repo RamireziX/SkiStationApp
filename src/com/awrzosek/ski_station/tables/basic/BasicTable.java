@@ -1,20 +1,24 @@
 package com.awrzosek.ski_station.tables.basic;
 
 public abstract class BasicTable {
-    protected Long id;
+	protected Long id;
 
-    public BasicTable(Long id)
-    {
-        this.id = id;
-    }
+	public BasicTable()
+	{
+	}
 
-    public Long getId()
-    {
-        return id;
-    }
+	public BasicTable(Long id)
+	{
+		this.id = id;
+	}
 
-    public void setId(Long id)
-    {
-        this.id = id;
-    }
+	public Long getId()
+	{
+		return id;
+	}
+
+	public void setId(Long id)
+	{
+		this.id = id;
+	}
 }
