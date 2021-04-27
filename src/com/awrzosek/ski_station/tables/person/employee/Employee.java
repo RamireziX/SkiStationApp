@@ -41,6 +41,26 @@ public class Employee extends BasicPerson {
 		this.bankName = bankName;
 	}
 
+	public Employee(String firstName, String secondName, String surname, LocalDate dateOfBirth, String pesel,
+					String personalIdNumber, String phone, String eMail, String buildingNr, String aptNr,
+					String streetNr, String streetName,
+					String city, String voivodeship, String zipcode, String login, String passwd, String accountNr,
+					String bankName)
+	{
+		super(firstName, secondName, surname, dateOfBirth, pesel, personalIdNumber, phone, eMail);
+		this.buildingNr = buildingNr;
+		this.aptNr = aptNr;
+		this.streetNr = streetNr;
+		this.streetName = streetName;
+		this.city = city;
+		this.voivodeship = voivodeship;
+		this.zipcode = zipcode;
+		this.login = login;
+		this.passwd = passwd;
+		this.accountNr = accountNr;
+		this.bankName = bankName;
+	}
+
 	public String getBuildingNr()
 	{
 		return buildingNr;

@@ -47,7 +47,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 	}
 
 	@Override
-	public boolean add(SkipassType skipassType) throws SQLException
+	public void add(SkipassType skipassType) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -63,12 +63,12 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipassType, preparedStatement);
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean update(SkipassType skipassType) throws SQLException
+	public void update(SkipassType skipassType) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -83,12 +83,12 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		{
 			processForAdding(skipassType, preparedStatement);
 			preparedStatement.setLong(4, skipassType.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean delete(SkipassType skipassType) throws SQLException
+	public void delete(SkipassType skipassType) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -98,7 +98,7 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, skipassType.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 

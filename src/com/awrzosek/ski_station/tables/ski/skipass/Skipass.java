@@ -28,6 +28,17 @@ public class Skipass extends BasicTable {
 		this.dateTo = dateTo;
 	}
 
+	public Skipass(Long clientId, Long skipassTypeId, boolean rented, boolean active, LocalDate dateFrom,
+				   LocalDate dateTo)
+	{
+		this.clientId = clientId;
+		this.skipassTypeId = skipassTypeId;
+		this.rented = rented;
+		this.active = active;
+		this.dateFrom = dateFrom;
+		this.dateTo = dateTo;
+	}
+
 	public Long getClientId()
 	{
 		return clientId;

@@ -26,6 +26,16 @@ public class EquipmentRent extends BasicTable {
 		this.rentType = rentType;
 	}
 
+	public EquipmentRent(Long clientId, Long equipmentId, LocalDate rentDate, LocalDate returnDate,
+						 RentType rentType)
+	{
+		this.clientId = clientId;
+		this.equipmentId = equipmentId;
+		this.rentDate = rentDate;
+		this.returnDate = returnDate;
+		this.rentType = rentType;
+	}
+
 	public Long getClientId()
 	{
 		return clientId;

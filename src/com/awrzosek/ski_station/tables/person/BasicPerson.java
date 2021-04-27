@@ -35,6 +35,21 @@ public abstract class BasicPerson extends BasicTable {
 		this.eMail = eMail;
 	}
 
+	public BasicPerson(String firstName, String secondName, String surname, LocalDate dateOfBirth,
+					   String pesel,
+					   String personalIdNumber, String phone, String eMail)
+	{
+		this.firstName = firstName;
+		this.secondName = secondName;
+		this.surname = surname;
+		setFullName(firstName, secondName, surname);
+		this.dateOfBirth = dateOfBirth;
+		this.pesel = pesel;
+		this.personalIdNumber = personalIdNumber;
+		this.phone = phone;
+		this.eMail = eMail;
+	}
+
 	public String getFirstName()
 	{
 		return firstName;

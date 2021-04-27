@@ -47,7 +47,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 	}
 
 	@Override
-	public boolean add(EquipmentRent equipmentRent) throws SQLException
+	public void add(EquipmentRent equipmentRent) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -65,12 +65,12 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(equipmentRent, preparedStatement);
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean update(EquipmentRent equipmentRent) throws SQLException
+	public void update(EquipmentRent equipmentRent) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -87,12 +87,12 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		{
 			processForAdding(equipmentRent, preparedStatement);
 			preparedStatement.setLong(6, equipmentRent.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean delete(EquipmentRent equipmentRent) throws SQLException
+	public void delete(EquipmentRent equipmentRent) throws SQLException
 	{
 		//@formatter:off
 		String query =
@@ -102,7 +102,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, equipmentRent.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 

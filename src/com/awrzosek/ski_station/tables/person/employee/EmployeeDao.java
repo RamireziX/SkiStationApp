@@ -48,7 +48,7 @@ public class EmployeeDao extends BasicDao<Employee> {
 	}
 
 	@Override
-	public boolean add(Employee employee) throws SQLException
+	public void add(Employee employee) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -79,12 +79,12 @@ public class EmployeeDao extends BasicDao<Employee> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(employee, preparedStatement);
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean update(Employee employee) throws SQLException
+	public void update(Employee employee) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -115,12 +115,12 @@ public class EmployeeDao extends BasicDao<Employee> {
 		{
 			processForAdding(employee, preparedStatement);
 			preparedStatement.setLong(20, employee.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean delete(Employee employee) throws SQLException
+	public void delete(Employee employee) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -130,7 +130,7 @@ public class EmployeeDao extends BasicDao<Employee> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, employee.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 

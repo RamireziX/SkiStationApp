@@ -31,16 +31,17 @@ public class ManageClients {
 	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType, int numberOfSkipasses,
 						  RentType rentType)
 	{
-		//TODO przetestować + pomyśleć co z pokazywaniem błędów
+		//TODO przetestować + pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
 		try
 		{
 			List<Skipass> skipasses = skipassDao.getNotRented(numberOfSkipasses);
 			if (skipasses.size() == numberOfSkipasses)
-			{ //TODO else z powiadomieniem - zabrakło skipassów
+			{
 				clientDao.add(client);
 				initSkipasses(skipasses, skipassType, client);
 				rentEquipments(equipments, client, skipassType, rentType);
-			}
+			} else
+				System.err.println("Wystąpił błąd - brak dostępnych skipassów!");
 
 		} catch (SQLException e)
 		{
@@ -48,7 +49,7 @@ public class ManageClients {
 		}
 	}
 
-	public void removeClient(Client client)
+	public void removeClient(Client client)//TODO
 	{
 	}
 

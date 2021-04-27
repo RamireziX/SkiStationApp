@@ -49,7 +49,7 @@ public class ClientDao extends BasicDao<Client> {
 	}
 
 	@Override
-	public boolean add(Client client) throws SQLException
+	public void add(Client client) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -69,12 +69,12 @@ public class ClientDao extends BasicDao<Client> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(client, preparedStatement);
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean update(Client client) throws SQLException
+	public void update(Client client) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -95,12 +95,12 @@ public class ClientDao extends BasicDao<Client> {
 		{
 			processForAdding(client, preparedStatement);
 			preparedStatement.setLong(10, client.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 
 	@Override
-	public boolean delete(Client client) throws SQLException
+	public void delete(Client client) throws SQLException
 	{
 		//@formatter:off
         String query =
@@ -110,7 +110,7 @@ public class ClientDao extends BasicDao<Client> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			preparedStatement.setLong(1, client.getId());
-			return preparedStatement.execute();
+			preparedStatement.execute();
 		}
 	}
 

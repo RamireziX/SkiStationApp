@@ -26,6 +26,16 @@ public class Equipment extends BasicTable {
 		this.condition = condition;
 	}
 
+	public Equipment(String name, String serialNumber, EquipmentType type, BigDecimal rentPrice,
+					 Condition condition)
+	{
+		this.name = name;
+		this.serialNumber = serialNumber;
+		this.type = type;
+		this.rentPrice = rentPrice;
+		this.condition = condition;
+	}
+
 	public String getName()
 	{
 		return name;

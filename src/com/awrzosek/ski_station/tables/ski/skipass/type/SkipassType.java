@@ -21,6 +21,13 @@ public class SkipassType extends BasicTable {
 		this.price = price;
 	}
 
+	public SkipassType(int duration, DiscountType discountType, BigDecimal price)
+	{
+		this.duration = duration;
+		this.discountType = discountType;
+		this.price = price;
+	}
+
 	public int getDuration()
 	{
 		return duration;

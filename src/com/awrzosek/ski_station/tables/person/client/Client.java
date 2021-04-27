@@ -18,6 +18,13 @@ public class Client extends BasicPerson {
 		this.dateEntered = dateEntered;
 	}
 
+	public Client(String firstName, String secondName, String surname, LocalDate dateOfBirth, String pesel,
+				  String personalIdNumber, String phone, String eMail, LocalDate dateEntered)
+	{
+		super(firstName, secondName, surname, dateOfBirth, pesel, personalIdNumber, phone, eMail);
+		this.dateEntered = dateEntered;
+	}
+
 	public LocalDate getDateEntered()
 	{
 		return dateEntered;

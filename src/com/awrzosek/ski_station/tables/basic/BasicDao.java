@@ -17,13 +17,12 @@ public abstract class BasicDao<T> {
 
 	public abstract List<T> getAll() throws SQLException;
 
-	public abstract boolean add(T t) throws SQLException;
+	public abstract void add(T t) throws SQLException;
 
-	public abstract boolean update(T t) throws SQLException;
+	public abstract void update(T t) throws SQLException;
 
-	public abstract boolean delete(T t) throws SQLException;
+	public abstract void delete(T t) throws SQLException;
 
-	//TODO zobaczyć czy na pewno działa (ale powinno)
 	public Optional<T> selectByQuery(String query) throws SQLException
 	{
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
