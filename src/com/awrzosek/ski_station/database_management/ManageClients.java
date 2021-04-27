@@ -27,7 +27,6 @@ public class ManageClients {
 		equipmentRentDao = new EquipmentRentDao(connection);
 	}
 
-	//TODO populate table - dodać skipassy i equipmenty na pewno (można dla próby przez javę zrobić inicjalizator)
 	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType, int numberOfSkipasses,
 						  RentType rentType)
 	{
@@ -61,6 +60,8 @@ public class ManageClients {
 			skipass.setSkipassTypeId(skipassType.getId());
 			skipass.setDateFrom(LocalDate.now());
 			skipass.setDateTo(LocalDate.now().plusDays(skipassType.getDuration()));
+			skipass.setRented(true);
+			skipass.setActive(false);
 			skipassDao.update(skipass);
 		}
 	}
@@ -74,7 +75,7 @@ public class ManageClients {
 			rent.setClientId(client.getId());
 			rent.setEquipmentId(equipment.getId());
 			rent.setRentDate(LocalDate.now());
-			/*TODO może to domyślnie, a dać opcję klientowi wybrać kiedy zwróci*/
+			//TODO może to domyślnie, a dać opcję klientowi wybrać kiedy zwróci (ale nie pozniej niz czas karnetu)
 			rent.setReturnDate(LocalDate.now().plusDays(skipassType.getDuration()));
 			rent.setRentType(rentType);
 			equipmentRentDao.add(rent);
