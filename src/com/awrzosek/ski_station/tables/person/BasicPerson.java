@@ -3,129 +3,136 @@ package com.awrzosek.ski_station.tables.person;
 import com.awrzosek.ski_station.tables.basic.BasicTable;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public abstract class BasicPerson extends BasicTable {
-    private String firstName;
-    private String secondName;
-    private String surname;
-    private String fullName;
-    private LocalDate dateOfBirth;
-    private String pesel;
-    private String personalIdNumber;
-    private String phone;
-    private String eMail;
+	private String firstName;
+	private String secondName;
+	private String surname;
+	private String fullName;
+	private LocalDate dateOfBirth;
+	private String pesel;
+	private String personalIdNumber;
+	private String phone;
+	private String eMail;
 
-    public BasicPerson(Long id, String firstName, String secondName, String surname, LocalDate dateOfBirth, String pesel,
-                       String personalIdNumber, String phone, String eMail)
-    {
-        super(id);
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.surname = surname;
-        setFullName(firstName, secondName, surname);
-        this.dateOfBirth = dateOfBirth;
-        this.pesel = pesel;
-        this.personalIdNumber = personalIdNumber;
-        this.phone = phone;
-        this.eMail = eMail;
-    }
+	public BasicPerson()
+	{
+	}
 
-    public String getFirstName()
-    {
-        return firstName;
-    }
+	public BasicPerson(Long id, String firstName, String secondName, String surname, LocalDate dateOfBirth,
+					   String pesel,
+					   String personalIdNumber, String phone, String eMail)
+	{
+		super(id);
+		this.firstName = firstName;
+		this.secondName = secondName;
+		this.surname = surname;
+		setFullName(firstName, secondName, surname);
+		this.dateOfBirth = dateOfBirth;
+		this.pesel = pesel;
+		this.personalIdNumber = personalIdNumber;
+		this.phone = phone;
+		this.eMail = eMail;
+	}
 
-    public void setFirstName(String firstName)
-    {
-        this.firstName = firstName;
-        setFullName(firstName, this.secondName, this.surname);
-    }
+	public String getFirstName()
+	{
+		return firstName;
+	}
 
-    public String getSecondName()
-    {
-        return secondName;
-    }
+	public void setFirstName(String firstName)
+	{
+		this.firstName = firstName;
+		setFullName(firstName, this.secondName, this.surname);
+	}
 
-    public void setSecondName(String secondName)
-    {
-        this.secondName = secondName;
-        setFullName(this.firstName, secondName, this.surname);
-    }
+	public String getSecondName()
+	{
+		return secondName;
+	}
 
-    public String getSurname()
-    {
-        return surname;
-    }
+	public void setSecondName(String secondName)
+	{
+		this.secondName = secondName;
+		setFullName(this.firstName, secondName, this.surname);
+	}
 
-    public void setSurname(String surname)
-    {
-        this.surname = surname;
-        setFullName(this.firstName, this.secondName, surname);
-    }
+	public String getSurname()
+	{
+		return surname;
+	}
 
-    public String getFullName()
-    {
-        return fullName;
-    }
+	public void setSurname(String surname)
+	{
+		this.surname = surname;
+		setFullName(this.firstName, this.secondName, surname);
+	}
 
-    private void setFullName(String firstName, String secondName, String surname){
-        this.fullName = firstName + " " + ((secondName == null || secondName.isEmpty())  ? "" : secondName + " " ) + surname;
-    }
+	public String getFullName()
+	{
+		return fullName;
+	}
 
-    private void setFullName(String fullName){
-        this.fullName = fullName;
-    }
+	private void setFullName(String firstName, String secondName, String surname)
+	{
+		this.fullName =
+				firstName + " " + ((secondName == null || secondName.isEmpty()) ? "" : secondName + " ") + surname;
+	}
 
-    public LocalDate getDateOfBirth()
-    {
-        return dateOfBirth;
-    }
+	private void setFullName(String fullName)
+	{
+		this.fullName = fullName;
+	}
 
-    public void setDateOfBirth(LocalDate dateOfBirth)
-    {
-        this.dateOfBirth = dateOfBirth;
-    }
+	public LocalDate getDateOfBirth()
+	{
+		return dateOfBirth;
+	}
 
-    public String getPesel()
-    {
-        return pesel;
-    }
+	public void setDateOfBirth(LocalDate dateOfBirth)
+	{
+		this.dateOfBirth = dateOfBirth;
+	}
 
-    public void setPesel(String pesel)
-    {
-        this.pesel = pesel;
-    }
+	public String getPesel()
+	{
+		return pesel;
+	}
 
-    public String getPersonalIdNumber()
-    {
-        return personalIdNumber;
-    }
+	public void setPesel(String pesel)
+	{
+		this.pesel = pesel;
+	}
 
-    public void setPersonalIdNumber(String personalIdNumber)
-    {
-        this.personalIdNumber = personalIdNumber;
-    }
+	public String getPersonalIdNumber()
+	{
+		return personalIdNumber;
+	}
 
-    public String getPhone()
-    {
-        return phone;
-    }
+	public void setPersonalIdNumber(String personalIdNumber)
+	{
+		this.personalIdNumber = personalIdNumber;
+	}
 
-    public void setPhone(String phone)
-    {
-        this.phone = phone;
-    }
+	public String getPhone()
+	{
+		return phone;
+	}
 
-    public String getEMail()
-    {
-        return eMail;
-    }
+	public void setPhone(String phone)
+	{
+		this.phone = phone;
+	}
 
-    public void setEMail(String eMail)
-    {
-        this.eMail = eMail;
-    }
+	public String getEMail()
+	{
+		return eMail;
+	}
+
+	public void setEMail(String eMail)
+	{
+		this.eMail = eMail;
+	}
 
 
 }

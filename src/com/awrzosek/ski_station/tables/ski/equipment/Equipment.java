@@ -5,70 +5,74 @@ import com.awrzosek.ski_station.tables.basic.BasicTable;
 import java.math.BigDecimal;
 
 public class Equipment extends BasicTable {
-    private String name;
-    private String serialNumber;
-    private EquipmentType type;
-    private BigDecimal rentPrice;
-    private Condition condition;
+	private String name;
+	private String serialNumber;
+	private EquipmentType type;
+	private BigDecimal rentPrice;
+	private Condition condition;
 
-    public Equipment(Long id, String name, String serialNumber, EquipmentType type, BigDecimal rentPrice,
-                     Condition condition)
-    {
-        super(id);
-        this.name = name;
-        this.serialNumber = serialNumber;
-        this.type = type;
-        this.rentPrice = rentPrice;
-        this.condition = condition;
-    }
+	public Equipment()
+	{
+	}
 
-    public String getName()
-    {
-        return name;
-    }
+	public Equipment(Long id, String name, String serialNumber, EquipmentType type, BigDecimal rentPrice,
+					 Condition condition)
+	{
+		super(id);
+		this.name = name;
+		this.serialNumber = serialNumber;
+		this.type = type;
+		this.rentPrice = rentPrice;
+		this.condition = condition;
+	}
 
-    public void setName(String name)
-    {
-        this.name = name;
-    }
+	public String getName()
+	{
+		return name;
+	}
 
-    public String getSerialNumber()
-    {
-        return serialNumber;
-    }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 
-    public void setSerialNumber(String serialNumber)
-    {
-        this.serialNumber = serialNumber;
-    }
+	public String getSerialNumber()
+	{
+		return serialNumber;
+	}
 
-    public EquipmentType getType()
-    {
-        return type;
-    }
+	public void setSerialNumber(String serialNumber)
+	{
+		this.serialNumber = serialNumber;
+	}
 
-    public void setType(EquipmentType type)
-    {
-        this.type = type;
-    }
+	public EquipmentType getType()
+	{
+		return type;
+	}
 
-    public BigDecimal getRentPrice()
-    {
-        return rentPrice;
-    }
+	public void setType(EquipmentType type)
+	{
+		this.type = type;
+	}
 
-    public void setRentPrice(BigDecimal rentPrice)
-    {
-        this.rentPrice = rentPrice;
-    }
+	public BigDecimal getRentPrice()
+	{
+		return rentPrice;
+	}
 
-    public Condition getCondition()
-    {
-        return condition;
-    }
+	public void setRentPrice(BigDecimal rentPrice)
+	{
+		this.rentPrice = rentPrice;
+	}
 
-    public void setCondition(Condition condition)
-    {
-        this.condition = condition;
-    }
+	public Condition getCondition()
+	{
+		return condition;
+	}
+
+	public void setCondition(Condition condition)
+	{
+		this.condition = condition;
+	}
 }
