@@ -75,7 +75,6 @@ public class ManageClients {
 			rent.setClientId(client.getId());
 			rent.setEquipmentId(equipment.getId());
 			rent.setRentDate(LocalDate.now());
-			//TODO może to domyślnie, a dać opcję klientowi wybrać kiedy zwróci (ale nie pozniej niz czas karnetu)
 			rent.setReturnDate(LocalDate.now().plusDays(skipassType.getDuration()));
 			rent.setRentType(rentType);
 			equipmentRentDao.add(rent);

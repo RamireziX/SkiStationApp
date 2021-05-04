@@ -1,3 +1,4 @@
+import com.awrzosek.ski_station.initializers.InitializerUtils;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -6,6 +7,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+
 		//TODO zrób ile się da w src (dodawanie i tak dalej ale już z wymaganiami, jakieś mockupy innych funkcji) +
 		// dopisz co
 		// potrzebne w
@@ -21,6 +23,8 @@ public class Main extends Application {
 
 	public static void main(String[] args)
 	{
+		InitializerUtils.run();
+
 //		launch(args);
 	}
 }

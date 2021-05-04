@@ -132,11 +132,27 @@ public class SkipassDao extends BasicDao<Skipass> {
 	@Override
 	protected void processForAdding(Skipass skipass, PreparedStatement preparedStatement) throws SQLException
 	{
-		preparedStatement.setLong(1, skipass.getClientId());
-		preparedStatement.setLong(2, skipass.getSkipassTypeId());
+		if (skipass.getClientId() != null)
+			preparedStatement.setLong(1, skipass.getClientId());
+		else
+			preparedStatement.setNull(1, Types.BIGINT);
+
+		if (skipass.getSkipassTypeId() != null)
+			preparedStatement.setLong(2, skipass.getSkipassTypeId());
+		else
+			preparedStatement.setNull(2, Types.BIGINT);
+
 		preparedStatement.setBoolean(3, skipass.isRented());
 		preparedStatement.setBoolean(4, skipass.isActive());
-		preparedStatement.setDate(5, Date.valueOf(skipass.getDateFrom()));
-		preparedStatement.setDate(6, Date.valueOf(skipass.getDateTo()));
+
+		if (skipass.getDateFrom() != null)
+			preparedStatement.setDate(5, Date.valueOf(skipass.getDateFrom()));
+		else
+			preparedStatement.setNull(5, Types.DATE);
+
+		if (skipass.getDateTo() != null)
+			preparedStatement.setDate(6, Date.valueOf(skipass.getDateTo()));
+		else
+			preparedStatement.setNull(6, Types.DATE);
 	}
 }

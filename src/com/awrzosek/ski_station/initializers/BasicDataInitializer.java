@@ -5,6 +5,7 @@ import com.awrzosek.ski_station.tables.basic.BasicDao;
 import java.sql.SQLException;
 import java.util.List;
 
+//TODO napisz o inicjalizatorach w func req
 public abstract class BasicDataInitializer<T> {
 	protected BasicDao<T> dao;
 

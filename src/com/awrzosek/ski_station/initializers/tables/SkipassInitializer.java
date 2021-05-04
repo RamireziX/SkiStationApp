@@ -5,6 +5,7 @@ import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SkipassInitializer extends BasicDataInitializer<Skipass> {
@@ -17,6 +18,29 @@ public class SkipassInitializer extends BasicDataInitializer<Skipass> {
 	@Override
 	protected List<Skipass> provideRecords()
 	{
-		return null;
+		List<Skipass> skipasses = new ArrayList<>();
+
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+		skipasses.add(new Skipass(
+				null, null, false, false, null, null));
+
+		return skipasses;
 	}
 }
