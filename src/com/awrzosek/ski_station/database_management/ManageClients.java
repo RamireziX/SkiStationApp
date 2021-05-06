@@ -27,6 +27,7 @@ public class ManageClients {
 		equipmentRentDao = new EquipmentRentDao(connection);
 	}
 
+	//TODO porównaj z func req i ewentualnie popraw
 	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType, int numberOfSkipasses,
 						  RentType rentType)
 	{

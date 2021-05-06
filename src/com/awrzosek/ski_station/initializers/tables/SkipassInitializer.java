@@ -1,5 +1,6 @@
 package com.awrzosek.ski_station.initializers.tables;
 
+import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.initializers.BasicDataInitializer;
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
@@ -20,26 +21,9 @@ public class SkipassInitializer extends BasicDataInitializer<Skipass> {
 	{
 		List<Skipass> skipasses = new ArrayList<>();
 
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
-		skipasses.add(new Skipass(
-				null, null, false, false, null, null));
+		for (int i = 0; i < BasicConsts.MAX_NO_OF_CLIENTS; i++)
+			skipasses.add(new Skipass(
+					null, null, false, false, null, null));
 
 		return skipasses;
 	}

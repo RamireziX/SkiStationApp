@@ -1,5 +1,7 @@
-import com.awrzosek.ski_station.initializers.InitializerUtils;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -12,19 +14,18 @@ public class Main extends Application {
 		// dopisz co
 		// potrzebne w
 		// functional requirements
-//		Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//		primaryStage.setTitle("SkiStation App");
-//		primaryStage.setScene(new Scene(root, 300, 275));
-//		primaryStage.show();
-//		primaryStage.setMaximized(true);
+		//InitializerUtils.run();
+		Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+		primaryStage.setTitle("Stacja narciarska");
+		primaryStage.setScene(new Scene(root, 300, 275));
+		primaryStage.show();
+		//primaryStage.setMaximized(true);
 		//primaryStage.setFullScreen(true);
 	}
 
 
 	public static void main(String[] args)
 	{
-		InitializerUtils.run();
-
-//		launch(args);
+		launch(args);
 	}
 }

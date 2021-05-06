@@ -5,7 +5,7 @@ import com.awrzosek.ski_station.tables.basic.BasicTable;
 import java.math.BigDecimal;
 
 public class SkipassType extends BasicTable {
-	private int duration;//TODO zamienić to na enum 1, 3, 7, 14
+	private int duration;
 	private DiscountType discountType;
 	private BigDecimal price;
 
