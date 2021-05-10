@@ -66,10 +66,13 @@ public class ClientDao extends BasicDao<Client> {
                 "values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         //@formatter:on
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
 		{
 			processForAdding(client, preparedStatement);
 			preparedStatement.execute();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next())
+				client.setId(resultSet.getLong(1));//TODO dodać to do każdego add w dao
 		}
 	}
 
@@ -119,10 +122,10 @@ public class ClientDao extends BasicDao<Client> {
 		LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
 		LocalDate dateEntered = result.getDate(FLD_DATE_ENTERED).toLocalDate();
 
-		return new Client(result.getLong(FLD_ID), result.getString(FLD_FIRST_NAME), result.getString(FLD_SECOND_NAME),
-				result.getString(FLD_SURNAME), dateOfBirth, result.getString(FLD_PESEL),
-				result.getString(FLD_PERSONAL_ID_NUMBER), result.getString(FLD_PHONE),
-				result.getString(FLD_E_MAIL), dateEntered);
+		return new Client(result.getLong(FLD_ID), result.getString(FLD_FIRST_NAME),
+				result.getString(FLD_SECOND_NAME), result.getString(FLD_SURNAME), dateOfBirth,
+				result.getString(FLD_PESEL), result.getString(FLD_PERSONAL_ID_NUMBER),
+				result.getString(FLD_PHONE), result.getString(FLD_E_MAIL), dateEntered);
 	}
 
 	protected void processForAdding(Client client, PreparedStatement preparedStatement) throws SQLException
@@ -130,7 +133,7 @@ public class ClientDao extends BasicDao<Client> {
 		preparedStatement.setString(1, client.getFirstName());
 		preparedStatement.setString(2, client.getSecondName());
 		preparedStatement.setString(3, client.getSurname());
-		preparedStatement.setDate(4, Date.valueOf(client.getDateOfBirth()));
+		setDateNullsafe(4, client.getDateOfBirth(), preparedStatement);
 		preparedStatement.setString(5, client.getPesel());
 		preparedStatement.setString(6, client.getPersonalIdNumber());
 		preparedStatement.setDate(7, Date.valueOf(client.getDateEntered()));

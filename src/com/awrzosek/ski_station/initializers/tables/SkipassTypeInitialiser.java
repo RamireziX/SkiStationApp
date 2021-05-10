@@ -24,7 +24,6 @@ public class SkipassTypeInitialiser extends BasicDataInitializer<SkipassType> {
 		dao = new SkipassTypeDao(connection);
 	}
 
-	//TODO ta metoda
 	@Override
 	protected List<SkipassType> provideRecords()
 	{

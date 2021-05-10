@@ -23,7 +23,6 @@ public class EquipmentInitializer extends BasicDataInitializer<Equipment> {
 	{
 		List<Equipment> equipments = new ArrayList<>();
 
-		//TODO jakoś lepiej te big decimale inicjalizować
 		equipments.add(new Equipment("Sprzęt1", "0001", EquipmentType.SKIS,
 				new BigDecimal("50.20"), Condition.GOOD));
 		equipments.add(new Equipment("Sprzęt2", "0002", EquipmentType.HELMET,

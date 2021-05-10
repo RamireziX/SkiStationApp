@@ -15,23 +15,23 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class ManageClients {
+public class ClientManager {
 	private ClientDao clientDao;
 	private SkipassDao skipassDao;
 	private EquipmentRentDao equipmentRentDao;
 
-	public ManageClients(Connection connection)
+	public ClientManager(Connection connection)
 	{
 		clientDao = new ClientDao(connection);
 		skipassDao = new SkipassDao(connection);
 		equipmentRentDao = new EquipmentRentDao(connection);
 	}
 
-	//TODO porównaj z func req i ewentualnie popraw
-	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType, int numberOfSkipasses,
-						  RentType rentType)
+	//TODO porównaj z func req i ewentualnie popraw w docu
+	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType,
+						  int numberOfSkipasses, RentType rentType)
 	{
-		//TODO przetestować + pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
+		//TODO pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
 		try
 		{
 			List<Skipass> skipasses = skipassDao.getNotRented(numberOfSkipasses);
@@ -53,7 +53,8 @@ public class ManageClients {
 	{
 	}
 
-	private void initSkipasses(List<Skipass> skipasses, SkipassType skipassType, Client client) throws SQLException
+	private void initSkipasses(List<Skipass> skipasses, SkipassType skipassType, Client client)
+			throws SQLException
 	{
 		for (Skipass skipass : skipasses)
 		{
@@ -67,7 +68,8 @@ public class ManageClients {
 		}
 	}
 
-	private void rentEquipments(List<Equipment> equipments, Client client, SkipassType skipassType, RentType rentType)
+	private void rentEquipments(List<Equipment> equipments, Client client, SkipassType skipassType,
+								RentType rentType)
 			throws SQLException //TODO to możliwe, że pójdzie do manage equipments, może jako static funkcja
 	{
 		for (Equipment equipment : equipments)

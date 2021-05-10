@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.tables.basic;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,7 @@ public abstract class BasicDao<T> {
 
 	public abstract void delete(T t) throws SQLException;
 
-	public Optional<T> selectByQuery(String query) throws SQLException
+	public Optional<T> getByQuery(String query) throws SQLException
 	{
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
@@ -51,4 +52,23 @@ public abstract class BasicDao<T> {
 	protected abstract T processForSelect(ResultSet result) throws SQLException;
 
 	protected abstract void processForAdding(T t, PreparedStatement preparedStatement) throws SQLException;
+
+	//TODO zobaczyc gdzie indziej to może być potrzebne w dao i też podmienić
+	protected void setLongNullsafe(int parameterIndex, Long value, PreparedStatement preparedStatement)
+			throws SQLException
+	{
+		if (value != null)
+			preparedStatement.setLong(parameterIndex, value);
+		else
+			preparedStatement.setNull(parameterIndex, Types.BIGINT);
+	}
+
+	protected void setDateNullsafe(int parameterIndex, LocalDate date, PreparedStatement preparedStatement)
+			throws SQLException
+	{
+		if (date != null)
+			preparedStatement.setDate(parameterIndex, Date.valueOf(date));
+		else
+			preparedStatement.setNull(parameterIndex, Types.DATE);
+	}
 }

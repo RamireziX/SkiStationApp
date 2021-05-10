@@ -122,37 +122,24 @@ public class SkipassDao extends BasicDao<Skipass> {
 	@Override
 	protected Skipass processForSelect(ResultSet result) throws SQLException
 	{
-		LocalDate dateFrom = result.getDate(FLD_DATE_FROM).toLocalDate();
-		LocalDate dateTo = result.getDate(FLD_DATE_TO).toLocalDate();
+		LocalDate dateFrom = result.getDate(FLD_DATE_FROM) != null ? result.getDate(FLD_DATE_FROM).toLocalDate() :
+				null;
+		LocalDate dateTo = result.getDate(FLD_DATE_TO) != null ? result.getDate(FLD_DATE_TO).toLocalDate() :
+				null;
 
-		return new Skipass(result.getLong(FLD_ID), result.getLong(FLD_CLIENT_ID), result.getLong(FLD_SKIPASS_TYPE_ID),
+		return new Skipass(result.getLong(FLD_ID), result.getLong(FLD_CLIENT_ID),
+				result.getLong(FLD_SKIPASS_TYPE_ID),
 				result.getBoolean(FLD_RENTED), result.getBoolean(FLD_ACTIVE), dateFrom, dateTo);
 	}
 
 	@Override
 	protected void processForAdding(Skipass skipass, PreparedStatement preparedStatement) throws SQLException
 	{
-		if (skipass.getClientId() != null)
-			preparedStatement.setLong(1, skipass.getClientId());
-		else
-			preparedStatement.setNull(1, Types.BIGINT);
-
-		if (skipass.getSkipassTypeId() != null)
-			preparedStatement.setLong(2, skipass.getSkipassTypeId());
-		else
-			preparedStatement.setNull(2, Types.BIGINT);
-
+		setLongNullsafe(1, skipass.getClientId(), preparedStatement);
+		setLongNullsafe(2, skipass.getSkipassTypeId(), preparedStatement);
 		preparedStatement.setBoolean(3, skipass.isRented());
 		preparedStatement.setBoolean(4, skipass.isActive());
-
-		if (skipass.getDateFrom() != null)
-			preparedStatement.setDate(5, Date.valueOf(skipass.getDateFrom()));
-		else
-			preparedStatement.setNull(5, Types.DATE);
-
-		if (skipass.getDateTo() != null)
-			preparedStatement.setDate(6, Date.valueOf(skipass.getDateTo()));
-		else
-			preparedStatement.setNull(6, Types.DATE);
+		setDateNullsafe(5, skipass.getDateFrom(), preparedStatement);
+		setDateNullsafe(6, skipass.getDateTo(), preparedStatement);
 	}
 }
