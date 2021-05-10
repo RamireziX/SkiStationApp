@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BasicDao<T> {
+public abstract class BasicDao<T> {//TODO popatrzeć po dao co jest potencjalnie null prone i zabezpieczyć
 	protected Connection connection;
 
 	protected BasicDao(Connection connection)

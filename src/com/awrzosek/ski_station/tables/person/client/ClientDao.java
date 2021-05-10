@@ -72,7 +72,7 @@ public class ClientDao extends BasicDao<Client> {
 			preparedStatement.execute();
 			ResultSet resultSet = preparedStatement.getGeneratedKeys();
 			if (resultSet.next())
-				client.setId(resultSet.getLong(1));//TODO dodać to do każdego add w dao
+				client.setId(resultSet.getLong(1));
 		}
 	}
 

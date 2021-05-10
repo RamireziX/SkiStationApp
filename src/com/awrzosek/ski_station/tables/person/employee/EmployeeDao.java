@@ -76,10 +76,13 @@ public class EmployeeDao extends BasicDao<Employee> {
                 "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         //@formatter:on
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
 		{
 			processForAdding(employee, preparedStatement);
 			preparedStatement.execute();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next())
+				employee.setId(resultSet.getLong(1));
 		}
 	}
 

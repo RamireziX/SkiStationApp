@@ -62,10 +62,13 @@ public class SkipassDao extends BasicDao<Skipass> {
 						"values (?, ?, ?, ?, ?, ?);";
 		//@formatter:on
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
 		{
 			processForAdding(skipass, preparedStatement);
 			preparedStatement.execute();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next())
+				skipass.setId(resultSet.getLong(1));
 		}
 	}
 

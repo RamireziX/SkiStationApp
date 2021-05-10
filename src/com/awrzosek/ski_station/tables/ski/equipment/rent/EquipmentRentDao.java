@@ -62,10 +62,13 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 						"(?, ?, ?, ?, ?);";
 		//@formatter:on
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
 		{
 			processForAdding(equipmentRent, preparedStatement);
 			preparedStatement.execute();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next())
+				equipmentRent.setId(resultSet.getLong(1));
 		}
 	}
 

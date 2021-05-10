@@ -62,10 +62,13 @@ public class EquipmentDao extends BasicDao<Equipment> {
 						"(?, ?, ?, ?, ?);";
 		//@formatter:on
 
-		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
+		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
 		{
 			processForAdding(equipment, preparedStatement);
 			preparedStatement.execute();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			if (resultSet.next())
+				equipment.setId(resultSet.getLong(1));
 		}
 	}
 
