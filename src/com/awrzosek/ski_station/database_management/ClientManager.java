@@ -28,8 +28,8 @@ public class ClientManager {
 	}
 
 	//TODO porównaj z func req i ewentualnie popraw w docu
-	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType,
-						  int numberOfSkipasses, RentType rentType)
+	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType, int numberOfSkipasses,
+						  RentType rentType)
 	{
 		//TODO pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
 		try
@@ -53,8 +53,7 @@ public class ClientManager {
 	{
 	}
 
-	private void initSkipasses(List<Skipass> skipasses, SkipassType skipassType, Client client)
-			throws SQLException
+	private void initSkipasses(List<Skipass> skipasses, SkipassType skipassType, Client client) throws SQLException
 	{
 		for (Skipass skipass : skipasses)
 		{
@@ -69,8 +68,8 @@ public class ClientManager {
 	}
 
 	private void rentEquipments(List<Equipment> equipments, Client client, SkipassType skipassType,
-								RentType rentType)
-			throws SQLException //TODO to możliwe, że pójdzie do manage equipments, może jako static funkcja
+								RentType rentType) throws SQLException
+	//TODO to możliwe, że pójdzie do manage equipments, może jako static funkcja
 	{
 		for (Equipment equipment : equipments)
 		{
