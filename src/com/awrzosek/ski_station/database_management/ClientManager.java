@@ -27,11 +27,10 @@ public class ClientManager {
 		equipmentRentDao = new EquipmentRentDao(connection);
 	}
 
-	//TODO porównaj z func req i ewentualnie popraw w docu
 	public void addClient(Client client, List<Equipment> equipments, SkipassType skipassType, int numberOfSkipasses,
 						  RentType rentType)
 	{
-		//TODO pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
+		//pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
 		try
 		{
 			List<Skipass> skipasses = skipassDao.getNotRented(numberOfSkipasses);
@@ -49,7 +48,7 @@ public class ClientManager {
 		}
 	}
 
-	public void removeClient(Client client)//TODO
+	public void removeClient(Client client)//TODO implementacja + testing
 	{
 	}
 
@@ -69,7 +68,7 @@ public class ClientManager {
 
 	private void rentEquipments(List<Equipment> equipments, Client client, SkipassType skipassType,
 								RentType rentType) throws SQLException
-	//TODO to możliwe, że pójdzie do manage equipments, może jako static funkcja
+	//to możliwe, że pójdzie do manage equipments, może jako static funkcja
 	{
 		for (Equipment equipment : equipments)
 		{
