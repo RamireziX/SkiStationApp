@@ -126,7 +126,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		preparedStatement.setLong(1, equipmentRent.getClientId());
 		preparedStatement.setLong(2, equipmentRent.getEquipmentId());
 		preparedStatement.setDate(3, Date.valueOf(equipmentRent.getRentDate()));
-		preparedStatement.setDate(4, Date.valueOf(equipmentRent.getReturnDate()));
+		setDateNullsafe(4, equipmentRent.getReturnDate(), preparedStatement);
 		preparedStatement.setString(5, equipmentRent.getRentType().name());
 	}
 }

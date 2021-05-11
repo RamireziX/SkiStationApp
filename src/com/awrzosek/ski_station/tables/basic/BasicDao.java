@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BasicDao<T> {//TODO popatrzeć po dao co jest potencjalnie null prone i zabezpieczyć
+public abstract class BasicDao<T> {
 	protected Connection connection;
 
 	protected BasicDao(Connection connection)
@@ -53,7 +53,6 @@ public abstract class BasicDao<T> {//TODO popatrzeć po dao co jest potencjalnie
 
 	protected abstract void processForAdding(T t, PreparedStatement preparedStatement) throws SQLException;
 
-	//TODO zobaczyc gdzie indziej to może być potrzebne w dao i też podmienić
 	protected void setLongNullsafe(int parameterIndex, Long value, PreparedStatement preparedStatement)
 			throws SQLException
 	{
