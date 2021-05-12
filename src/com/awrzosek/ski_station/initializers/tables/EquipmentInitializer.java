@@ -21,6 +21,7 @@ public class EquipmentInitializer extends BasicDataInitializer<Equipment> {
 	@Override
 	protected List<Equipment> provideRecords()
 	{
+		//kiedyś to powinno zczytywać dane z xls np - ale to nie jest top priority (ale jest w func req)
 		List<Equipment> equipments = new ArrayList<>();
 
 		equipments.add(new Equipment("Sprzęt1", "0001", EquipmentType.SKIS,

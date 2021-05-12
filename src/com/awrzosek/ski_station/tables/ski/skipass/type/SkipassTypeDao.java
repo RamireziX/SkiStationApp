@@ -105,6 +105,13 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		}
 	}
 
+	@Override
+	public boolean checkTableIfEmpty() throws SQLException
+	{
+		String query = "select * from " + TAB_NAME + " limit 1";
+		return getByQuery(query).isEmpty();
+	}
+
 	protected SkipassType processForSelect(ResultSet result) throws SQLException
 	{
 		DiscountType discountType = DiscountType.valueOf(result.getString(FLD_DISCOUNT_TYPE));

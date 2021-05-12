@@ -109,6 +109,13 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		}
 	}
 
+	@Override
+	public boolean checkTableIfEmpty() throws SQLException
+	{
+		String query = "select * from " + TAB_NAME + " limit 1";
+		return getByQuery(query).isEmpty();
+	}
+
 	protected EquipmentRent processForSelect(ResultSet result) throws SQLException
 	{
 		RentType rentType = RentType.valueOf(result.getString(FLD_RENT_TYPE));

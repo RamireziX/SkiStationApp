@@ -14,7 +14,6 @@ public final class InitializerUtils {
 	{
 	}
 
-	// możnaby kiedyś zczytywać te dane z jakiegoś większego cvs/xls
 	public static void run()
 	{
 		try (Connection conn = BasicUtils.getConnection())

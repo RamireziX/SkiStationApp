@@ -5,15 +5,17 @@ import com.awrzosek.ski_station.tables.basic.BasicDao;
 import java.sql.SQLException;
 import java.util.List;
 
-//TODO napisz o inicjalizatorach w func req
 public abstract class BasicDataInitializer<T> {
 	protected BasicDao<T> dao;
 
 	public void initializeData() throws SQLException
 	{
-		List<T> records = provideRecords();
-		for (T record : records)
-			dao.add(record);
+		if (dao.checkTableIfEmpty())
+		{
+			List<T> records = provideRecords();
+			for (T record : records)
+				dao.add(record);
+		}
 	}
 
 	protected abstract List<T> provideRecords();

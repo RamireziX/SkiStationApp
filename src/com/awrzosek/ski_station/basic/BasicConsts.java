@@ -9,7 +9,7 @@ public final class BasicConsts {
 
 	public static final String EMPTY_STRING = "";
 
-	//TODO - te parametry możnaby potem jakoś ustawiać przez program też, ofc skipass prize bedzie liczone
+	//te parametry możnaby potem jakoś ustawiać przez program też, ofc skipass prize bedzie liczone
 
 	public static final int MAX_NO_OF_CLIENTS = 50;
 	public static final double NO_OF_CLIENTS_PER_MIN = 2.0;

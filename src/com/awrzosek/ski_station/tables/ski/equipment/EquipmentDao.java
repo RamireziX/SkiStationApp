@@ -109,6 +109,13 @@ public class EquipmentDao extends BasicDao<Equipment> {
 		}
 	}
 
+	@Override
+	public boolean checkTableIfEmpty() throws SQLException
+	{
+		String query = "select * from " + TAB_NAME + " limit 1";
+		return getByQuery(query).isEmpty();
+	}
+
 	protected Equipment processForSelect(ResultSet result) throws SQLException
 	{
 		EquipmentType type = EquipmentType.valueOf(result.getString(FLD_TYPE));

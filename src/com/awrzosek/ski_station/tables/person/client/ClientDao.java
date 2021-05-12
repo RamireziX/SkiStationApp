@@ -117,6 +117,13 @@ public class ClientDao extends BasicDao<Client> {
 		}
 	}
 
+	@Override
+	public boolean checkTableIfEmpty() throws SQLException
+	{
+		String query = "select * from " + TAB_NAME + " limit 1";
+		return getByQuery(query).isEmpty();
+	}
+
 	protected Client processForSelect(ResultSet result) throws SQLException
 	{
 		LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();

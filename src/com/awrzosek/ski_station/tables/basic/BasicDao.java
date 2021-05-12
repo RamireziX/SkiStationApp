@@ -24,6 +24,8 @@ public abstract class BasicDao<T> {
 
 	public abstract void delete(T t) throws SQLException;
 
+	public abstract boolean checkTableIfEmpty() throws SQLException;
+
 	public Optional<T> getByQuery(String query) throws SQLException
 	{
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))

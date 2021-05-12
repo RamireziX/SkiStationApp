@@ -1,6 +1,7 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
+import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
@@ -27,7 +28,7 @@ public class Main extends Application {
 		//TODO zrób ile się da w src (dodawanie i tak dalej ale już z wymaganiami, jakieś mockupy innych
 		// funkcji) +
 		// dopisz co potrzebne w functional requirements
-		//InitializerUtils.run();
+		InitializerUtils.run();
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
 		primaryStage.setScene(new Scene(root, 300, 275));

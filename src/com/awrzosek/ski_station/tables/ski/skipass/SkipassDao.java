@@ -110,6 +110,13 @@ public class SkipassDao extends BasicDao<Skipass> {
 		}
 	}
 
+	@Override
+	public boolean checkTableIfEmpty() throws SQLException
+	{
+		String query = "select * from " + TAB_NAME + " limit 1";
+		return getByQuery(query).isEmpty();
+	}
+
 	public List<Skipass> getNotRented(int numberOfSkipasses) throws SQLException
 	{
 		//@formatter:off
