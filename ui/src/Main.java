@@ -55,7 +55,7 @@ public class Main extends Application {
 					"SKIPASS_TYPE" +
 					" limit 1")).orElse(null);
 
-			clientManager.addClient(client, equipments, skipassType, 3, RentType.STAY);
+			clientManager.addClient(client, equipments, skipassType, 1, RentType.STAY);
 		}
 	}
 
