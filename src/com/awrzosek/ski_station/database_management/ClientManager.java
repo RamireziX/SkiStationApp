@@ -64,6 +64,20 @@ public class ClientManager {
 		}
 	}
 
+	//TODO implementacjia + testing poniższych public metod
+	public void removeRentedEquipment(Client client, EquipmentRent equipmentRent)
+	//TODO napisać w func rec że to usuwa jeden equipment
+	{
+	}
+
+	public void removeAllRentedEquipment(Client client)//TODO dopisać to do func req
+	{
+	}
+
+	public void addRentedEquipment(Client client, Equipment equipment)
+	{
+	}
+
 	private void unlinkSkipassAndDelete(Client client) throws SQLException
 	{
 		for (Skipass skipass : skipassDao.listByClient(client))
@@ -73,7 +87,7 @@ public class ClientManager {
 		}
 
 //		for (EquipmentRent equipmentRent : equipmentRentDao.listByClient(client))
-//			equipmentRentDao.delete(equipmentRent); to do usuwania equipment!
+//			equipmentRentDao.delete(equipmentRent); to do usuwania wszystkich equipment!
 
 		clientDao.delete(client);
 	}
