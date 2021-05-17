@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.tables.ski.equipment.rent;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
+import com.awrzosek.ski_station.tables.person.client.Client;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -116,6 +117,17 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		return getByQuery(query).isEmpty();
 	}
 
+	public List<EquipmentRent> listByClient(Client client) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+						" where " + FLD_CLIENT_ID + " = " + client.getId();
+		//@formatter:on
+
+		return listByQuery(query);
+	}
+
 	protected EquipmentRent processForSelect(ResultSet result) throws SQLException
 	{
 		RentType rentType = RentType.valueOf(result.getString(FLD_RENT_TYPE));
@@ -136,4 +148,5 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		setDateNullsafe(4, equipmentRent.getReturnDate(), preparedStatement);
 		preparedStatement.setString(5, equipmentRent.getRentType().name());
 	}
+
 }

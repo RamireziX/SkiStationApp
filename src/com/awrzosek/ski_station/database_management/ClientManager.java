@@ -38,7 +38,8 @@ public class ClientManager {
 			{
 				clientDao.add(client);
 				initSkipasses(skipasses, skipassType, client);
-				rentEquipments(equipments, client, skipassType, rentType);
+				if (equipments != null)
+					rentEquipments(equipments, client, skipassType, rentType);
 			} else
 				System.err.println("Wystąpił błąd - brak dostępnych skipassów!");
 
@@ -48,8 +49,33 @@ public class ClientManager {
 		}
 	}
 
-	public void removeClient(Client client)//TODO implementacja + testing
+	public void removeClient(Client client)
 	{
+		try
+		{
+			if (!clientDao.hasRentedEquipment(client))
+				unlinkSkipassAndDelete(client);
+			else
+				System.err.println("Klient ma wypożyczony sprzęt, który należy najpierw zwrócić!");
+
+		} catch (SQLException throwables)
+		{
+			throwables.printStackTrace();
+		}
+	}
+
+	private void unlinkSkipassAndDelete(Client client) throws SQLException
+	{
+		for (Skipass skipass : skipassDao.listByClient(client))
+		{
+			skipass.clearData();
+			skipassDao.update(skipass);
+		}
+
+//		for (EquipmentRent equipmentRent : equipmentRentDao.listByClient(client))
+//			equipmentRentDao.delete(equipmentRent); to do usuwania equipment!
+
+		clientDao.delete(client);
 	}
 
 	private void initSkipasses(List<Skipass> skipasses, SkipassType skipassType, Client client) throws SQLException
@@ -68,7 +94,6 @@ public class ClientManager {
 
 	private void rentEquipments(List<Equipment> equipments, Client client, SkipassType skipassType,
 								RentType rentType) throws SQLException
-	//to możliwe, że pójdzie do manage equipments, może jako static funkcja
 	{
 		for (Equipment equipment : equipments)
 		{

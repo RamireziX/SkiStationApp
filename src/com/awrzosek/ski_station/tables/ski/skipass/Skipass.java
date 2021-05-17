@@ -98,4 +98,15 @@ public class Skipass extends BasicTable {
 	{
 		this.dateTo = dateTo;
 	}
+
+	public void clearData()
+	{
+		setActive(false);
+		setRented(false);
+		setClientId(null);
+		setSkipassTypeId(null);
+		setDateTo(null);
+		setDateFrom(null);
+		setDateTo(null);
+	}
 }

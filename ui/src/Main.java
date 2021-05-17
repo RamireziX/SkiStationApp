@@ -3,6 +3,7 @@ import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
+import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
@@ -26,8 +27,8 @@ public class Main extends Application {
 	{
 
 		//TODO zrób ile się da w src (dodawanie i tak dalej ale już z wymaganiami, jakieś mockupy innych
-		// funkcji) +
-		// dopisz co potrzebne w functional requirements
+		// funkcji) + dopisz co potrzebne w functional requirements
+		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		InitializerUtils.run();
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
@@ -36,7 +37,13 @@ public class Main extends Application {
 		//primaryStage.setMaximized(true);
 		//primaryStage.setFullScreen(true);
 
-		//addClientMockup();
+
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			ClientDao clientDao = new ClientDao(connection);
+			Client client = clientDao.get(1L).orElse(null);
+			new ClientManager(connection).removeClient(client);
+		}
 
 	}
 
@@ -55,7 +62,7 @@ public class Main extends Application {
 					"SKIPASS_TYPE" +
 					" limit 1")).orElse(null);
 
-			clientManager.addClient(client, equipments, skipassType, 1, RentType.STAY);
+			clientManager.addClient(client, null, skipassType, 1, RentType.STAY);
 		}
 	}
 

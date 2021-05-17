@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.tables.ski.skipass;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
+import com.awrzosek.ski_station.tables.person.client.Client;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -129,6 +130,17 @@ public class SkipassDao extends BasicDao<Skipass> {
 		return listByQuery(query);
 	}
 
+	public List<Skipass> listByClient(Client client) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+				" where " + FLD_CLIENT_ID + " = " + client.getId();
+		//@formatter:on
+
+		return listByQuery(query);
+	}
+
 	@Override
 	protected Skipass processForSelect(ResultSet result) throws SQLException
 	{
@@ -152,4 +164,5 @@ public class SkipassDao extends BasicDao<Skipass> {
 		setDateNullsafe(5, skipass.getDateFrom(), preparedStatement);
 		setDateNullsafe(6, skipass.getDateTo(), preparedStatement);
 	}
+
 }

@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.tables.person.client;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentConsts;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -124,9 +125,26 @@ public class ClientDao extends BasicDao<Client> {
 		return getByQuery(query).isEmpty();
 	}
 
+
+	public boolean hasRentedEquipment(Client client) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select c.* " +
+				"from " + TAB_NAME + " c " +
+				" inner join " + EquipmentRentConsts.TAB_NAME + " er " +
+						"on er." + EquipmentRentConsts.FLD_CLIENT_ID + " = c." + FLD_ID +
+				" where c." + FLD_ID + " = " + client.getId() +
+				" limit 1";
+		//@formatter:on
+
+		return getByQuery(query).isPresent();
+	}
+
 	protected Client processForSelect(ResultSet result) throws SQLException
 	{
-		LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
+		LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH) != null ?
+				result.getDate(FLD_DATE_OF_BIRTH).toLocalDate() : null;
 		LocalDate dateEntered = result.getDate(FLD_DATE_ENTERED).toLocalDate();
 
 		return new Client(result.getLong(FLD_ID), result.getString(FLD_FIRST_NAME),
@@ -147,4 +165,5 @@ public class ClientDao extends BasicDao<Client> {
 		preparedStatement.setString(8, client.getPhone());
 		preparedStatement.setString(9, client.getEMail());
 	}
+
 }
