@@ -1,7 +1,6 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
-import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
@@ -29,7 +28,8 @@ public class Main extends Application {
 		//TODO zrób ile się da w src (dodawanie i tak dalej ale już z wymaganiami, jakieś mockupy innych
 		// funkcji) + dopisz co potrzebne w functional requirements
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
-		InitializerUtils.run();
+		//TODO jak już przejdziesz przez func rec to popraw też use cases
+		//InitializerUtils.run();
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
 		primaryStage.setScene(new Scene(root, 300, 275));
@@ -42,7 +42,9 @@ public class Main extends Application {
 		{
 			ClientDao clientDao = new ClientDao(connection);
 			Client client = clientDao.get(1L).orElse(null);
-			new ClientManager(connection).removeClient(client);
+			ClientManager clientManager = new ClientManager(connection);
+			clientManager.removeAllRentedEquipment(client);
+			clientManager.removeClient(client);
 		}
 
 	}

@@ -122,7 +122,7 @@ public class EquipmentRentDao extends BasicDao<EquipmentRent> {
 		//@formatter:off
 		String query =
 				"select * from " + TAB_NAME +
-						" where " + FLD_CLIENT_ID + " = " + client.getId();
+				" where " + FLD_CLIENT_ID + " = " + client.getId();
 		//@formatter:on
 
 		return listByQuery(query);
