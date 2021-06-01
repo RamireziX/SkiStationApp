@@ -5,7 +5,6 @@ public final class SkipassConsts {
 
     public final static String FLD_ID = "ID";
     public final static String FLD_CLIENT_ID = "CLIENT_ID";
-    public final static String FLD_SKIPASS_TYPE_ID = "SKIPASS_TYPE_ID";
     public final static String FLD_RENTED = "RENTED";
     public final static String FLD_ACTIVE = "ACTIVE";
     public final static String FLD_DATE_FROM = "DATE_FROM";

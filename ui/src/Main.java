@@ -1,11 +1,10 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
+import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
-import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
-import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
@@ -29,7 +28,7 @@ public class Main extends Application {
 		// funkcji) + dopisz co potrzebne w functional requirements
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		//TODO jak już przejdziesz przez func rec to popraw też use cases
-		//InitializerUtils.run();
+		InitializerUtils.run();
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
 		primaryStage.setScene(new Scene(root, 300, 275));
@@ -38,14 +37,14 @@ public class Main extends Application {
 		//primaryStage.setFullScreen(true);
 
 
-		try (Connection connection = BasicUtils.getConnection())
-		{
-			ClientDao clientDao = new ClientDao(connection);
-			Client client = clientDao.get(1L).orElse(null);
-			ClientManager clientManager = new ClientManager(connection);
-			clientManager.removeAllRentedEquipment(client);
-			clientManager.removeClient(client);
-		}
+//		try (Connection connection = BasicUtils.getConnection())
+//		{
+//			ClientDao clientDao = new ClientDao(connection);
+//			Client client = clientDao.get(1L).orElse(null);
+//			ClientManager clientManager = new ClientManager(connection);
+//			clientManager.removeAllRentedEquipment(client);
+//			clientManager.removeClient(client);
+//		}
 
 	}
 
@@ -64,7 +63,7 @@ public class Main extends Application {
 					"SKIPASS_TYPE" +
 					" limit 1")).orElse(null);
 
-			clientManager.addClient(client, null, skipassType, 1, RentType.STAY);
+			//clientManager.addClient(client, null, skipassType, 1, RentType.STAY);
 		}
 	}
 

@@ -55,12 +55,11 @@ public class SkipassDao extends BasicDao<Skipass> {
 		String query =
 				"insert into " + TAB_NAME +
 						" ( " + FLD_CLIENT_ID + ", " +
-						FLD_SKIPASS_TYPE_ID + ", " +
 						FLD_RENTED + ", " +
 						FLD_ACTIVE + ", " +
 						FLD_DATE_FROM + ", " +
 						FLD_DATE_TO + ") " +
-						"values (?, ?, ?, ?, ?, ?);";
+						"values (?, ?, ?, ?, ?);";
 		//@formatter:on
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
@@ -80,7 +79,6 @@ public class SkipassDao extends BasicDao<Skipass> {
 		String query =
 				"update " + TAB_NAME +
 						" set " + FLD_CLIENT_ID + " = ?, " +
-						FLD_SKIPASS_TYPE_ID + " = ?, " +
 						FLD_RENTED + " = ?, " +
 						FLD_ACTIVE + " = ?, " +
 						FLD_DATE_FROM + " = ?, " +
@@ -91,7 +89,7 @@ public class SkipassDao extends BasicDao<Skipass> {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipass, preparedStatement);
-			preparedStatement.setLong(7, skipass.getId());
+			preparedStatement.setLong(6, skipass.getId());
 			preparedStatement.execute();
 		}
 	}
@@ -150,7 +148,6 @@ public class SkipassDao extends BasicDao<Skipass> {
 				null;
 
 		return new Skipass(result.getLong(FLD_ID), result.getLong(FLD_CLIENT_ID),
-				result.getLong(FLD_SKIPASS_TYPE_ID),
 				result.getBoolean(FLD_RENTED), result.getBoolean(FLD_ACTIVE), dateFrom, dateTo);
 	}
 
@@ -158,11 +155,10 @@ public class SkipassDao extends BasicDao<Skipass> {
 	protected void processForAdding(Skipass skipass, PreparedStatement preparedStatement) throws SQLException
 	{
 		setLongNullsafe(1, skipass.getClientId(), preparedStatement);
-		setLongNullsafe(2, skipass.getSkipassTypeId(), preparedStatement);
-		preparedStatement.setBoolean(3, skipass.isRented());
-		preparedStatement.setBoolean(4, skipass.isActive());
-		setDateNullsafe(5, skipass.getDateFrom(), preparedStatement);
-		setDateNullsafe(6, skipass.getDateTo(), preparedStatement);
+		preparedStatement.setBoolean(2, skipass.isRented());
+		preparedStatement.setBoolean(3, skipass.isActive());
+		setDateNullsafe(4, skipass.getDateFrom(), preparedStatement);
+		setDateNullsafe(5, skipass.getDateTo(), preparedStatement);
 	}
 
 }

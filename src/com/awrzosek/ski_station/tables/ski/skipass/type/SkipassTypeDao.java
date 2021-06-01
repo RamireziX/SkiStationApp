@@ -2,7 +2,6 @@ package com.awrzosek.ski_station.tables.ski.skipass.type;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +52,10 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		String query =
 				"insert into " + TAB_NAME +
 						" ( " +
-						FLD_DURATION + ", " +
-						FLD_DISCOUNT_TYPE + ", " +
-						FLD_PRICE + ") " +
+						FLD_DISCOUNT_TYPE +
+						") " +
 						"values " +
-						"(?, ?, ?);";
+						"(?);";
 		//@formatter:on
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
@@ -76,16 +74,15 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		//@formatter:off
 		String query =
 				"update " + TAB_NAME +
-						" set " + FLD_DURATION + " = ?, " +
-						FLD_DISCOUNT_TYPE + " = ?, " +
-						FLD_PRICE + " = ? " +
+						" set " +
+						FLD_DISCOUNT_TYPE + " = ? " +
 						"where " + FLD_ID + " = ?";
 		//@formatter:on
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipassType, preparedStatement);
-			preparedStatement.setLong(4, skipassType.getId());
+			preparedStatement.setLong(2, skipassType.getId());
 			preparedStatement.execute();
 		}
 	}
@@ -116,15 +113,12 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 	{
 		DiscountType discountType = DiscountType.valueOf(result.getString(FLD_DISCOUNT_TYPE));
 
-		return new SkipassType(result.getLong(FLD_ID), result.getInt(FLD_DURATION), discountType,
-				BigDecimal.valueOf(result.getDouble(FLD_PRICE)));
+		return new SkipassType(result.getLong(FLD_ID), discountType);
 	}
 
 	protected void processForAdding(SkipassType skipassType, PreparedStatement preparedStatement)
 			throws SQLException
 	{
-		preparedStatement.setInt(1, skipassType.getDuration());
-		preparedStatement.setString(2, skipassType.getDiscountType().name());
-		preparedStatement.setBigDecimal(3, skipassType.getPrice());
+		preparedStatement.setString(1, skipassType.getDiscountType().name());
 	}
 }

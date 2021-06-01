@@ -15,6 +15,7 @@ public final class BasicConsts {
 	public static final double NO_OF_CLIENTS_PER_MIN = 2.0;
 	public static int ACTIVE_NO_OF_CLIENTS;
 
+	//tego nie mogę dać do enuma - te wartości będą ZMIENNE
 	public static BigDecimal ONE_DAY_SKIPASS_PRIZE = new BigDecimal("50.00");
 	public static BigDecimal THREE_DAYS_SKIPASS_PRIZE = new BigDecimal("120.00");
 	public static BigDecimal ONE_WEEK_SKIPASS_PRIZE = new BigDecimal("250.00");

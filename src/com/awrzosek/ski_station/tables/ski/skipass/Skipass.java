@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 public class Skipass extends BasicTable {
 	private Long clientId;
-	private Long skipassTypeId;
 	private boolean rented;
 	private boolean active;
 	private LocalDate dateFrom;
@@ -16,23 +15,21 @@ public class Skipass extends BasicTable {
 	{
 	}
 
-	public Skipass(Long id, Long clientId, Long skipassTypeId, boolean rented, boolean active, LocalDate dateFrom,
+	public Skipass(Long id, Long clientId, boolean rented, boolean active, LocalDate dateFrom,
 				   LocalDate dateTo)
 	{
 		super(id);
 		this.clientId = clientId;
-		this.skipassTypeId = skipassTypeId;
 		this.rented = rented;
 		this.active = active;
 		this.dateFrom = dateFrom;
 		this.dateTo = dateTo;
 	}
 
-	public Skipass(Long clientId, Long skipassTypeId, boolean rented, boolean active, LocalDate dateFrom,
+	public Skipass(Long clientId, boolean rented, boolean active, LocalDate dateFrom,
 				   LocalDate dateTo)
 	{
 		this.clientId = clientId;
-		this.skipassTypeId = skipassTypeId;
 		this.rented = rented;
 		this.active = active;
 		this.dateFrom = dateFrom;
@@ -47,16 +44,6 @@ public class Skipass extends BasicTable {
 	public void setClientId(Long clientId)
 	{
 		this.clientId = clientId;
-	}
-
-	public Long getSkipassTypeId()
-	{
-		return skipassTypeId;
-	}
-
-	public void setSkipassTypeId(Long skipassTypeId)
-	{
-		this.skipassTypeId = skipassTypeId;
 	}
 
 	public boolean isRented()
@@ -104,9 +91,9 @@ public class Skipass extends BasicTable {
 		setActive(false);
 		setRented(false);
 		setClientId(null);
-		setSkipassTypeId(null);
 		setDateTo(null);
 		setDateFrom(null);
 		setDateTo(null);
+		//TODO maybe tu niech wyszukuje mapę i usuwa
 	}
 }
