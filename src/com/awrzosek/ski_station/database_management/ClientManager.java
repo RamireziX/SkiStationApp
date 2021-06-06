@@ -11,10 +11,13 @@ import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMap;
+import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMapConsts;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMapDao;
+import com.awrzosek.ski_station.tables.ski.skipass.type.DiscountType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -38,7 +41,7 @@ public class ClientManager {
 		sstmDao = new SkipassSkipassTypeMapDao(connection);
 	}
 
-	//TODO potestować wsyztsko czy jest ok po zmianach w bazie i porównać z fr
+	//TODO porównać z fr
 	public void addClient(Client client, HashMap<Equipment, RentType> equipmentsToRentType,
 						  List<SkipassType> skipassTypes, Duration duration)
 	{
@@ -75,7 +78,7 @@ public class ClientManager {
 		}
 	}
 
-	//TODO dopasować do zmian, zaimplementować, potestować i porównać z fr publiczne metody poniższe
+	//TODO potestować i porównać z fr publiczne metody poniższe
 	public void removeRentedEquipment(EquipmentRent equipmentRent)
 	{
 		try
@@ -103,26 +106,29 @@ public class ClientManager {
 	{
 		try
 		{
-			String query = "";//TODO query z joinem, żeby zdobyć czas skipassu (a potem do dao to pewnie dać)
-			SkipassSkipassTypeMap sstm = new SkipassSkipassTypeMapDao(connection).getByQuery(query).orElse(null);
-			if (sstm != null)
-			{
-				EquipmentRent equipmentRent = new EquipmentRent(client.getId(), equipment.getId(), LocalDate.now(),
-						LocalDate.now().plusDays(sstm.getDuration().getDays()), rentType);
-				equipmentRentDao.add(equipmentRent);
-			}
+			Skipass skipass = skipassDao.listByClient(client).get(0);
+			EquipmentRent equipmentRent = new EquipmentRent(client.getId(), equipment.getId(), LocalDate.now(),
+					skipass.getDateTo(), rentType);
+			equipmentRentDao.add(equipmentRent);
+
 		} catch (SQLException throwables)
 		{
 			throwables.printStackTrace();
 		}
-
 	}
 
 	private void unlinkSkipassAndDelete(Client client) throws SQLException
 	{
 		for (Skipass skipass : skipassDao.listByClient(client))
 		{
-			skipass.clearData();//TODO albo w tej metodzie usuwać mapę albo w unlink
+			//@formatter:off
+			String query =
+					"select * from " + SkipassSkipassTypeMapConsts.TAB_NAME +
+					" where " + SkipassSkipassTypeMapConsts.FLD_SKIPASS_ID + " = " + skipass.getId();
+			//@formatter:on
+			SkipassSkipassTypeMap sstm = sstmDao.getByQuery(query).orElse(null);
+			sstmDao.delete(sstm);
+			skipass.clearData();
 			skipassDao.update(skipass);
 		}
 
@@ -135,9 +141,28 @@ public class ClientManager {
 		int i = 0;
 		for (Skipass skipass : skipasses)
 		{
-			BigDecimal price = BasicConsts.ONE_DAY_SKIPASS_PRIZE;//TODO jakieś liczenie w zależności od duration i typu
-			SkipassSkipassTypeMap sstm = new SkipassSkipassTypeMap(skipass.getId(), skipassTypes.get(i).getId(),
-					duration, price);
+			BigDecimal price = new BigDecimal(0);
+			SkipassType skipassType = skipassTypes.get(i);
+			DiscountType discountType = skipassType.getDiscountType();
+
+			switch (duration)
+			{
+				case ONE_DAY:
+					price = BasicConsts.ONE_DAY_SKIPASS_PRIZE.multiply(discountType.getDiscount());
+					break;
+				case THREE_DAYS:
+					price = BasicConsts.THREE_DAYS_SKIPASS_PRIZE.multiply(discountType.getDiscount());
+					break;
+				case ONE_WEEK:
+					price = BasicConsts.ONE_WEEK_SKIPASS_PRIZE.multiply(discountType.getDiscount());
+					break;
+				case TWO_WEEKS:
+					price = BasicConsts.TWO_WEEKS_SKIPASS_PRIZE.multiply(discountType.getDiscount());
+					break;
+			}
+
+			SkipassSkipassTypeMap sstm = new SkipassSkipassTypeMap(skipass.getId(), skipassType.getId(),
+					duration, price.setScale(2, RoundingMode.HALF_UP));
 			sstmDao.add(sstm);
 			skipass.setClientId(client.getId());
 			skipass.setDateFrom(LocalDate.now());

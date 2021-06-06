@@ -3,8 +3,11 @@ import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
+import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
+import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
@@ -15,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,15 +41,23 @@ public class Main extends Application {
 		//primaryStage.setFullScreen(true);
 
 
-//		try (Connection connection = BasicUtils.getConnection())
-//		{
-//			ClientDao clientDao = new ClientDao(connection);
-//			Client client = clientDao.get(1L).orElse(null);
-//			ClientManager clientManager = new ClientManager(connection);
-//			clientManager.removeAllRentedEquipment(client);
-//			clientManager.removeClient(client);
-//		}
+		addClientMockup();
 
+		deleteClientMockup();
+
+	}
+
+	private void deleteClientMockup() throws SQLException
+	{
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			ClientDao clientDao = new ClientDao(connection);
+			Client client = clientDao.get(1L).orElse(null);
+			ClientManager clientManager = new ClientManager(connection);
+
+			clientManager.removeAllRentedEquipment(client);
+			clientManager.removeClient(client);
+		}
 	}
 
 	private void addClientMockup() throws SQLException
@@ -59,11 +71,17 @@ public class Main extends Application {
 			List<Equipment> equipments =
 					new EquipmentDao(connection).listByQuery("select * from EQUIPMENT limit 2");
 
-			SkipassType skipassType = (new SkipassTypeDao(connection).getByQuery("select * from " +
+			List<SkipassType> skipassTypes = (new SkipassTypeDao(connection).listByQuery("select * from " +
 					"SKIPASS_TYPE" +
-					" limit 1")).orElse(null);
+					" limit 1"));
 
-			//clientManager.addClient(client, null, skipassType, 1, RentType.STAY);
+			HashMap<Equipment, RentType> equipmentToRentType = new HashMap<>();
+			for (Equipment equipment : equipments)
+			{
+				equipmentToRentType.put(equipment, RentType.STAY);
+			}
+
+			clientManager.addClient(client, equipmentToRentType, skipassTypes, Duration.ONE_WEEK);
 		}
 	}
 
