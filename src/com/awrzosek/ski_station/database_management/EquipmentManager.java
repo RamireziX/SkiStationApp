@@ -10,9 +10,9 @@ public class EquipmentManager {
 	{
 	}
 
-	public Equipment addEquipment()
+	//TODO implementacja + testing
+	public void addEquipment()
 	{
-		return null;
 	}
 
 	public void removeEquipment(Equipment equipment)

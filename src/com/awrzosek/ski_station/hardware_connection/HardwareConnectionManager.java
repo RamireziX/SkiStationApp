@@ -4,7 +4,7 @@ import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 
 import java.math.BigDecimal;
 
-public class DataFromHardware {
+public class HardwareConnectionManager {
 
 	private static int noOfClientsInQueue = 0;
 

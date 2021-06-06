@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ClientManager {
-	private Connection connection;
 	private ClientDao clientDao;
 	private SkipassDao skipassDao;
 	private EquipmentRentDao equipmentRentDao;
@@ -34,14 +33,12 @@ public class ClientManager {
 
 	public ClientManager(Connection connection)
 	{
-		this.connection = connection;
 		clientDao = new ClientDao(connection);
 		skipassDao = new SkipassDao(connection);
 		equipmentRentDao = new EquipmentRentDao(connection);
 		sstmDao = new SkipassSkipassTypeMapDao(connection);
 	}
 
-	//TODO porównać z fr
 	public void addClient(Client client, HashMap<Equipment, RentType> equipmentsToRentType,
 						  List<SkipassType> skipassTypes, Duration duration)
 	{
@@ -78,7 +75,6 @@ public class ClientManager {
 		}
 	}
 
-	//TODO potestować i porównać z fr publiczne metody poniższe
 	public void removeRentedEquipment(EquipmentRent equipmentRent)
 	{
 		try
@@ -110,7 +106,6 @@ public class ClientManager {
 			EquipmentRent equipmentRent = new EquipmentRent(client.getId(), equipment.getId(), LocalDate.now(),
 					skipass.getDateTo(), rentType);
 			equipmentRentDao.add(equipmentRent);
-
 		} catch (SQLException throwables)
 		{
 			throwables.printStackTrace();
@@ -127,7 +122,8 @@ public class ClientManager {
 					" where " + SkipassSkipassTypeMapConsts.FLD_SKIPASS_ID + " = " + skipass.getId();
 			//@formatter:on
 			SkipassSkipassTypeMap sstm = sstmDao.getByQuery(query).orElse(null);
-			sstmDao.delete(sstm);
+			if (sstm != null)
+				sstmDao.delete(sstm);
 			skipass.clearData();
 			skipassDao.update(skipass);
 		}
@@ -141,26 +137,8 @@ public class ClientManager {
 		int i = 0;
 		for (Skipass skipass : skipasses)
 		{
-			BigDecimal price = new BigDecimal(0);
 			SkipassType skipassType = skipassTypes.get(i);
-			DiscountType discountType = skipassType.getDiscountType();
-
-			switch (duration)
-			{
-				case ONE_DAY:
-					price = BasicConsts.ONE_DAY_SKIPASS_PRIZE.multiply(discountType.getDiscount());
-					break;
-				case THREE_DAYS:
-					price = BasicConsts.THREE_DAYS_SKIPASS_PRIZE.multiply(discountType.getDiscount());
-					break;
-				case ONE_WEEK:
-					price = BasicConsts.ONE_WEEK_SKIPASS_PRIZE.multiply(discountType.getDiscount());
-					break;
-				case TWO_WEEKS:
-					price = BasicConsts.TWO_WEEKS_SKIPASS_PRIZE.multiply(discountType.getDiscount());
-					break;
-			}
-
+			BigDecimal price = calculatePrice(duration, skipassType);
 			SkipassSkipassTypeMap sstm = new SkipassSkipassTypeMap(skipass.getId(), skipassType.getId(),
 					duration, price.setScale(2, RoundingMode.HALF_UP));
 			sstmDao.add(sstm);
@@ -172,6 +150,29 @@ public class ClientManager {
 			skipassDao.update(skipass);
 			i++;
 		}
+	}
+
+	private BigDecimal calculatePrice(Duration duration, SkipassType skipassType)
+	{
+		BigDecimal price = new BigDecimal(0);
+		DiscountType discountType = skipassType.getDiscountType();
+
+		switch (duration)
+		{
+			case ONE_DAY:
+				price = BasicConsts.ONE_DAY_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				break;
+			case THREE_DAYS:
+				price = BasicConsts.THREE_DAYS_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				break;
+			case ONE_WEEK:
+				price = BasicConsts.ONE_WEEK_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				break;
+			case TWO_WEEKS:
+				price = BasicConsts.TWO_WEEKS_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				break;
+		}
+		return price;
 	}
 
 	private void rentEquipments(HashMap<Equipment, RentType> equipmentsToRentType, Client client,
@@ -188,5 +189,4 @@ public class ClientManager {
 			equipmentRentDao.add(rent);
 		}
 	}
-
 }
