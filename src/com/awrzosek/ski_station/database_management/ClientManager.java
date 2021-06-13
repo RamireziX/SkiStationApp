@@ -3,6 +3,7 @@ package com.awrzosek.ski_station.database_management;
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
+import com.awrzosek.ski_station.tables.ski.equipment.Condition;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRent;
 import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentDao;
@@ -102,10 +103,14 @@ public class ClientManager {
 	{
 		try
 		{
-			Skipass skipass = skipassDao.listByClient(client).get(0);
-			EquipmentRent equipmentRent = new EquipmentRent(client.getId(), equipment.getId(), LocalDate.now(),
-					skipass.getDateTo(), rentType);
-			equipmentRentDao.add(equipmentRent);
+			if (equipment.getCondition() != Condition.BROKEN)
+			{
+				Skipass skipass = skipassDao.listByClient(client).get(0);
+				EquipmentRent equipmentRent = new EquipmentRent(client.getId(), equipment.getId(), LocalDate.now(),
+						skipass.getDateTo(), rentType);
+				equipmentRentDao.add(equipmentRent);
+			} else
+				System.err.println("Wybrany sprzęt jest zniszczony, proszę wybrać inny!");
 		} catch (SQLException throwables)
 		{
 			throwables.printStackTrace();
