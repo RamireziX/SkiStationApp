@@ -12,7 +12,7 @@ public final class BasicConsts {
 	//te parametry możnaby potem jakoś ustawiać przez program też, ofc skipass prize bedzie liczone
 
 	public static final int MAX_NO_OF_CLIENTS = 50;
-	public static final double NO_OF_CLIENTS_PER_MIN = 2.0;
+	public static final double SERVICE_RATE_PER_MINUTE = 20.0;
 	public static int ACTIVE_NO_OF_CLIENTS;
 
 	//tego nie mogę dać do enuma - te wartości będą ZMIENNE

@@ -1,7 +1,7 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
+import com.awrzosek.ski_station.cong_prize_management.QueueManager;
 import com.awrzosek.ski_station.database_management.ClientManager;
-import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
@@ -11,16 +11,12 @@ import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class Main extends Application {
 
@@ -32,18 +28,16 @@ public class Main extends Application {
 		// funkcji) + dopisz co potrzebne w functional requirements
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		//TODO jak już przejdziesz przez func rec to popraw też use cases
-		InitializerUtils.run();
-		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-		primaryStage.setTitle("Stacja narciarska");
-		primaryStage.setScene(new Scene(root, 300, 275));
-		primaryStage.show();
+//		InitializerUtils.run();
+//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+//		primaryStage.setTitle("Stacja narciarska");
+//		primaryStage.setScene(new Scene(root, 300, 275));
+//		primaryStage.show();
 		//primaryStage.setMaximized(true);
 		//primaryStage.setFullScreen(true);
 
 
-		addClientMockup();
-
-		deleteClientMockup();
+		System.out.println(QueueManager.calculateWaitTime(10));
 
 	}
 
