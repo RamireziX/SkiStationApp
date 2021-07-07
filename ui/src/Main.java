@@ -28,16 +28,41 @@ public class Main extends Application {
 		// funkcji) + dopisz co potrzebne w functional requirements
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		//TODO jak już przejdziesz przez func rec to popraw też use cases
-//		InitializerUtils.run();
-//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-//		primaryStage.setTitle("Stacja narciarska");
-//		primaryStage.setScene(new Scene(root, 300, 275));
-//		primaryStage.show();
+
+		Thread setClientsToZero = new Thread(new Runnable() {
+			@Override
+			public void run()
+			{
+				try
+				{
+					while (true)
+					{
+						QueueManager.CLIENTS_IN_MINUTE = 0;
+						//noinspection BusyWait
+						Thread.sleep(60000);
+					}
+
+				} catch (InterruptedException e)
+				{
+					e.printStackTrace();//TODO
+				}
+			}
+		});
+
+		setClientsToZero.setDaemon(true);
+		setClientsToZero.start();
+
+		BasicConsts.ACTIVE_NO_OF_CLIENTS = 0;
+
+		//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+		//		primaryStage.setTitle("Stacja narciarska");
+		//		primaryStage.setScene(new Scene(root, 300, 275));
+		//		primaryStage.show();
 		//primaryStage.setMaximized(true);
 		//primaryStage.setFullScreen(true);
+		//TODO jakiś progress bar do inicjalizatorów
 
-
-		System.out.println(QueueManager.calculateWaitTime(10));
+		//		InitializerUtils.run();
 
 	}
 
