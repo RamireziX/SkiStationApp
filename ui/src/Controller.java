@@ -36,6 +36,11 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
+		setClientsTableViewCellValues();
+	}
+
+	private void setClientsTableViewCellValues()
+	{
 		clientFirstNameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getFirstName()));
 		clientSurnameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSurname()));
 		clientPeselColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getPesel()));
@@ -50,7 +55,7 @@ public class Controller implements Initializable {
 			clientsTableView.getItems().setAll(clientDao.getAll());
 		} catch (SQLException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace();//TODO pokazanie błędu
 		}
 	}
 }
