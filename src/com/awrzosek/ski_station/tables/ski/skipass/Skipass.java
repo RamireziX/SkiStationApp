@@ -94,6 +94,5 @@ public class Skipass extends BasicTable {
 		setDateTo(null);
 		setDateFrom(null);
 		setDateTo(null);
-		//TODO maybe tu niech wyszukuje mapę i usuwa
 	}
 }

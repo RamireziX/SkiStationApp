@@ -11,12 +11,16 @@ import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -54,11 +58,14 @@ public class Main extends Application {
 
 		BasicConsts.ACTIVE_NO_OF_CLIENTS = 0;
 
-		//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-		//		primaryStage.setTitle("Stacja narciarska");
-		//		primaryStage.setScene(new Scene(root, 300, 275));
-		//		primaryStage.show();
-		//primaryStage.setMaximized(true);
+		//addClientMockup();
+
+		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+		primaryStage.setTitle("Stacja narciarska");
+		primaryStage.setScene(new Scene(root, 300, 275));
+		primaryStage.show();
+		primaryStage.setMaximized(true);
+
 		//primaryStage.setFullScreen(true);
 		//TODO jakiś progress bar do inicjalizatorów
 
