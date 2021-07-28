@@ -3,45 +3,41 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-    <tabs>
-        <Tab text="Panel główny">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-        </Tab>
-        <Tab text="Panel klientów">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                        <TableView fx:id="clientsTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                            <columns>
-                                <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię" />
-                                <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                                <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel" />
-                                <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia" />
-                                <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Nr. tel." />
-                                <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email" />
-                            </columns>
-                        </TableView>
-                    </children>
-                </AnchorPane>
-            </content>
-        </Tab>
-        <Tab text="Panel sprzętu">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-        </Tab>
-        <Tab text="Panel pracowników">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-        </Tab>
-        <Tab text="Funkcje dodatkowe">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-        </Tab>
-    </tabs>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <Tab text="Panel główny">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+    </Tab>
+    <Tab text="Panel klientów">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <TableView fx:id="clientsTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <columns>
+                    <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię" />
+                    <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko" />
+                    <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel" />
+                    <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia" />
+                    <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Nr. tel." />
+                    <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email" />
+                </columns>
+            </TableView>
+        </AnchorPane>
+    </Tab>
+    <Tab text="Panel sprzętu">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <columns>
+                    <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny" />
+                    <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa" />
+                    <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />
+                    <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="119.0" text="Cena wypożyczenia" />
+                    <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="92.0" text="Stan" />
+                </columns>
+            </TableView>
+        </AnchorPane>
+    </Tab>
+    <Tab text="Panel pracowników">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+    </Tab>
+    <Tab text="Funkcje dodatkowe">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+    </Tab>
 </TabPane>

@@ -1,10 +1,10 @@
 package com.awrzosek.ski_station.tables.ski.equipment;
 
 public enum Condition {
-	EX("Świetna"),
-	GOOD("Dobra"),
-	AVG("Średnia"),
-	POOR("Słaba"),
+	EX("Świetny"),
+	GOOD("Dobry"),
+	AVG("Średni"),
+	POOR("Słaby"),
 	BROKEN("Zniszczony");
 
 	private final String label;
