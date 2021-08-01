@@ -5,7 +5,27 @@
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <Tab text="Panel główny">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <children>
+                <Label layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+                <Label layoutX="50.0" layoutY="31.0" prefHeight="17.0" prefWidth="163.0" text="Czas oczekiwania na wjazd:" />
+            <Label layoutX="373.0" layoutY="92.0" prefHeight="17.0" prefWidth="102.0" text="Cena karnetu:" />
+            <Label layoutX="372.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+            <Label layoutX="222.0" layoutY="206.0" prefHeight="17.0" prefWidth="163.0" text="Symulacja działania stacji" />
+            <ChoiceBox layoutX="41.0" layoutY="249.0" prefWidth="150.0" />
+            <Label layoutX="41.0" layoutY="232.0" prefHeight="17.0" prefWidth="163.0" text="Wybierz klienta:" />
+            <Button layoutX="41.0" layoutY="290.0" mnemonicParsing="false" text="Wejście" />
+            <Button layoutX="123.0" layoutY="290.0" mnemonicParsing="false" text="Wyjście" />
+            <Button layoutX="204.0" layoutY="290.0" mnemonicParsing="false" text="Wjazd" />
+            <Label layoutX="50.0" layoutY="100.0" prefHeight="17.0" prefWidth="163.0" text="Liczba klientów na stacji:" />
+            <Label layoutX="50.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+            <Label layoutX="373.0" layoutY="31.0" prefHeight="17.0" prefWidth="102.0" text="Parametry:" />
+            <TextField layoutX="379.0" layoutY="53.0" prefHeight="25.0" prefWidth="35.0" text="C" />
+            <TextField layoutX="424.0" layoutY="53.0" prefHeight="25.0" prefWidth="35.0" text="a" />
+            <TextField layoutX="467.0" layoutY="53.0" prefHeight="25.0" prefWidth="35.0" text="b" />
+            <Button layoutX="485.0" layoutY="122.0" mnemonicParsing="false" text="Oblicz" />
+            </children>
+        </AnchorPane>
     </Tab>
     <Tab text="Panel klientów">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -36,6 +56,14 @@
     </Tab>
     <Tab text="Panel pracowników">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <TableView fx:id="employeesTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columns>
+                <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię" />
+                <TableColumn fx:id="employeeSurnameColumn" prefWidth="75.0" text="Nazwisko" />
+                <TableColumn fx:id="employeePhoneColumn" prefWidth="63.0" text="Nr. tel." />
+                <TableColumn fx:id="employeeEmailColumn" prefWidth="63.0" text="Email" />
+            </columns>
+        </TableView>
     </Tab>
     <Tab text="Funkcje dodatkowe">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

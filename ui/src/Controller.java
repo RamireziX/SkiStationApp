@@ -1,6 +1,8 @@
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
+import com.awrzosek.ski_station.tables.person.employee.Employee;
+import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -18,8 +20,19 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {//TODO eq table
-
+public class Controller implements Initializable {
+	//TODO może trzeba będzie jakoś trzymać id, może jako niewidzialną kolumnę (i potem get wołać po 2kliku)
+	//employees table
+	@FXML
+	private TableView<Employee> employeesTableView;
+	@FXML
+	private TableColumn<Employee, String> employeeFirstNameColumn;
+	@FXML
+	private TableColumn<Employee, String> employeeSurnameColumn;
+	@FXML
+	private TableColumn<Employee, String> employeePhoneColumn;
+	@FXML
+	private TableColumn<Employee, String> employeeEmailColumn;
 	//equipment table
 	@FXML
 	private TableView<Equipment> equipmentTableView;
@@ -55,6 +68,7 @@ public class Controller implements Initializable {//TODO eq table
 		//TODO może inicjować dopiero jak user kliknie w tab - zobaczy się
 		setClientsTableViewCellValues();
 		setEquipmentTableViewCellValues();
+		setEmployeesTableViewCellValues();
 	}
 
 	private void setClientsTableViewCellValues()
@@ -93,6 +107,23 @@ public class Controller implements Initializable {//TODO eq table
 		{
 			EquipmentDao equipmentDao = new EquipmentDao(connection);
 			equipmentTableView.getItems().setAll(equipmentDao.getAll());
+		} catch (SQLException e)
+		{
+			e.printStackTrace();//TODO pokazanie błędu
+		}
+	}
+
+	private void setEmployeesTableViewCellValues()
+	{
+		employeeFirstNameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getFirstName()));
+		employeeSurnameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSurname()));
+		employeePhoneColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getPhone()));
+		employeeEmailColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getEMail()));
+
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			EmployeeDao employeeDao = new EmployeeDao(connection);
+			employeesTableView.getItems().setAll(employeeDao.getAll());
 		} catch (SQLException e)
 		{
 			e.printStackTrace();//TODO pokazanie błędu
