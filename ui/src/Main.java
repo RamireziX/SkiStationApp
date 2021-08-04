@@ -11,6 +11,7 @@ import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -33,23 +34,19 @@ public class Main extends Application {
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		//TODO jak już przejdziesz przez func rec to popraw też use cases
 
-		Thread setClientsToZero = new Thread(new Runnable() {
-			@Override
-			public void run()
+		Thread setClientsToZero = new Thread(() -> {
+			try
 			{
-				try
+				while (true)
 				{
-					while (true)
-					{
-						QueueManager.CLIENTS_IN_MINUTE = 0;
-						//noinspection BusyWait
-						Thread.sleep(60000);
-					}
-
-				} catch (InterruptedException e)
-				{
-					e.printStackTrace();//TODO
+					QueueManager.CLIENTS_IN_MINUTE = 0;
+					//noinspection BusyWait
+					Thread.sleep(60000);
 				}
+
+			} catch (InterruptedException e)
+			{
+				e.printStackTrace();//TODO
 			}
 		});
 
@@ -65,6 +62,7 @@ public class Main extends Application {
 		primaryStage.setScene(new Scene(root, 300, 275));
 		primaryStage.show();
 		primaryStage.setMaximized(true);
+		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
 
 		//primaryStage.setFullScreen(true);
 		//TODO jakiś progress bar do inicjalizatorów

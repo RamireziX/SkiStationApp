@@ -8,9 +8,14 @@ import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
+import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -69,6 +74,33 @@ public class Controller implements Initializable {
 		setClientsTableViewCellValues();
 		setEquipmentTableViewCellValues();
 		setEmployeesTableViewCellValues();
+
+		tableViewDoubleClickOpenEditWindow(clientsTableView, "client_edit_window.fxml");
+
+	}
+
+	private void tableViewDoubleClickOpenEditWindow(TableView<?> tableView, String fxmlName)
+	{
+		tableView.setOnMouseClicked(mouseEvent -> {
+			if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
+			{
+				if (mouseEvent.getClickCount() == 2)
+				{
+					try
+					{
+						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+								fxmlName));
+						Parent root = fxmlLoader.load();
+						Stage stage = new Stage();
+						stage.setScene(new Scene(root));
+						stage.show();
+					} catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 	}
 
 	private void setClientsTableViewCellValues()
