@@ -13,8 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
@@ -75,31 +75,35 @@ public class Controller implements Initializable {
 		setEquipmentTableViewCellValues();
 		setEmployeesTableViewCellValues();
 
-		tableViewDoubleClickOpenEditWindow(clientsTableView, "client_edit_window.fxml");
-
+		//TODO client edit window
+		clientTableViewDoubleClickOpenEditWindow();
 	}
 
-	private void tableViewDoubleClickOpenEditWindow(TableView<?> tableView, String fxmlName)
+	//TODO jeszcze nie wiem czy tu generic zrobić czy co, potem sie zobaczy
+	private void clientTableViewDoubleClickOpenEditWindow()
 	{
-		tableView.setOnMouseClicked(mouseEvent -> {
-			if (mouseEvent.getButton().equals(MouseButton.PRIMARY))
-			{
-				if (mouseEvent.getClickCount() == 2)
+		clientsTableView.setRowFactory(tv -> {
+			TableRow<Client> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty()))
 				{
 					try
 					{
 						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-								fxmlName));
+								"edit_windows/client/client_edit_window.fxml"));
 						Parent root = fxmlLoader.load();
 						Stage stage = new Stage();
 						stage.setScene(new Scene(root));
 						stage.show();
+						Client client = row.getItem();
+						System.out.println("Double click on: " + client.getFirstName());
 					} catch (Exception e)
 					{
 						e.printStackTrace();
 					}
 				}
-			}
+			});
+			return row;
 		});
 	}
 
