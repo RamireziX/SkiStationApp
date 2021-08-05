@@ -1,5 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.client.ClientEditWindowController" />
+<AnchorPane prefHeight="383.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.client.ClientEditWindowController">
+    <VBox layoutX="23.0" layoutY="17.0">
+        <GridPane hgap="10.0" prefHeight="312.0" prefWidth="312.0" vgap="10.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="115.0" minWidth="20.0" prefWidth="114.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="188.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <VBox.margin>
+                <Insets bottom="10.0" />
+            </VBox.margin>
+            <TextField fx:id="secondNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DatePicker fx:id="dateOfBirthDatePicker" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="peselTextField" prefHeight="25.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="personalIdNumberTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="nameTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
+            <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="Imię" />
+            <Label prefHeight="17.0" prefWidth="129.0" text="Data wprowadzenia" GridPane.rowIndex="8" />
+            <Label text="Email" GridPane.rowIndex="7" />
+            <Label text="Telefon" GridPane.rowIndex="6" />
+            <Label text="Nr. dowodu" GridPane.rowIndex="5" />
+            <Label text="PESEL" GridPane.rowIndex="4" />
+            <Label text="Data urodzenia" GridPane.rowIndex="3" />
+            <Label text="Nazwisko" GridPane.rowIndex="2" />
+            <Label text="Drugie imię" GridPane.rowIndex="1" />
+         <DatePicker fx:id="dateEnteredDatePicker" layoutX="134.0" layoutY="122.0" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+        </GridPane>
+        <HBox alignment="CENTER" spacing="50.0">
+            <opaqueInsets>
+                <Insets />
+            </opaqueInsets>
+            <VBox.margin>
+                <Insets />
+            </VBox.margin>
+            <Button mnemonicParsing="false" text="Button" />
+            <Button mnemonicParsing="false" text="Button" />
+        </HBox>
+    </VBox>
+    <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+    </padding>
+</AnchorPane>
