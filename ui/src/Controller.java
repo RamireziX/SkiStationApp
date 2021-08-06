@@ -84,6 +84,7 @@ public class Controller implements Initializable {
 	}
 
 	//TODO to samo dla jakiegoś przycisku edit i bardzo podobnie dla new
+	//new nie musi być takie samo, można okno po oknie iść czy coś - zobaczy się
 	private void clientTableViewDoubleClickOpenEditWindow()
 	{
 		clientsTableView.setRowFactory(tv -> {

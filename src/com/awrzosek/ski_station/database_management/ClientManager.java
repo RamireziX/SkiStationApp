@@ -40,10 +40,11 @@ public class ClientManager {
 		sstmDao = new SkipassSkipassTypeMapDao(connection);
 	}
 
+	//TODO może jeszcze funkcja na edit client
 	public void addClient(Client client, HashMap<Equipment, RentType> equipmentsToRentType,
 						  List<SkipassType> skipassTypes, Duration duration)
 	{
-		//pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
+		//TODO pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
 		try
 		{
 			List<Skipass> skipasses = skipassDao.getNotRented(skipassTypes.size());
