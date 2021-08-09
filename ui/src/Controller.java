@@ -99,9 +99,12 @@ public class Controller implements Initializable {
 						Parent parent = fxmlLoader.load();
 						Stage stage = new Stage();
 						stage.setScene(new Scene(parent));
+
 						Client client = row.getItem();
 						ClientEditWindowController clientEditWindowController = fxmlLoader.getController();
-						clientEditWindowController.setClient(client);
+						clientEditWindowController.setParentTableView(clientsTableView);
+						clientEditWindowController.setExistingClient(client);
+
 						stage.setTitle("Edycja klienta: " + client.getFullName());
 						stage.show();
 					} catch (Exception e)

@@ -1,16 +1,27 @@
 package edit_windows.client;
 
+import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
+import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
+	@FXML
+	private Button acceptButton;
+	@FXML
+	private Button cancelButton;//TODO
 	@FXML
 	private TextField nameTextField;
 	@FXML
@@ -30,33 +41,77 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private DatePicker dateEnteredDatePicker;
 
-	private Client client;
+	private Client existingClient;
+	private TableView<Client> clientsTableView;
 
-	public void setClient(Client client)
+	public void setExistingClient(Client existingClient)
 	{
-		this.client = client;
+		this.existingClient = existingClient;
 	}
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		//TODO ok cancel button i edycja klienta (update w database)
+		//TODO edycja klienta (update w database)
 		fillEditWindowWithExistingValues();
+		setAcceptButtonAction();
+	}
+
+	public void setParentTableView(TableView<Client> clientsTableView)
+	{
+		this.clientsTableView = clientsTableView;
 	}
 
 	private void fillEditWindowWithExistingValues()
 	{
 		Platform.runLater(() -> {
-			nameTextField.setText(client.getFirstName());
-			secondNameTextField.setText(client.getSecondName());
-			surnameTextField.setText(client.getSurname());
-			if (client.getDateOfBirth() != null)
-				dateOfBirthDatePicker.setValue(client.getDateOfBirth());
-			peselTextField.setText(client.getPesel());
-			personalIdNumberTextField.setText(client.getPersonalIdNumber());
-			phoneTextField.setText(client.getPhone());
-			emailTextField.setText(client.getEMail());
-			dateEnteredDatePicker.setValue(client.getDateEntered());
+			nameTextField.setText(existingClient.getFirstName());
+			secondNameTextField.setText(existingClient.getSecondName());
+			surnameTextField.setText(existingClient.getSurname());
+			if (existingClient.getDateOfBirth() != null)
+				dateOfBirthDatePicker.setValue(existingClient.getDateOfBirth());
+			peselTextField.setText(existingClient.getPesel());
+			personalIdNumberTextField.setText(existingClient.getPersonalIdNumber());
+			phoneTextField.setText(existingClient.getPhone());
+			emailTextField.setText(existingClient.getEMail());
+			dateEnteredDatePicker.setValue(existingClient.getDateEntered());
 		});
+	}
+
+	private void setAcceptButtonAction()
+	{
+		acceptButton.setDefaultButton(true);
+		acceptButton.setOnAction(e -> {
+			Client updatedClient = new Client();
+			updatedClient.setId(existingClient.getId());
+			updatedClient.setFirstName(nameTextField.getText());
+			updatedClient.setSecondName(secondNameTextField.getText());
+			updatedClient.setSurname(surnameTextField.getText());
+			updatedClient.setDateOfBirth(dateOfBirthDatePicker.getValue());
+			updatedClient.setPesel(peselTextField.getText());
+			updatedClient.setPersonalIdNumber(personalIdNumberTextField.getText());
+			updatedClient.setPhone(phoneTextField.getText());
+			updatedClient.setEMail(emailTextField.getText());
+			updatedClient.setDateEntered(dateEnteredDatePicker.getValue());
+
+			Stage stage = (Stage) acceptButton.getScene().getWindow();
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				//TODO jakieś zapytanie czy na pewno
+				ClientDao clientDao = new ClientDao(connection);
+				clientDao.update(updatedClient);
+				stage.close();
+				refreshClientsTableView(clientDao);
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+				stage.close();
+			}
+		});
+	}
+
+	private void refreshClientsTableView(ClientDao clientDao) throws SQLException
+	{
+		clientsTableView.getItems().setAll(clientDao.getAll());
 	}
 }
