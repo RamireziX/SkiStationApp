@@ -21,7 +21,7 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private Button acceptButton;
 	@FXML
-	private Button cancelButton;//TODO
+	private Button cancelButton;
 	@FXML
 	private TextField nameTextField;
 	@FXML
@@ -52,9 +52,9 @@ public class ClientEditWindowController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		//TODO edycja klienta (update w database)
 		fillEditWindowWithExistingValues();
 		setAcceptButtonAction();
+		setCancelButtonAction();
 	}
 
 	public void setParentTableView(TableView<Client> clientsTableView)
@@ -93,8 +93,7 @@ public class ClientEditWindowController implements Initializable {
 			updatedClient.setPhone(phoneTextField.getText());
 			updatedClient.setEMail(emailTextField.getText());
 			updatedClient.setDateEntered(dateEnteredDatePicker.getValue());
-
-			Stage stage = (Stage) acceptButton.getScene().getWindow();
+			Stage stage = getStage(acceptButton);
 			try (Connection connection = BasicUtils.getConnection())
 			{
 				//TODO jakieś zapytanie czy na pewno
@@ -108,6 +107,21 @@ public class ClientEditWindowController implements Initializable {
 				stage.close();
 			}
 		});
+	}
+
+	private void setCancelButtonAction()
+	{
+		cancelButton.setCancelButton(true);
+		cancelButton.setOnAction(e -> {
+			//TODO spytać czy porzucić edycję
+			Stage stage = getStage(cancelButton);
+			stage.close();
+		});
+	}
+
+	private Stage getStage(Button button)
+	{
+		return (Stage) button.getScene().getWindow();
 	}
 
 	private void refreshClientsTableView(ClientDao clientDao) throws SQLException
