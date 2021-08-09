@@ -18,6 +18,11 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
+	//TODO fieldy dla kolumn tabeli i zapełnić
+	@FXML
+	private TableView<SkipassInfo> skipassesTableView;
+	@FXML
+	private TableView<RentalInfo> rentalsTableView;
 	@FXML
 	private Button acceptButton;
 	@FXML

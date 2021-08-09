@@ -61,7 +61,7 @@
             </AnchorPane>
         </Tab>
         <Tab closable="false" text="Skipassy">
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="skipassesTableView" prefHeight="200.0" prefWidth="200.0">
                 <columns>
                     <TableColumn prefWidth="102.0" text="Zniżka" />
                     <TableColumn prefWidth="83.0" text="Od" />
@@ -71,7 +71,7 @@
             </TableView>
         </Tab>
         <Tab closable="false" text="Wypożyczenia">
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="rentalsTableView" prefHeight="200.0" prefWidth="200.0">
                 <columns>
                     <TableColumn prefWidth="75.0" text="Nazwa" />
                     <TableColumn prefWidth="56.0" text="Rodzaj" />
