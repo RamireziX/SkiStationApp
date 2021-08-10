@@ -13,7 +13,8 @@ create TABLE `CLIENT` (
 
 create TABLE `SKIPASS_TYPE` (
   `ID` INTEGER PRIMARY KEY,
-  `DISCOUNT_TYPE` varchar(30)
+  `DISCOUNT_DESCRIPTION` varchar(50),
+  `DISCOUNT` double
 );
 
 create TABLE `SKIPASS` (

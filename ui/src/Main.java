@@ -2,6 +2,7 @@ import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.cong_prize_management.QueueManager;
 import com.awrzosek.ski_station.database_management.ClientManager;
+import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
@@ -67,7 +68,7 @@ public class Main extends Application {
 		//primaryStage.setFullScreen(true);
 		//TODO jakiś progress bar do inicjalizatorów
 
-		//		InitializerUtils.run();
+		InitializerUtils.run();
 
 	}
 

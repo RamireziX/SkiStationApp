@@ -2,6 +2,7 @@ package com.awrzosek.ski_station.tables.ski.skipass.type;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +53,11 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		String query =
 				"insert into " + TAB_NAME +
 						" ( " +
-						FLD_DISCOUNT_TYPE +
+						FLD_DISCOUNT_DESCRIPTION + ", " +
+						FLD_DISCOUNT +
 						") " +
 						"values " +
-						"(?);";
+						"(?, ?);";
 		//@formatter:on
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS))
@@ -75,14 +77,15 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 		String query =
 				"update " + TAB_NAME +
 						" set " +
-						FLD_DISCOUNT_TYPE + " = ? " +
+						FLD_DISCOUNT_DESCRIPTION + " = ? " +
+						FLD_DISCOUNT + " = ? " +
 						"where " + FLD_ID + " = ?";
 		//@formatter:on
 
 		try (PreparedStatement preparedStatement = connection.prepareStatement(query))
 		{
 			processForAdding(skipassType, preparedStatement);
-			preparedStatement.setLong(2, skipassType.getId());
+			preparedStatement.setLong(3, skipassType.getId());
 			preparedStatement.execute();
 		}
 	}
@@ -111,14 +114,14 @@ public class SkipassTypeDao extends BasicDao<SkipassType> {
 
 	protected SkipassType processForSelect(ResultSet result) throws SQLException
 	{
-		DiscountType discountType = DiscountType.valueOf(result.getString(FLD_DISCOUNT_TYPE));
-
-		return new SkipassType(result.getLong(FLD_ID), discountType);
+		return new SkipassType(result.getLong(FLD_ID), result.getString(FLD_DISCOUNT_DESCRIPTION),
+				BigDecimal.valueOf(result.getDouble(FLD_DISCOUNT)));
 	}
 
 	protected void processForAdding(SkipassType skipassType, PreparedStatement preparedStatement)
 			throws SQLException
 	{
-		preparedStatement.setString(1, skipassType.getDiscountType().name());
+		preparedStatement.setString(1, skipassType.getDiscountDescription());
+		preparedStatement.setBigDecimal(2, skipassType.getDiscount());
 	}
 }

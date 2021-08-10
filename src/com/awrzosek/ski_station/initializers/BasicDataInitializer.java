@@ -19,5 +19,4 @@ public abstract class BasicDataInitializer<T> {
 	}
 
 	protected abstract List<T> provideRecords();
-
 }

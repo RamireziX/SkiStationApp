@@ -14,7 +14,6 @@ import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMap;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMapConsts;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMapDao;
-import com.awrzosek.ski_station.tables.ski.skipass.type.DiscountType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 
 import java.math.BigDecimal;
@@ -161,21 +160,21 @@ public class ClientManager {
 	private BigDecimal calculatePrice(Duration duration, SkipassType skipassType)
 	{
 		BigDecimal price = new BigDecimal(0);
-		DiscountType discountType = skipassType.getDiscountType();
+		BigDecimal discount = skipassType.getDiscount();
 
 		switch (duration)
 		{
 			case ONE_DAY:
-				price = BasicConsts.ONE_DAY_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				price = BasicConsts.ONE_DAY_SKIPASS_PRICE.multiply(discount);
 				break;
 			case THREE_DAYS:
-				price = BasicConsts.THREE_DAYS_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				price = BasicConsts.THREE_DAYS_SKIPASS_PRICE.multiply(discount);
 				break;
 			case ONE_WEEK:
-				price = BasicConsts.ONE_WEEK_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				price = BasicConsts.ONE_WEEK_SKIPASS_PRICE.multiply(discount);
 				break;
 			case TWO_WEEKS:
-				price = BasicConsts.TWO_WEEKS_SKIPASS_PRICE.multiply(discountType.getDiscount());
+				price = BasicConsts.TWO_WEEKS_SKIPASS_PRICE.multiply(discount);
 				break;
 		}
 		return price;

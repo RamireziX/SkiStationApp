@@ -2,31 +2,46 @@ package com.awrzosek.ski_station.tables.ski.skipass.type;
 
 import com.awrzosek.ski_station.tables.basic.BasicTable;
 
+import java.math.BigDecimal;
+
 public class SkipassType extends BasicTable {
-	private DiscountType discountType;
+	private String discountDescription;
+	private BigDecimal discount;
 
 	public SkipassType()
 	{
 	}
 
-	public SkipassType(Long id, DiscountType discountType)
+	public SkipassType(Long id, String discountDescription, BigDecimal discount)
 	{
 		super(id);
-		this.discountType = discountType;
+		this.discountDescription = discountDescription;
+		this.discount = discount;
 	}
 
-	public SkipassType(DiscountType discountType)
+	public SkipassType(String discountDescription, BigDecimal discount)
 	{
-		this.discountType = discountType;
+		this.discountDescription = discountDescription;
+		this.discount = discount;
 	}
 
-	public DiscountType getDiscountType()
+	public String getDiscountDescription()
 	{
-		return discountType;
+		return discountDescription;
 	}
 
-	public void setDiscountType(DiscountType discountType)
+	public void setDiscountDescription(String discountDescription)
 	{
-		this.discountType = discountType;
+		this.discountDescription = discountDescription;
+	}
+
+	public BigDecimal getDiscount()
+	{
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount)
+	{
+		this.discount = discount;
 	}
 }
