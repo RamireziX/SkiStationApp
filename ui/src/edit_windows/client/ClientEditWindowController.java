@@ -6,15 +6,13 @@ import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
@@ -22,11 +20,32 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private TableView<SkipassInfo> skipassesTableView;
 	@FXML
+	private TableColumn<SkipassInfo, String> discountSkipassTableColumn;
+	@FXML
+	private TableColumn<SkipassInfo, LocalDate> dateFromSkipassTableColumn;
+	@FXML
+	private TableColumn<SkipassInfo, LocalDate> dateToSkipassTableColumn;
+	@FXML
+	private TableColumn<SkipassInfo, Boolean> activeSkipassTableColumn;//TODO zobaczyc może tick i x
+
+	@FXML
 	private TableView<RentalInfo> rentalsTableView;
+	@FXML
+	private TableColumn<RentalInfo, String> nameRentalsTableColumn;
+	@FXML
+	private TableColumn<RentalInfo, String> typeRentalsTableColumn;
+	@FXML
+	private TableColumn<RentalInfo, LocalDate> rentDateRentalsTableColumn;
+	@FXML
+	private TableColumn<RentalInfo, LocalDate> returnDateRentalsTableColumn;
+	@FXML
+	private TableColumn<RentalInfo, String> rentTypeRentalsTableColumn;
+
 	@FXML
 	private Button acceptButton;
 	@FXML
 	private Button cancelButton;
+
 	@FXML
 	private TextField nameTextField;
 	@FXML

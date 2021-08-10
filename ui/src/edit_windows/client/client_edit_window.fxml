@@ -63,21 +63,21 @@
         <Tab closable="false" text="Skipassy">
             <TableView fx:id="skipassesTableView" prefHeight="200.0" prefWidth="200.0">
                 <columns>
-                    <TableColumn prefWidth="102.0" text="Zniżka" />
-                    <TableColumn prefWidth="83.0" text="Od" />
-                    <TableColumn minWidth="5.0" prefWidth="77.0" text="Do" />
-                    <TableColumn minWidth="1.0" prefWidth="93.0" text="Aktywny" />
+                    <TableColumn fx:id="discountSkipassTableColumn" prefWidth="102.0" text="Zniżka" />
+                    <TableColumn fx:id="dateFromSkipassTableColumn" prefWidth="83.0" text="Od" />
+                    <TableColumn fx:id="dateToSkipassTableColumn" minWidth="5.0" prefWidth="77.0" text="Do" />
+                    <TableColumn fx:id="activeSkipassTableColumn" minWidth="1.0" prefWidth="93.0" text="Aktywny" />
                 </columns>
             </TableView>
         </Tab>
         <Tab closable="false" text="Wypożyczenia">
             <TableView fx:id="rentalsTableView" prefHeight="200.0" prefWidth="200.0">
                 <columns>
-                    <TableColumn prefWidth="75.0" text="Nazwa" />
-                    <TableColumn prefWidth="56.0" text="Rodzaj" />
-                    <TableColumn prefWidth="75.0" text="Data wypoż." />
-                    <TableColumn prefWidth="74.0" text="Data zwrotu" />
-                    <TableColumn prefWidth="75.0" text="Typ wypoż." />
+                    <TableColumn fx:id="nameRentalsTableColumn" prefWidth="75.0" text="Nazwa" />
+                    <TableColumn fx:id="typeRentalsTableColumn" prefWidth="56.0" text="Rodzaj" />
+                    <TableColumn fx:id="rentDateRentalsTableColumn" prefWidth="75.0" text="Data wypoż." />
+                    <TableColumn fx:id="returnDateRentalsTableColumn" prefWidth="74.0" text="Data zwrotu" />
+                    <TableColumn fx:id="rentTypeRentalsTableColumn" prefWidth="75.0" text="Typ wypoż." />
                 </columns>
             </TableView>
         </Tab>

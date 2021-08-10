@@ -6,14 +6,14 @@ import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 
 public class SkipassInfo {
 	private Skipass skipass;
-	private SkipassSkipassTypeMap sstm;
+	private SkipassSkipassTypeMap skipassSkipassTypeMap;
 	private SkipassType skipassType;
 
 	public SkipassInfo(Skipass skipass, SkipassSkipassTypeMap sstm,
 					   SkipassType skipassType)
 	{
 		this.skipass = skipass;
-		this.sstm = sstm;
+		this.skipassSkipassTypeMap = sstm;
 		this.skipassType = skipassType;
 	}
 
@@ -27,14 +27,14 @@ public class SkipassInfo {
 		this.skipass = skipass;
 	}
 
-	public SkipassSkipassTypeMap getSstm()
+	public SkipassSkipassTypeMap getSkipassSkipassTypeMap()
 	{
-		return sstm;
+		return skipassSkipassTypeMap;
 	}
 
-	public void setSstm(SkipassSkipassTypeMap sstm)
+	public void setSkipassSkipassTypeMap(SkipassSkipassTypeMap skipassSkipassTypeMap)
 	{
-		this.sstm = sstm;
+		this.skipassSkipassTypeMap = skipassSkipassTypeMap;
 	}
 
 	public SkipassType getSkipassType()

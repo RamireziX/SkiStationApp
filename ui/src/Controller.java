@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
 	//TODO może trzeba będzie jakoś trzymać id, może jako niewidzialną kolumnę (i potem get wołać po 2kliku)
-	//employees table
+
 	@FXML
 	private TableView<Employee> employeesTableView;
 	@FXML
@@ -40,7 +40,7 @@ public class Controller implements Initializable {
 	private TableColumn<Employee, String> employeePhoneColumn;
 	@FXML
 	private TableColumn<Employee, String> employeeEmailColumn;
-	//equipment table
+
 	@FXML
 	private TableView<Equipment> equipmentTableView;
 	@FXML
@@ -53,7 +53,7 @@ public class Controller implements Initializable {
 	private TableColumn<Equipment, BigDecimal> equipmentRentPriceColumn;
 	@FXML
 	private TableColumn<Equipment, String> equipmentConditionColumn;
-	//clients table
+
 	@FXML
 	private TableView<Client> clientsTableView;
 	@FXML
