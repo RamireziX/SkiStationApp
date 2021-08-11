@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.tables.ski.skipass.map;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
+import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -115,7 +116,19 @@ public class SkipassSkipassTypeMapDao extends BasicDao<SkipassSkipassTypeMap> {
 	public boolean checkTableIfEmpty() throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " limit 1";
+
 		return getByQuery(query).isEmpty();
+	}
+
+	public Optional<SkipassSkipassTypeMap> getBySkipass(Skipass skipass) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+						" where " + FLD_SKIPASS_ID + " = " + skipass.getId();
+		//@formatter:on
+
+		return getByQuery(query);
 	}
 
 	@Override

@@ -56,6 +56,8 @@ public class Main extends Application {
 
 		BasicConsts.ACTIVE_NO_OF_CLIENTS = 0;
 
+		InitializerUtils.run();
+
 		//addClientMockup();
 
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
@@ -67,8 +69,6 @@ public class Main extends Application {
 
 		//primaryStage.setFullScreen(true);
 		//TODO jakiś progress bar do inicjalizatorów
-
-		InitializerUtils.run();
 
 	}
 
@@ -109,7 +109,6 @@ public class Main extends Application {
 			clientManager.addClient(client, equipmentToRentType, skipassTypes, Duration.ONE_WEEK);
 		}
 	}
-
 
 	public static void main(String[] args)
 	{
