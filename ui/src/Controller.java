@@ -103,7 +103,7 @@ public class Controller implements Initializable {
 						Client client = row.getItem();
 						ClientEditWindowController clientEditWindowController = fxmlLoader.getController();
 						clientEditWindowController.setParentTableView(clientsTableView);
-						clientEditWindowController.setExistingClient(client);
+						clientEditWindowController.setCurrentClient(client);
 
 						stage.setTitle("Edycja klienta: " + client.getFullName());
 						stage.show();

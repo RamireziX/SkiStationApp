@@ -3,6 +3,9 @@ package edit_windows.client;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
+import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRent;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentDao;
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMap;
@@ -76,12 +79,12 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private DatePicker dateEnteredDatePicker;
 
-	private Client existingClient;
+	private Client currentClient;
 	private TableView<Client> clientsTableView;
 
-	public void setExistingClient(Client existingClient)
+	public void setCurrentClient(Client currentClient)
 	{
-		this.existingClient = existingClient;
+		this.currentClient = currentClient;
 	}
 
 	@Override
@@ -90,8 +93,9 @@ public class ClientEditWindowController implements Initializable {
 		setAcceptButtonAction();
 		setCancelButtonAction();
 		Platform.runLater(() -> {
-			fillEditWindowWithExistingValues();
+			fillEditWindowWithCurrentValues();
 			setSkipassesTableViewCellValues();
+			setRentalsTableViewColumns();
 		});
 	}
 
@@ -100,18 +104,18 @@ public class ClientEditWindowController implements Initializable {
 		this.clientsTableView = clientsTableView;
 	}
 
-	private void fillEditWindowWithExistingValues()
+	private void fillEditWindowWithCurrentValues()
 	{
-		nameTextField.setText(existingClient.getFirstName());
-		secondNameTextField.setText(existingClient.getSecondName());
-		surnameTextField.setText(existingClient.getSurname());
-		if (existingClient.getDateOfBirth() != null)
-			dateOfBirthDatePicker.setValue(existingClient.getDateOfBirth());
-		peselTextField.setText(existingClient.getPesel());
-		personalIdNumberTextField.setText(existingClient.getPersonalIdNumber());
-		phoneTextField.setText(existingClient.getPhone());
-		emailTextField.setText(existingClient.getEMail());
-		dateEnteredDatePicker.setValue(existingClient.getDateEntered());
+		nameTextField.setText(currentClient.getFirstName());
+		secondNameTextField.setText(currentClient.getSecondName());
+		surnameTextField.setText(currentClient.getSurname());
+		if (currentClient.getDateOfBirth() != null)
+			dateOfBirthDatePicker.setValue(currentClient.getDateOfBirth());
+		peselTextField.setText(currentClient.getPesel());
+		personalIdNumberTextField.setText(currentClient.getPersonalIdNumber());
+		phoneTextField.setText(currentClient.getPhone());
+		emailTextField.setText(currentClient.getEMail());
+		dateEnteredDatePicker.setValue(currentClient.getDateEntered());
 	}
 
 	private void setAcceptButtonAction()
@@ -119,7 +123,7 @@ public class ClientEditWindowController implements Initializable {
 		acceptButton.setDefaultButton(true);
 		acceptButton.setOnAction(e -> {
 			Client updatedClient = new Client();
-			updatedClient.setId(existingClient.getId());
+			updatedClient.setId(currentClient.getId());
 			updatedClient.setFirstName(nameTextField.getText());
 			updatedClient.setSecondName(secondNameTextField.getText());
 			updatedClient.setSurname(surnameTextField.getText());
@@ -157,11 +161,12 @@ public class ClientEditWindowController implements Initializable {
 				data -> new ReadOnlyObjectWrapper<>(data.getValue().getSkipass().getDateTo()));
 		discountSkipassTableColumn.setCellValueFactory(
 				data -> new ReadOnlyStringWrapper(data.getValue().getSkipassType().getDiscountDescription()));
+
 		try (Connection connection = BasicUtils.getConnection())
 		{
 			//TODO burdel w kodzie i optymalizacji poprawić
 			SkipassDao skipassDao = new SkipassDao(connection);
-			List<Skipass> skipasses = skipassDao.listByClient(existingClient);
+			List<Skipass> skipasses = skipassDao.listByClient(currentClient);
 
 			List<SkipassSkipassTypeMap> sstmList = new ArrayList<>();
 			SkipassSkipassTypeMapDao sstmDao = new SkipassSkipassTypeMapDao(connection);
@@ -180,13 +185,38 @@ public class ClientEditWindowController implements Initializable {
 				skipassInfos.add(new SkipassInfo(s, sstmList.get(i), skipassTypes.get(i)));
 				i++;
 			}
-
 			skipassesTableView.getItems().setAll(skipassInfos);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();//TODO pokazanie błędu
 		}
+	}
 
+	private void setRentalsTableViewColumns()
+	{
+		rentDateRentalsTableColumn.setCellValueFactory(
+				data -> new ReadOnlyObjectWrapper<>(data.getValue().getEquipmentRent().getRentDate()));
+		returnDateRentalsTableColumn.setCellValueFactory(
+				data -> new ReadOnlyObjectWrapper<>(data.getValue().getEquipmentRent().getReturnDate()));
+		rentTypeRentalsTableColumn.setCellValueFactory(
+				data -> new ReadOnlyObjectWrapper<>(data.getValue().getEquipmentRent().getRentType().toString()));
+		nameRentalsTableColumn.setCellValueFactory(
+				data -> new ReadOnlyStringWrapper(data.getValue().getEquipment().getName()));
+		typeRentalsTableColumn.setCellValueFactory(
+				data -> new ReadOnlyStringWrapper(data.getValue().getEquipment().getType().toString()));
+
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			List<EquipmentRent> rentals = new EquipmentRentDao(connection).listByClient(currentClient);
+			EquipmentDao equipmentDao = new EquipmentDao(connection);
+			List<RentalInfo> rentalInfos = new ArrayList<>();
+			for (EquipmentRent r : rentals)
+				rentalInfos.add(new RentalInfo(equipmentDao.get(r.getEquipmentId()).orElse(null), r));
+			rentalsTableView.getItems().setAll(rentalInfos);
+		} catch (SQLException exception)
+		{
+			exception.printStackTrace();//TODO
+		}
 	}
 
 	private void setCancelButtonAction()
