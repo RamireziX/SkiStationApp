@@ -13,11 +13,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -27,7 +29,6 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
 	//TODO może trzeba będzie jakoś trzymać id, może jako niewidzialną kolumnę (i potem get wołać po 2kliku)
 
 	@FXML
@@ -70,6 +71,12 @@ public class Controller implements Initializable {
 	private TableColumn<Client, String> clientPhoneColumn;
 	@FXML
 	private TableColumn<Client, String> clientEmailColumn;
+	@FXML
+	private Button deleteClientButton;//TODO
+	@FXML
+	private Button editClientButton;//TODO żeby zaznaczony row brało a tak to to samo co edit
+	@FXML
+	private Button addClientButton;//TODO
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -78,13 +85,29 @@ public class Controller implements Initializable {
 		setClientsTableViewCellValues();
 		setEquipmentTableViewCellValues();
 		setEmployeesTableViewCellValues();
-
-		//TODO client edit window
 		clientTableViewDoubleClickOpenEditWindow();
+		setAddClientButtonAction();
 	}
 
-	//TODO to samo dla jakiegoś przycisku edit i bardzo podobnie dla new
-	//new nie musi być takie samo, można okno po oknie iść czy coś - zobaczy się
+	private void setAddClientButtonAction()
+	{
+		addClientButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"edit_windows/client/client_add_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Dodawanie klienta");
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();
+			}
+		});
+	}
+
 	private void clientTableViewDoubleClickOpenEditWindow()
 	{
 		clientsTableView.setRowFactory(tv -> {

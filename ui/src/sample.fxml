@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <Tab text="Panel główny">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <Label layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
@@ -27,19 +37,31 @@
     </Tab>
     <!-- pewnie trzeba bedzie dodać kolumnę z id i potem ją niewidzialną zrobić do tabel  -->
     <Tab text="Panel klientów">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TableView fx:id="clientsTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <columns>
-                    <TableColumn fx:id="clientIdColumn" prefWidth="75.0" text="id" visible="false" />
-                    <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię" />
-                    <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                    <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel" />
-                    <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia" />
-                    <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Nr. tel." />
-                    <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email" />
-                </columns>
-            </TableView>
-        </AnchorPane>
+      <VBox>
+         <children>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                <Button fx:id="deleteClientButton" mnemonicParsing="false" text="Usuń" />
+                  <Button fx:id="editClientButton" mnemonicParsing="false" text="Edytuj" />
+                  <Button fx:id="addClientButton" mnemonicParsing="false" text="Dodaj" />
+              </buttons>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ButtonBar>
+               <TableView fx:id="clientsTableView">
+                   <columns>
+                       <TableColumn fx:id="clientIdColumn" prefWidth="75.0" text="id" visible="false" />
+                       <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię" />
+                       <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko" />
+                       <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel" />
+                       <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia" />
+                       <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Nr. tel." />
+                       <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email" />
+                   </columns>
+               </TableView>
+         </children>
+      </VBox>
     </Tab>
     <Tab text="Panel sprzętu">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

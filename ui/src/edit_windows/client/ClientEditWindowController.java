@@ -41,7 +41,7 @@ public class ClientEditWindowController implements Initializable {
 	private TableColumn<SkipassInfo, LocalDate> dateToSkipassTableColumn;
 	@FXML
 	private TableColumn<SkipassInfo, Boolean> activeSkipassTableColumn;//TODO zobaczyc może tick i x
-	//TODO fieldy dla kolumn tabeli i zapełnić
+
 	@FXML
 	private TableView<RentalInfo> rentalsTableView;
 	@FXML
@@ -153,8 +153,7 @@ public class ClientEditWindowController implements Initializable {
 	{
 		activeSkipassTableColumn.setCellValueFactory(
 				data -> new ReadOnlyBooleanWrapper(data.getValue().getSkipass().isActive()));
-		activeSkipassTableColumn.setCellFactory(tc -> new CheckBoxTableCell<>());//TODO potem zamienić na check/x
-		// (albo tak/ nie
+		activeSkipassTableColumn.setCellFactory(tc -> new CheckBoxTableCell<>());
 		dateFromSkipassTableColumn.setCellValueFactory(
 				data -> new ReadOnlyObjectWrapper<>(data.getValue().getSkipass().getDateFrom()));
 		dateToSkipassTableColumn.setCellValueFactory(
