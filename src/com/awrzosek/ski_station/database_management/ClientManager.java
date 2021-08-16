@@ -117,6 +117,11 @@ public class ClientManager {
 		}
 	}
 
+	public ClientDao getClientDao()
+	{
+		return clientDao;
+	}
+
 	private void unlinkSkipassAndDelete(Client client) throws SQLException
 	{
 		for (Skipass skipass : skipassDao.listByClient(client))

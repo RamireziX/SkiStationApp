@@ -1,20 +1,28 @@
 package edit_windows.client;
 
 import com.awrzosek.ski_station.basic.BasicUtils;
+import com.awrzosek.ski_station.database_management.ClientManager;
+import com.awrzosek.ski_station.tables.person.client.Client;
+import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
-import javafx.application.Platform;
+import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
+import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientAddWindowController implements Initializable {
@@ -37,7 +45,8 @@ public class ClientAddWindowController implements Initializable {
 	@FXML
 	private DatePicker dateEnteredDatePicker;
 
-	//TODO 1 - tak jak ten podstawowy eq table view
+	//TODO wybieranie eq do wypożyczenia - może jakimś buttonem z małym oknem bo rent type sie daje
+	//zweryfikować z fr - albo rent type dać gdzieś obok tabeli idk
 	@FXML
 	private TableView<Equipment> equipmentTableView;
 	@FXML
@@ -52,17 +61,91 @@ public class ClientAddWindowController implements Initializable {
 	private TableColumn<Equipment, BigDecimal> equipmentRentPriceColumn;
 	@FXML
 	private TableColumn<Equipment, String> equipmentConditionColumn;
+	@FXML
+	private ChoiceBox<Integer> durationChoiceBox;
+	@FXML
+	private ChoiceBox<Integer> regularNumberChoiceBox;
+	@FXML
+	private ChoiceBox<Integer> firstDiscountNumberChoiceBox;
+	@FXML
+	private ComboBox<SkipassType> firstDiscountTypeComboBox;
+	@FXML
+	private ChoiceBox<Integer> secondDiscountNumberChoiceBox;
+	@FXML
+	private ComboBox<SkipassType> secondDiscoundTypeComboBox;
+	@FXML
+	private ChoiceBox<Integer> thirdDiscountNumberChoiceBox;
+	@FXML
+	private ComboBox<SkipassType> thirdDiscountTypeComboBox;
 
-	//TODO 2 akcje buttonów
+	//TODO akcje buttonów
 	@FXML
 	private Button acceptButton;
 	@FXML
 	private Button cancelButton;
 
+	private TableView<Client> clientsTableView;
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		Platform.runLater(this::setEquipmentTableViewCellValues);
+		setAcceptButtonAction();
+		setCancelButtonAction();
+		dateEnteredDatePicker.setValue(LocalDate.now());
+		setEquipmentTableViewCellValues();
+		List<Integer> durationIntValues = new ArrayList<>();
+		for (Duration d : Duration.values())//TODO może to troszkę inaczej, żeby jednak było 7 dni a nie sama cyferka
+			durationIntValues.add(d.getDays());
+
+		durationChoiceBox.getItems().setAll(durationIntValues);
+	}
+
+	public void setParentTableView(TableView<Client> clientsTableView)
+	{
+		this.clientsTableView = clientsTableView;
+	}
+
+	private void setAcceptButtonAction()
+	{
+		acceptButton.setDefaultButton(true);
+		acceptButton.setOnAction(e -> {
+			Client client = new Client();
+			client.setFirstName(nameTextField.getText());
+			client.setSecondName(secondNameTextField.getText());
+			client.setSurname(surnameTextField.getText());
+			client.setDateOfBirth(dateOfBirthDatePicker.getValue());
+			client.setPesel(peselTextField.getText());
+			client.setPersonalIdNumber(personalIdNumberTextField.getText());
+			client.setPhone(phoneTextField.getText());
+			client.setEMail(emailTextField.getText());
+			client.setDateEntered(dateEnteredDatePicker.getValue());
+			//TODO to jakoś inaczej, chyba moge stworzyc duration z liczby dni
+			//Duration duration = durationChoiceBox.getValue();
+			Stage stage = ClientEditWindowController.getStage(acceptButton);
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				//TODO jakieś zapytanie czy na pewno
+				ClientManager clientManager = new ClientManager(connection);
+				ClientDao clientDao = clientManager.getClientDao();
+				//clientManager.addClient(client, null, );
+				stage.close();
+				ClientEditWindowController.refreshClientsTableView(clientDao, clientsTableView);
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+				stage.close();
+			}
+		});
+	}
+
+	private void setCancelButtonAction()
+	{
+		cancelButton.setCancelButton(true);
+		cancelButton.setOnAction(e -> {
+			//TODO spytać czy porzucić edycję
+			Stage stage = ClientEditWindowController.getStage(cancelButton);
+			stage.close();
+		});
 	}
 
 	private void setEquipmentTableViewCellValues()

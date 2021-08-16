@@ -59,26 +59,26 @@
                     <Label text="Drugie imię" GridPane.rowIndex="1" />
                     <DatePicker fx:id="dateEnteredDatePicker" layoutX="134.0" layoutY="122.0" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                     <Label layoutX="10.0" layoutY="266.0" prefHeight="17.0" prefWidth="129.0" text="Długość karnetu" GridPane.columnIndex="2" />
-                    <ChoiceBox prefHeight="25.0" prefWidth="194.0" GridPane.columnIndex="3" />
+                    <ChoiceBox fx:id="durationChoiceBox" prefHeight="25.0" prefWidth="194.0" GridPane.columnIndex="3" />
                     <Label layoutX="10.0" layoutY="268.0" prefHeight="17.0" prefWidth="129.0" text="Karnety normalne" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                    <ChoiceBox prefHeight="25.0" prefWidth="195.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <ChoiceBox fx:id="regularNumberChoiceBox" prefHeight="25.0" prefWidth="195.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                     <Label layoutX="10.0" layoutY="272.0" prefHeight="17.0" prefWidth="129.0" text="Karnety ulgowe" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                     <HBox GridPane.columnIndex="3" GridPane.rowIndex="2">
                         <children>
-                            <ChoiceBox prefHeight="25.0" prefWidth="38.0" />
-                            <ComboBox prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
+                            <ChoiceBox fx:id="firstDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
+                            <ComboBox fx:id="firstDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
                         </children>
                     </HBox>
                     <HBox layoutX="134.0" layoutY="247.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
                         <children>
-                            <ChoiceBox prefHeight="25.0" prefWidth="38.0" />
-                            <ComboBox prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
+                            <ChoiceBox fx:id="secondDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
+                            <ComboBox fx:id="secondDiscoundTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
                         </children>
                     </HBox>
                     <HBox layoutX="134.0" layoutY="274.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                         <children>
-                            <ChoiceBox prefHeight="25.0" prefWidth="38.0" />
-                            <ComboBox prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
+                            <ChoiceBox fx:id="thirdDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
+                            <ComboBox fx:id="thirdDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
                         </children>
                     </HBox>
                <padding>
