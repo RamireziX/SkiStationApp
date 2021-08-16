@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.tables.ski.equipment;
 
 import com.awrzosek.ski_station.tables.basic.BasicDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentConsts;
 
 import java.math.BigDecimal;
 import java.sql.*;
@@ -113,7 +114,23 @@ public class EquipmentDao extends BasicDao<Equipment> {
 	public boolean checkTableIfEmpty() throws SQLException
 	{
 		String query = "select * from " + TAB_NAME + " limit 1";
+
 		return getByQuery(query).isEmpty();
+	}
+
+	public List<Equipment> getNotRentedAndNotBroken() throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select eq.*" +
+						" from " + TAB_NAME + " eq" +
+						" left join " + EquipmentRentConsts.TAB_NAME + " rent" +
+						" on rent." + EquipmentRentConsts.FLD_EQUIPMENT_ID + " = eq." + FLD_ID +
+						" where rent."  + EquipmentRentConsts.FLD_EQUIPMENT_ID + " is null" +
+						" and eq." + FLD_CONDITION + " != '" + Condition.BROKEN.name() + "'";
+		//@formatter:on
+
+		return listByQuery(query);
 	}
 
 	protected Equipment processForSelect(ResultSet result) throws SQLException

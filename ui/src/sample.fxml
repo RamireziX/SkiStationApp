@@ -67,6 +67,7 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 <columns>
+                    <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
                     <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny" />
                     <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa" />
                     <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />

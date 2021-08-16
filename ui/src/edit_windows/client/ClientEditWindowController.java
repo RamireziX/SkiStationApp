@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
+	//TODO dodawanie skipassu i wypożyczenia z poziomu edycji
 	@FXML
 	private TableView<SkipassInfo> skipassesTableView;
 	@FXML
@@ -82,9 +83,16 @@ public class ClientEditWindowController implements Initializable {
 	private Client currentClient;
 	private TableView<Client> clientsTableView;
 
-	public void setCurrentClient(Client currentClient)
+	//TODO potem te metody można do jakiejś klasy utils dać
+	public static Stage getStage(Button button)
 	{
-		this.currentClient = currentClient;
+		return (Stage) button.getScene().getWindow();
+	}
+
+	public static void refreshClientsTableView(ClientDao clientDao, TableView<Client> clientsTableView)
+			throws SQLException
+	{
+		clientsTableView.getItems().setAll(clientDao.getAll());
 	}
 
 	@Override
@@ -97,6 +105,11 @@ public class ClientEditWindowController implements Initializable {
 			setSkipassesTableViewCellValues();
 			setRentalsTableViewColumns();
 		});
+	}
+
+	public void setCurrentClient(Client currentClient)
+	{
+		this.currentClient = currentClient;
 	}
 
 	public void setParentTableView(TableView<Client> clientsTableView)
@@ -140,7 +153,7 @@ public class ClientEditWindowController implements Initializable {
 				ClientDao clientDao = new ClientDao(connection);
 				clientDao.update(updatedClient);
 				stage.close();
-				refreshClientsTableView(clientDao);
+				refreshClientsTableView(clientDao, clientsTableView);
 			} catch (SQLException exception)
 			{
 				exception.printStackTrace();//TODO
@@ -226,15 +239,5 @@ public class ClientEditWindowController implements Initializable {
 			Stage stage = getStage(cancelButton);
 			stage.close();
 		});
-	}
-
-	private Stage getStage(Button button)
-	{
-		return (Stage) button.getScene().getWindow();
-	}
-
-	private void refreshClientsTableView(ClientDao clientDao) throws SQLException
-	{
-		clientsTableView.getItems().setAll(clientDao.getAll());
 	}
 }

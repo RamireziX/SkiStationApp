@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+
 	//TODO może trzeba będzie jakoś trzymać id, może jako niewidzialną kolumnę (i potem get wołać po 2kliku)
 
 	@FXML
@@ -44,6 +45,8 @@ public class Controller implements Initializable {
 
 	@FXML
 	private TableView<Equipment> equipmentTableView;
+	@FXML
+	private TableColumn<Equipment, Long> equipmentIdTableColumn;
 	@FXML
 	private TableColumn<Equipment, String> equipmentSerialNumberColumn;
 	@FXML
@@ -76,7 +79,7 @@ public class Controller implements Initializable {
 	@FXML
 	private Button editClientButton;//TODO żeby zaznaczony row brało a tak to to samo co edit
 	@FXML
-	private Button addClientButton;//TODO
+	private Button addClientButton;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -163,6 +166,7 @@ public class Controller implements Initializable {
 
 	private void setEquipmentTableViewCellValues()
 	{
+		equipmentIdTableColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
 		equipmentSerialNumberColumn.setCellValueFactory(
 				data -> new ReadOnlyStringWrapper(data.getValue().getSerialNumber()));
 		equipmentNameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getName()));
