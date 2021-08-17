@@ -1,4 +1,4 @@
-package edit_windows.client;
+package edit_windows.client.edit;
 
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMap;

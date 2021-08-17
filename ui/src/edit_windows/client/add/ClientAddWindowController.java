@@ -1,4 +1,4 @@
-package edit_windows.client;
+package edit_windows.client.add;
 
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
@@ -6,9 +6,11 @@ import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
 import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
+import edit_windows.client.edit.ClientEditWindowController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
@@ -91,11 +93,16 @@ public class ClientAddWindowController implements Initializable {
 	{
 		setAcceptButtonAction();
 		setCancelButtonAction();
+		setRentEquipmentButtonAction();
 		dateEnteredDatePicker.setValue(LocalDate.now());
 		setEquipmentTableViewCellValues();
 		setDurationComboBox();
 		setSkipassNumberChoiceBoxes();
 		setDiscountTypeComboBoxes();
+	}
+
+	private void setRentEquipmentButtonAction()
+	{
 	}
 
 	public void setParentTableView(TableView<Client> clientsTableView)
@@ -132,6 +139,8 @@ public class ClientAddWindowController implements Initializable {
 				 i++)
 				skipassTypes.add(thirdDiscountTypeComboBox.getValue());
 
+			HashMap<Equipment, RentType> equipmentToRentType = new HashMap<>();
+
 			Stage stage = ClientEditWindowController.getStage(acceptButton);
 			try (Connection connection = BasicUtils.getConnection())
 			{
@@ -139,7 +148,7 @@ public class ClientAddWindowController implements Initializable {
 				ClientManager clientManager = new ClientManager(connection);
 				ClientDao clientDao = clientManager.getClientDao();
 				//TODO obsłużyć błędy z menegera - np brak skipassów
-				clientManager.addClient(client, null, skipassTypes, duration);//poki co bez eq
+				clientManager.addClient(client, equipmentToRentType, skipassTypes, duration);//poki co bez eq
 				stage.close();
 				ClientEditWindowController.refreshClientsTableView(clientDao, clientsTableView);
 			} catch (SQLException exception)

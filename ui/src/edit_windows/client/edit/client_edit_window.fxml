@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.client.ClientEditWindowController">
+<VBox xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.client.edit.ClientEditWindowController">
     <TabPane>
         <Tab closable="false" text="Dane klienta">
             <AnchorPane prefHeight="329.0" prefWidth="355.0">

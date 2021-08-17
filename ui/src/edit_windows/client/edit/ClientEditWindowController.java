@@ -1,4 +1,4 @@
-package edit_windows.client;
+package edit_windows.client.edit;
 
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;

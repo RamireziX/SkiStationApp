@@ -5,8 +5,8 @@ import com.awrzosek.ski_station.tables.person.employee.Employee;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
-import edit_windows.client.ClientAddWindowController;
-import edit_windows.client.ClientEditWindowController;
+import edit_windows.client.add.ClientAddWindowController;
+import edit_windows.client.edit.ClientEditWindowController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
@@ -99,7 +99,7 @@ public class Controller implements Initializable {
 			try
 			{
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-						"edit_windows/client/client_add_window.fxml"));
+						"edit_windows/client/add/client_add_window.fxml"));
 				Parent parent = fxmlLoader.load();
 				Stage stage = new Stage();
 				stage.setScene(new Scene(parent));
@@ -124,7 +124,7 @@ public class Controller implements Initializable {
 					try
 					{
 						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-								"edit_windows/client/client_edit_window.fxml"));
+								"edit_windows/client/edit/client_edit_window.fxml"));
 						Parent parent = fxmlLoader.load();
 						Stage stage = new Stage();
 						stage.setScene(new Scene(parent));
