@@ -14,11 +14,15 @@ import edit_windows.client.edit.ClientEditWindowController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
@@ -81,16 +85,16 @@ public class ClientAddWindowController implements Initializable {
 	private Button acceptButton;
 	@FXML
 	private Button cancelButton;
-	//TODO wybieranie eq do wypożyczenia - może jakimś buttonem z małym oknem bo rent type sie daje
-	//zweryfikować z fr - albo rent type dać gdzieś obok tabeli idk
 	@FXML
 	private Button rentEquipmentButton;
 
 	private TableView<Client> clientsTableView;
+	private HashMap<Equipment, RentType> equipmentToRentType;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
+		equipmentToRentType = new HashMap<>();
 		setAcceptButtonAction();
 		setCancelButtonAction();
 		setRentEquipmentButtonAction();
@@ -101,8 +105,31 @@ public class ClientAddWindowController implements Initializable {
 		setDiscountTypeComboBoxes();
 	}
 
+	public void addEquipmentToRent(HashMap<Equipment, RentType> toAdd)
+	{
+		toAdd.forEach(equipmentToRentType::putIfAbsent);
+	}
+
 	private void setRentEquipmentButtonAction()
 	{
+		rentEquipmentButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"equipment_rent_type_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Typ wypożyczenia");
+				EquipmentRentTypeWindowController equipmentRentTypeWindowController = fxmlLoader.getController();
+				equipmentRentTypeWindowController.setEquipmentTableView(equipmentTableView);
+				equipmentRentTypeWindowController.setParentController(this);
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();//TODO
+			}
+		});
 	}
 
 	public void setParentTableView(TableView<Client> clientsTableView)
@@ -139,8 +166,6 @@ public class ClientAddWindowController implements Initializable {
 				 i++)
 				skipassTypes.add(thirdDiscountTypeComboBox.getValue());
 
-			HashMap<Equipment, RentType> equipmentToRentType = new HashMap<>();
-
 			Stage stage = ClientEditWindowController.getStage(acceptButton);
 			try (Connection connection = BasicUtils.getConnection())
 			{
@@ -148,7 +173,7 @@ public class ClientAddWindowController implements Initializable {
 				ClientManager clientManager = new ClientManager(connection);
 				ClientDao clientDao = clientManager.getClientDao();
 				//TODO obsłużyć błędy z menegera - np brak skipassów
-				clientManager.addClient(client, equipmentToRentType, skipassTypes, duration);//poki co bez eq
+				clientManager.addClient(client, equipmentToRentType, skipassTypes, duration);
 				stage.close();
 				ClientEditWindowController.refreshClientsTableView(clientDao, clientsTableView);
 			} catch (SQLException exception)
@@ -184,10 +209,10 @@ public class ClientAddWindowController implements Initializable {
 			List<SkipassType> skipassTypes = skipassTypeDao.getAll();
 			Callback<ListView<SkipassType>, ListCell<SkipassType>> factory = lv -> new ListCell<>() {
 				@Override
-				protected void updateItem(SkipassType item, boolean empty)
+				protected void updateItem(SkipassType skipassType, boolean empty)
 				{
-					super.updateItem(item, empty);
-					setText(empty ? "" : item.getDiscountDescription());
+					super.updateItem(skipassType, empty);
+					setText(empty ? "" : skipassType.getDiscountDescription());
 				}
 			};
 			firstDiscountTypeComboBox.setCellFactory(factory);

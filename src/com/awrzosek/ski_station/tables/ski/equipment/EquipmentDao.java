@@ -133,6 +133,25 @@ public class EquipmentDao extends BasicDao<Equipment> {
 		return listByQuery(query);
 	}
 
+	public List<Equipment> getNotRentedAndNotBroken(List<Equipment> selectedEquipment) throws SQLException
+	{
+		StringBuilder equipmentIds = new StringBuilder(selectedEquipment.get(0).getId().toString());
+		selectedEquipment.forEach(e -> equipmentIds.append(", ").append(e.getId()));
+
+		//@formatter:off
+		String query =
+				"select eq.*" +
+						" from " + TAB_NAME + " eq" +
+						" left join " + EquipmentRentConsts.TAB_NAME + " rent" +
+						" on rent." + EquipmentRentConsts.FLD_EQUIPMENT_ID + " = eq." + FLD_ID +
+						" where rent."  + EquipmentRentConsts.FLD_EQUIPMENT_ID + " is null" +
+						" and eq." + FLD_CONDITION + " != '" + Condition.BROKEN.name() + "'" +
+						" and eq." + FLD_ID + " not in (" + equipmentIds + ")" ;
+		//@formatter:on
+
+		return listByQuery(query);
+	}
+
 	protected Equipment processForSelect(ResultSet result) throws SQLException
 	{
 		EquipmentType type = EquipmentType.valueOf(result.getString(FLD_TYPE));
