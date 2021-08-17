@@ -31,7 +31,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
-	//TODO dodawanie skipassu i wypożyczenia z poziomu edycji
+	//TODO dodawanie skipassu i wypożyczenia z poziomu edycji - maybe edit client w menegerze
+	//potem do fr bedzie można dopisać
+	//też przede wysztkim zwracanie wypożyczenia trzeba dodać - buttony
 	@FXML
 	private TableView<SkipassInfo> skipassesTableView;
 	@FXML

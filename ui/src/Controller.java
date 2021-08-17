@@ -5,6 +5,7 @@ import com.awrzosek.ski_station.tables.person.employee.Employee;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
+import edit_windows.client.ClientAddWindowController;
 import edit_windows.client.ClientEditWindowController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -103,10 +104,12 @@ public class Controller implements Initializable {
 				Stage stage = new Stage();
 				stage.setScene(new Scene(parent));
 				stage.setTitle("Dodawanie klienta");
+				ClientAddWindowController clientAddWindowController = fxmlLoader.getController();
+				clientAddWindowController.setParentTableView(clientsTableView);
 				stage.show();
 			} catch (IOException ex)
 			{
-				ex.printStackTrace();
+				ex.printStackTrace();//TODO
 			}
 		});
 	}
@@ -125,17 +128,15 @@ public class Controller implements Initializable {
 						Parent parent = fxmlLoader.load();
 						Stage stage = new Stage();
 						stage.setScene(new Scene(parent));
-
 						Client client = row.getItem();
 						ClientEditWindowController clientEditWindowController = fxmlLoader.getController();
 						clientEditWindowController.setParentTableView(clientsTableView);
 						clientEditWindowController.setCurrentClient(client);
-
 						stage.setTitle("Edycja klienta: " + client.getFullName());
 						stage.show();
 					} catch (Exception e)
 					{
-						e.printStackTrace();
+						e.printStackTrace();//TODO
 					}
 				}
 			});

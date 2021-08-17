@@ -8,12 +8,14 @@ import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
+import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -21,9 +23,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class ClientAddWindowController implements Initializable {
 	@FXML
@@ -45,8 +45,6 @@ public class ClientAddWindowController implements Initializable {
 	@FXML
 	private DatePicker dateEnteredDatePicker;
 
-	//TODO wybieranie eq do wypożyczenia - może jakimś buttonem z małym oknem bo rent type sie daje
-	//zweryfikować z fr - albo rent type dać gdzieś obok tabeli idk
 	@FXML
 	private TableView<Equipment> equipmentTableView;
 	@FXML
@@ -64,15 +62,13 @@ public class ClientAddWindowController implements Initializable {
 	@FXML
 	private ChoiceBox<Integer> durationChoiceBox;
 	@FXML
-	private ChoiceBox<Integer> regularNumberChoiceBox;
-	@FXML
 	private ChoiceBox<Integer> firstDiscountNumberChoiceBox;
 	@FXML
 	private ComboBox<SkipassType> firstDiscountTypeComboBox;
 	@FXML
 	private ChoiceBox<Integer> secondDiscountNumberChoiceBox;
 	@FXML
-	private ComboBox<SkipassType> secondDiscoundTypeComboBox;
+	private ComboBox<SkipassType> secondDiscountTypeComboBox;
 	@FXML
 	private ChoiceBox<Integer> thirdDiscountNumberChoiceBox;
 	@FXML
@@ -83,6 +79,10 @@ public class ClientAddWindowController implements Initializable {
 	private Button acceptButton;
 	@FXML
 	private Button cancelButton;
+	//TODO wybieranie eq do wypożyczenia - może jakimś buttonem z małym oknem bo rent type sie daje
+	//zweryfikować z fr - albo rent type dać gdzieś obok tabeli idk
+	@FXML
+	private Button rentEquipmentButton;
 
 	private TableView<Client> clientsTableView;
 
@@ -93,11 +93,9 @@ public class ClientAddWindowController implements Initializable {
 		setCancelButtonAction();
 		dateEnteredDatePicker.setValue(LocalDate.now());
 		setEquipmentTableViewCellValues();
-		List<Integer> durationIntValues = new ArrayList<>();
-		for (Duration d : Duration.values())//TODO może to troszkę inaczej, żeby jednak było 7 dni a nie sama cyferka
-			durationIntValues.add(d.getDays());
-
-		durationChoiceBox.getItems().setAll(durationIntValues);
+		setDurationComboBox();
+		setSkipassNumberChoiceBoxes();
+		setDiscountTypeComboBoxes();
 	}
 
 	public void setParentTableView(TableView<Client> clientsTableView)
@@ -119,15 +117,29 @@ public class ClientAddWindowController implements Initializable {
 			client.setPhone(phoneTextField.getText());
 			client.setEMail(emailTextField.getText());
 			client.setDateEntered(dateEnteredDatePicker.getValue());
-			//TODO to jakoś inaczej, chyba moge stworzyc duration z liczby dni
-			//Duration duration = durationChoiceBox.getValue();
+			Duration duration = Duration.valueOf(durationChoiceBox.getValue());
+			List<SkipassType> skipassTypes = new ArrayList<>();
+
+			for (int i = 0; i < Optional.ofNullable(firstDiscountNumberChoiceBox).map(ChoiceBox::getValue).orElse(0);
+				 i++)
+				skipassTypes.add(firstDiscountTypeComboBox.getValue());
+
+			for (int i = 0; i < Optional.ofNullable(secondDiscountNumberChoiceBox).map(ChoiceBox::getValue).orElse(0);
+				 i++)
+				skipassTypes.add(secondDiscountTypeComboBox.getValue());
+
+			for (int i = 0; i < Optional.ofNullable(thirdDiscountNumberChoiceBox).map(ChoiceBox::getValue).orElse(0);
+				 i++)
+				skipassTypes.add(thirdDiscountTypeComboBox.getValue());
+
 			Stage stage = ClientEditWindowController.getStage(acceptButton);
 			try (Connection connection = BasicUtils.getConnection())
 			{
 				//TODO jakieś zapytanie czy na pewno
 				ClientManager clientManager = new ClientManager(connection);
 				ClientDao clientDao = clientManager.getClientDao();
-				//clientManager.addClient(client, null, );
+				//TODO obsłużyć błędy z menegera - np brak skipassów
+				clientManager.addClient(client, null, skipassTypes, duration);//poki co bez eq
 				stage.close();
 				ClientEditWindowController.refreshClientsTableView(clientDao, clientsTableView);
 			} catch (SQLException exception)
@@ -136,6 +148,52 @@ public class ClientAddWindowController implements Initializable {
 				stage.close();
 			}
 		});
+	}
+
+	private void setDurationComboBox()
+	{
+		List<Integer> durationIntValues = new ArrayList<>();
+		for (Duration d : Duration.values())
+			durationIntValues.add(d.getDays());
+
+		durationChoiceBox.getItems().setAll(durationIntValues);
+	}
+
+	private void setSkipassNumberChoiceBoxes()
+	{
+		Integer[] skipassNumbers = {1, 2, 3, 4, 5, 6};
+		firstDiscountNumberChoiceBox.getItems().setAll(Arrays.asList(skipassNumbers));
+		secondDiscountNumberChoiceBox.getItems().setAll(Arrays.asList(skipassNumbers));
+		thirdDiscountNumberChoiceBox.getItems().setAll(Arrays.asList(skipassNumbers));
+	}
+
+	private void setDiscountTypeComboBoxes()
+	{
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			SkipassTypeDao skipassTypeDao = new SkipassTypeDao(connection);
+			List<SkipassType> skipassTypes = skipassTypeDao.getAll();
+			Callback<ListView<SkipassType>, ListCell<SkipassType>> factory = lv -> new ListCell<>() {
+				@Override
+				protected void updateItem(SkipassType item, boolean empty)
+				{
+					super.updateItem(item, empty);
+					setText(empty ? "" : item.getDiscountDescription());
+				}
+			};
+			firstDiscountTypeComboBox.setCellFactory(factory);
+			firstDiscountTypeComboBox.setButtonCell(factory.call(null));
+			firstDiscountTypeComboBox.getItems().setAll(skipassTypes);
+			secondDiscountTypeComboBox.setCellFactory(factory);
+			secondDiscountTypeComboBox.setButtonCell(factory.call(null));
+			secondDiscountTypeComboBox.getItems().setAll(skipassTypes);
+			thirdDiscountTypeComboBox.setCellFactory(factory);
+			thirdDiscountTypeComboBox.setButtonCell(factory.call(null));
+			thirdDiscountTypeComboBox.getItems().setAll(skipassTypes);
+		} catch (SQLException exception)
+		{
+			exception.printStackTrace();//TODO
+		}
 	}
 
 	private void setCancelButtonAction()

@@ -18,96 +18,110 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="411.0" prefWidth="534.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.client.ClientAddWindowController">
+<VBox prefHeight="411.0" prefWidth="614.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.client.ClientAddWindowController">
     <TabPane>
         <Tab closable="false" text="Dane klienta">
-            <AnchorPane prefHeight="329.0" prefWidth="355.0">
-                <GridPane hgap="10.0" layoutX="23.0" layoutY="17.0" prefHeight="329.0" prefWidth="534.0" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="20.0" prefWidth="104.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="121.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="98.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="160.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                    <TextField fx:id="secondNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                    <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    <DatePicker fx:id="dateOfBirthDatePicker" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                    <TextField fx:id="peselTextField" prefHeight="25.0" prefWidth="222.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                    <TextField fx:id="personalIdNumberTextField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                    <TextField fx:id="nameTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                    <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                    <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                    <Label text="Imię" />
-                    <Label prefHeight="17.0" prefWidth="129.0" text="Data wprowadzenia" GridPane.rowIndex="8" />
-                    <Label text="Email" GridPane.rowIndex="7" />
-                    <Label text="Telefon" GridPane.rowIndex="6" />
-                    <Label text="Nr. dowodu" GridPane.rowIndex="5" />
-                    <Label text="PESEL" GridPane.rowIndex="4" />
-                    <Label text="Data urodzenia" GridPane.rowIndex="3" />
-                    <Label text="Nazwisko" GridPane.rowIndex="2" />
-                    <Label text="Drugie imię" GridPane.rowIndex="1" />
-                    <DatePicker fx:id="dateEnteredDatePicker" layoutX="134.0" layoutY="122.0" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                    <Label layoutX="10.0" layoutY="266.0" prefHeight="17.0" prefWidth="129.0" text="Długość karnetu" GridPane.columnIndex="2" />
-                    <ChoiceBox fx:id="durationChoiceBox" prefHeight="25.0" prefWidth="194.0" GridPane.columnIndex="3" />
-                    <Label layoutX="10.0" layoutY="268.0" prefHeight="17.0" prefWidth="129.0" text="Karnety normalne" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                    <ChoiceBox fx:id="regularNumberChoiceBox" prefHeight="25.0" prefWidth="195.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                    <Label layoutX="10.0" layoutY="272.0" prefHeight="17.0" prefWidth="129.0" text="Karnety ulgowe" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                    <HBox GridPane.columnIndex="3" GridPane.rowIndex="2">
-                        <children>
-                            <ChoiceBox fx:id="firstDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
-                            <ComboBox fx:id="firstDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
-                        </children>
-                    </HBox>
-                    <HBox layoutX="134.0" layoutY="247.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                        <children>
-                            <ChoiceBox fx:id="secondDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
-                            <ComboBox fx:id="secondDiscoundTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
-                        </children>
-                    </HBox>
-                    <HBox layoutX="134.0" layoutY="274.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
-                        <children>
-                            <ChoiceBox fx:id="thirdDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
-                            <ComboBox fx:id="thirdDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
-                        </children>
-                    </HBox>
-               <padding>
-                  <Insets bottom="10.0" />
-               </padding>
-                </GridPane>
-                <padding>
-                    <Insets left="10.0" right="10.0" top="10.0" />
-                </padding>
-            </AnchorPane>
+         <VBox>
+            <children>
+                  <AnchorPane prefHeight="329.0" prefWidth="355.0">
+                      <GridPane hgap="10.0" layoutX="23.0" layoutY="17.0" prefHeight="329.0" prefWidth="534.0" vgap="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="142.0" minWidth="20.0" prefWidth="106.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="153.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="120.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="181.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                          <TextField fx:id="secondNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                          <TextField fx:id="surnameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                          <DatePicker fx:id="dateOfBirthDatePicker" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                          <TextField fx:id="peselTextField" prefHeight="25.0" prefWidth="118.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                          <TextField fx:id="personalIdNumberTextField" prefHeight="25.0" prefWidth="110.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                          <TextField fx:id="nameTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                          <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                          <TextField fx:id="emailTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                          <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Imię" textAlignment="RIGHT" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="129.0" text="Data wprowadzenia" GridPane.rowIndex="8" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Email" GridPane.rowIndex="7" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Telefon" GridPane.rowIndex="6" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nr. dowodu" GridPane.rowIndex="5" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="PESEL" GridPane.rowIndex="4" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Data urodzenia" GridPane.rowIndex="3" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwisko" GridPane.rowIndex="2" />
+                          <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Drugie imię" GridPane.rowIndex="1" />
+                          <DatePicker fx:id="dateEnteredDatePicker" layoutX="134.0" layoutY="122.0" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                          <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="266.0" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="129.0" text="Długość karnetu (dni)" GridPane.columnIndex="2" />
+                          <ChoiceBox fx:id="durationChoiceBox" prefHeight="25.0" prefWidth="194.0" GridPane.columnIndex="3" />
+                          <Label alignment="CENTER_RIGHT" layoutX="10.0" layoutY="272.0" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="129.0" text="Karnety" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                          <HBox GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              <children>
+                                  <ChoiceBox fx:id="firstDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
+                                  <ComboBox fx:id="firstDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
+                              </children>
+                          </HBox>
+                          <HBox layoutX="134.0" layoutY="247.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                              <children>
+                                  <ChoiceBox fx:id="secondDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
+                                  <ComboBox fx:id="secondDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
+                              </children>
+                          </HBox>
+                          <HBox layoutX="134.0" layoutY="274.0" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                              <children>
+                                  <ChoiceBox fx:id="thirdDiscountNumberChoiceBox" prefHeight="25.0" prefWidth="38.0" />
+                                  <ComboBox fx:id="thirdDiscountTypeComboBox" prefHeight="25.0" prefWidth="149.0" promptText="Rodzaj ulgi" />
+                              </children>
+                          </HBox>
+                     <padding>
+                        <Insets bottom="10.0" />
+                     </padding>
+                      </GridPane>
+                      <padding>
+                          <Insets left="10.0" right="10.0" top="10.0" />
+                      </padding>
+                  </AnchorPane>
+                <HBox alignment="CENTER" prefHeight="41.0" prefWidth="355.0" spacing="50.0">
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <Button fx:id="acceptButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Ok" />
+                    <Button fx:id="cancelButton" mnemonicParsing="false" text="Anuluj" />
+                </HBox>
+            </children>
+         </VBox>
         </Tab>
         <Tab closable="false" text="Wypożyczenia">
-            <TableView fx:id="equipmentTableView" prefHeight="200.0" prefWidth="200.0">
-                <columns>
-                    <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
-                    <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="113.0" text="Numer seryjny" />
-                    <TableColumn fx:id="equipmentNameColumn" prefWidth="109.0" text="Nazwa" />
-                    <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />
-                    <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="74.0" text="Cena" />
-                    <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="145.0" text="Stan" />
-                </columns>
-            </TableView>
+         <VBox>
+            <children>
+                  <TableView fx:id="equipmentTableView" prefHeight="326.0" prefWidth="614.0">
+                      <columns>
+                          <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
+                          <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="113.0" text="Numer seryjny" />
+                          <TableColumn fx:id="equipmentNameColumn" prefWidth="156.0" text="Nazwa" />
+                          <TableColumn fx:id="equipmentTypeColumn" prefWidth="153.0" text="Rodzaj sprzętu" />
+                          <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="58.0" text="Cena" />
+                          <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="132.0" text="Stan" />
+                      </columns>
+                  </TableView>
+               <HBox alignment="CENTER" prefHeight="41.0" prefWidth="355.0" spacing="50.0">
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <children>
+                     <Button fx:id="rentEquipmentButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="134.0" text="Wypożycz zaznaczone" />
+                  </children>
+               </HBox>
+            </children>
+         </VBox>
         </Tab>
     </TabPane>
-    <HBox alignment="CENTER" prefHeight="41.0" prefWidth="355.0" spacing="50.0">
-        <opaqueInsets>
-            <Insets />
-        </opaqueInsets>
-        <Button fx:id="acceptButton" mnemonicParsing="false" text="Ok" />
-        <Button fx:id="cancelButton" mnemonicParsing="false" text="Anuluj" />
-    </HBox>
 </VBox>
