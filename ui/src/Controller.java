@@ -1,4 +1,5 @@
 import com.awrzosek.ski_station.basic.BasicUtils;
+import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
@@ -14,10 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -30,10 +28,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-
-	//TODO może trzeba będzie jakoś trzymać id, może jako niewidzialną kolumnę (i potem get wołać po 2kliku)
-
-	@FXML
+	@FXML //TODO dodać niewidzialna kolumnę z id do employees
 	private TableView<Employee> employeesTableView;
 	@FXML
 	private TableColumn<Employee, String> employeeFirstNameColumn;
@@ -76,7 +71,7 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<Client, String> clientEmailColumn;
 	@FXML
-	private Button deleteClientButton;//TODO
+	private Button deleteClientButton;
 	@FXML
 	private Button editClientButton;
 	@FXML
@@ -92,6 +87,7 @@ public class Controller implements Initializable {
 		clientTableViewDoubleClickOpenEditWindow();
 		setAddClientButtonAction();
 		setEditClientButtonAction();
+		setDeleteClientButtonAction();
 	}
 
 	private void setAddClientButtonAction()
@@ -111,6 +107,25 @@ public class Controller implements Initializable {
 			} catch (IOException ex)
 			{
 				ex.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setDeleteClientButtonAction()
+	{
+		deleteClientButton.setOnAction(e -> {
+			Client client = clientsTableView.getSelectionModel().getSelectedItem();
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				ClientManager clientManager = new ClientManager(connection);
+				if (!clientManager.removeClient(client))
+					new Alert(Alert.AlertType.ERROR,
+							"Klient ma wypożyczony sprzęt, który należy zwrócić!").showAndWait();
+				else
+					ClientEditWindowController.refreshClientsTableView(clientManager.getClientDao(), clientsTableView);
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
 			}
 		});
 	}
