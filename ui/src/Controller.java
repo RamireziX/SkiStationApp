@@ -39,6 +39,7 @@ public class Controller implements Initializable {
 	@FXML
 	private TableColumn<Employee, String> employeeEmailColumn;
 
+	//TODO może też kolumna czy jest wypożyczony
 	@FXML
 	private TableView<Equipment> equipmentTableView;
 	@FXML

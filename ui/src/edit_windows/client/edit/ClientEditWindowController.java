@@ -1,6 +1,7 @@
 package edit_windows.client.edit;
 
 import com.awrzosek.ski_station.basic.BasicUtils;
+import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
@@ -62,11 +63,12 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private TableColumn<RentalInfo, String> rentTypeRentalsTableColumn;
 	@FXML
-	private Button rentEquipmentButton;//TODO te buttony
+	private Button rentEquipmentButton; //TODO tu albo otworzyć nowe okno, albo dodać tab z dostępnym sprzętem - i ta
+	// druga opcja będzie łatwiejsza
 	@FXML
 	private Button returnEquipmentButton;
 	@FXML
-	private Button returnAllRentedEquipment;
+	private Button returnAllRentedEquipment;//TODO
 
 	@FXML
 	private Button acceptButton;
@@ -112,6 +114,7 @@ public class ClientEditWindowController implements Initializable {
 	{
 		setAcceptButtonAction();
 		setCancelButtonAction();
+		setReturnEquipmentButtonAction();
 		Platform.runLater(() -> {
 			fillEditWindowWithCurrentValues();
 			setSkipassesTableViewCellValues();
@@ -127,6 +130,22 @@ public class ClientEditWindowController implements Initializable {
 	public void setParentTableView(TableView<Client> clientsTableView)
 	{
 		this.clientsTableView = clientsTableView;
+	}
+
+	private void setReturnEquipmentButtonAction()
+	{
+		returnEquipmentButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				RentalInfo rentalInfo = rentalsTableView.getSelectionModel().getSelectedItem();
+				ClientManager clientManager = new ClientManager(connection);
+				clientManager.removeRentedEquipment(rentalInfo.getEquipmentRent());
+				refreshRentalsTableView(connection);
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+			}
+		});
 	}
 
 	private void fillEditWindowWithCurrentValues()
@@ -230,16 +249,21 @@ public class ClientEditWindowController implements Initializable {
 
 		try (Connection connection = BasicUtils.getConnection())
 		{
-			List<EquipmentRent> rentals = new EquipmentRentDao(connection).listByClient(currentClient);
-			EquipmentDao equipmentDao = new EquipmentDao(connection);
-			List<RentalInfo> rentalInfos = new ArrayList<>();
-			for (EquipmentRent r : rentals)
-				rentalInfos.add(new RentalInfo(equipmentDao.get(r.getEquipmentId()).orElse(null), r));
-			rentalsTableView.getItems().setAll(rentalInfos);
+			refreshRentalsTableView(connection);
 		} catch (SQLException exception)
 		{
 			exception.printStackTrace();//TODO
 		}
+	}
+
+	private void refreshRentalsTableView(Connection connection) throws SQLException
+	{
+		List<EquipmentRent> rentals = new EquipmentRentDao(connection).listByClient(currentClient);
+		EquipmentDao equipmentDao = new EquipmentDao(connection);
+		List<RentalInfo> rentalInfos = new ArrayList<>();
+		for (EquipmentRent r : rentals)
+			rentalInfos.add(new RentalInfo(equipmentDao.get(r.getEquipmentId()).orElse(null), r));
+		rentalsTableView.getItems().setAll(rentalInfos);
 	}
 
 	private void setCancelButtonAction()
