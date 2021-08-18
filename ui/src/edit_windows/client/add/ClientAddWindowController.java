@@ -80,7 +80,6 @@ public class ClientAddWindowController implements Initializable {
 	@FXML
 	private ComboBox<SkipassType> thirdDiscountTypeComboBox;
 
-	//TODO akcje buttonów
 	@FXML
 	private Button acceptButton;
 	@FXML

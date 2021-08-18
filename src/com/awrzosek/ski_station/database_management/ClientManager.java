@@ -39,7 +39,6 @@ public class ClientManager {
 		sstmDao = new SkipassSkipassTypeMapDao(connection);
 	}
 
-	//TODO może jeszcze funkcja na edit client
 	public void addClient(Client client, HashMap<Equipment, RentType> equipmentsToRentType,
 						  List<SkipassType> skipassTypes, Duration duration)
 	{
@@ -116,6 +115,8 @@ public class ClientManager {
 			throwables.printStackTrace();
 		}
 	}
+
+	//TODO add/delete skipass
 
 	public ClientDao getClientDao()
 	{

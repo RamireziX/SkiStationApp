@@ -44,6 +44,10 @@ public class ClientEditWindowController implements Initializable {
 	private TableColumn<SkipassInfo, LocalDate> dateToSkipassTableColumn;
 	@FXML
 	private TableColumn<SkipassInfo, Boolean> activeSkipassTableColumn;//TODO zobaczyc może tick i x
+	@FXML
+	private Button addSkipassButton;//TODO te buttony
+	@FXML
+	private Button deleteSkipassButton;
 
 	@FXML
 	private TableView<RentalInfo> rentalsTableView;
@@ -57,6 +61,12 @@ public class ClientEditWindowController implements Initializable {
 	private TableColumn<RentalInfo, LocalDate> returnDateRentalsTableColumn;
 	@FXML
 	private TableColumn<RentalInfo, String> rentTypeRentalsTableColumn;
+	@FXML
+	private Button rentEquipmentButton;//TODO te buttony
+	@FXML
+	private Button returnEquipmentButton;
+	@FXML
+	private Button returnAllRentedEquipment;
 
 	@FXML
 	private Button acceptButton;
@@ -178,7 +188,6 @@ public class ClientEditWindowController implements Initializable {
 
 		try (Connection connection = BasicUtils.getConnection())
 		{
-			//TODO burdel w kodzie i optymalizacji poprawić
 			SkipassDao skipassDao = new SkipassDao(connection);
 			List<Skipass> skipasses = skipassDao.listByClient(currentClient);
 
