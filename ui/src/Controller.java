@@ -78,7 +78,7 @@ public class Controller implements Initializable {
 	@FXML
 	private Button deleteClientButton;//TODO
 	@FXML
-	private Button editClientButton;//TODO żeby zaznaczony row brało a tak to to samo co edit
+	private Button editClientButton;
 	@FXML
 	private Button addClientButton;
 
@@ -91,6 +91,7 @@ public class Controller implements Initializable {
 		setEmployeesTableViewCellValues();
 		clientTableViewDoubleClickOpenEditWindow();
 		setAddClientButtonAction();
+		setEditClientButtonAction();
 	}
 
 	private void setAddClientButtonAction()
@@ -114,6 +115,20 @@ public class Controller implements Initializable {
 		});
 	}
 
+	private void setEditClientButtonAction()
+	{
+		editClientButton.setOnAction(e -> {
+			try
+			{
+				Client client = clientsTableView.getSelectionModel().getSelectedItem();
+				showEditClientWindow(client);
+			} catch (Exception ex)
+			{
+				ex.printStackTrace();//TODO
+			}
+		});
+	}
+
 	private void clientTableViewDoubleClickOpenEditWindow()
 	{
 		clientsTableView.setRowFactory(tv -> {
@@ -123,17 +138,8 @@ public class Controller implements Initializable {
 				{
 					try
 					{
-						FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-								"edit_windows/client/edit/client_edit_window.fxml"));
-						Parent parent = fxmlLoader.load();
-						Stage stage = new Stage();
-						stage.setScene(new Scene(parent));
 						Client client = row.getItem();
-						ClientEditWindowController clientEditWindowController = fxmlLoader.getController();
-						clientEditWindowController.setParentTableView(clientsTableView);
-						clientEditWindowController.setCurrentClient(client);
-						stage.setTitle("Edycja klienta: " + client.getFullName());
-						stage.show();
+						showEditClientWindow(client);
 					} catch (Exception e)
 					{
 						e.printStackTrace();//TODO
@@ -142,6 +148,20 @@ public class Controller implements Initializable {
 			});
 			return row;
 		});
+	}
+
+	private void showEditClientWindow(Client client) throws IOException
+	{
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+				"edit_windows/client/edit/client_edit_window.fxml"));
+		Parent parent = fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(parent));
+		ClientEditWindowController clientEditWindowController = fxmlLoader.getController();
+		clientEditWindowController.setParentTableView(clientsTableView);
+		clientEditWindowController.setCurrentClient(client);
+		stage.setTitle("Edycja klienta: " + client.getFullName());
+		stage.show();
 	}
 
 	private void setClientsTableViewCellValues()

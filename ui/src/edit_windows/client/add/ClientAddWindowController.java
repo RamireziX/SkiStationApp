@@ -109,6 +109,11 @@ public class ClientAddWindowController implements Initializable {
 		toAdd.forEach(equipmentToRentType::putIfAbsent);
 	}
 
+	public void setParentTableView(TableView<Client> clientsTableView)
+	{
+		this.clientsTableView = clientsTableView;
+	}
+
 	private void setRentEquipmentButtonAction()
 	{
 		rentEquipmentButton.setOnAction(e -> {
@@ -129,11 +134,6 @@ public class ClientAddWindowController implements Initializable {
 				ex.printStackTrace();//TODO
 			}
 		});
-	}
-
-	public void setParentTableView(TableView<Client> clientsTableView)
-	{
-		this.clientsTableView = clientsTableView;
 	}
 
 	private void setAcceptButtonAction()

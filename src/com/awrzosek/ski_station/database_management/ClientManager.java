@@ -61,18 +61,20 @@ public class ClientManager {
 		}
 	}
 
-	public void removeClient(Client client)
+	public boolean removeClient(Client client)
 	{
 		try
 		{
 			if (!clientDao.hasRentedEquipment(client))
+			{
 				unlinkSkipassAndDelete(client);
-			else
-				System.err.println("Klient ma wypożyczony sprzęt, który należy najpierw zwrócić!");
+				return true;
+			}
 		} catch (SQLException throwables)
 		{
 			throwables.printStackTrace();
 		}
+		return false;
 	}
 
 	public void removeRentedEquipment(EquipmentRent equipmentRent)
