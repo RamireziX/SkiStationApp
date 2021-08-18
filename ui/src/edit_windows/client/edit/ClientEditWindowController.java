@@ -68,7 +68,7 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private Button returnEquipmentButton;
 	@FXML
-	private Button returnAllRentedEquipment;//TODO
+	private Button returnAllRentedEquipmentButton;//TODO
 
 	@FXML
 	private Button acceptButton;
@@ -115,6 +115,7 @@ public class ClientEditWindowController implements Initializable {
 		setAcceptButtonAction();
 		setCancelButtonAction();
 		setReturnEquipmentButtonAction();
+		setReturnAllRentedEquipmentButtonAction();
 		Platform.runLater(() -> {
 			fillEditWindowWithCurrentValues();
 			setSkipassesTableViewCellValues();
@@ -140,6 +141,21 @@ public class ClientEditWindowController implements Initializable {
 				RentalInfo rentalInfo = rentalsTableView.getSelectionModel().getSelectedItem();
 				ClientManager clientManager = new ClientManager(connection);
 				clientManager.removeRentedEquipment(rentalInfo.getEquipmentRent());
+				refreshRentalsTableView(connection);
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setReturnAllRentedEquipmentButtonAction()
+	{
+		returnAllRentedEquipmentButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				ClientManager clientManager = new ClientManager(connection);
+				clientManager.removeAllRentedEquipment(currentClient);
 				refreshRentalsTableView(connection);
 			} catch (SQLException exception)
 			{

@@ -106,7 +106,7 @@
                <children>
                   <Button fx:id="rentEquipmentButton" mnemonicParsing="false" text="Wypożycz" />
                   <Button fx:id="returnEquipmentButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="62.0" text="Zwróć" />
-                  <Button fx:id="returnAllRentedEquipment" mnemonicParsing="false" text="Zwróć wszystkie" />
+                  <Button fx:id="returnAllRentedEquipmentButton" mnemonicParsing="false" text="Zwróć wszystkie" />
                </children>
             </HBox>
          </children>
