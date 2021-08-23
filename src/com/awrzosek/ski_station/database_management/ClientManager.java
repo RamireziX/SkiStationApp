@@ -30,6 +30,7 @@ public class ClientManager {
 	private EquipmentRentDao equipmentRentDao;
 	private SkipassSkipassTypeMapDao sstmDao;
 
+	//TODO może dać throws do wszystkich metod - i tak w gui mam try catch z sql
 	public ClientManager(Connection connection)
 	{
 		clientDao = new ClientDao(connection);
@@ -134,6 +135,19 @@ public class ClientManager {
 		return true;
 	}
 
+	public boolean initialiseSkipass(Client client, SkipassType skipassType, Duration duration) throws SQLException
+	{
+		List<Skipass> skipasses = skipassDao.getNotRented(1);
+		if (skipasses.size() != 0)
+		{
+			Skipass skipass = skipasses.get(0);
+			initSkipassValues(client, duration, skipass, skipassType);
+			return true;
+		}
+
+		return false;
+	}
+
 	private void unlinkSkipass(Skipass s) throws SQLException
 	{
 		//@formatter:off
@@ -163,18 +177,24 @@ public class ClientManager {
 		for (Skipass skipass : skipasses)
 		{
 			SkipassType skipassType = skipassTypes.get(i);
-			BigDecimal price = calculatePrice(duration, skipassType);
-			SkipassSkipassTypeMap sstm = new SkipassSkipassTypeMap(skipass.getId(), skipassType.getId(),
-					duration, price.setScale(2, RoundingMode.HALF_UP));
-			sstmDao.add(sstm);
-			skipass.setClientId(client.getId());
-			skipass.setDateFrom(LocalDate.now());
-			skipass.setDateTo(LocalDate.now().plusDays(duration.getDays()));
-			skipass.setRented(true);
-			skipass.setActive(false);
-			skipassDao.update(skipass);
+			initSkipassValues(client, duration, skipass, skipassType);
 			i++;
 		}
+	}
+
+	private void initSkipassValues(Client client, Duration duration, Skipass skipass, SkipassType skipassType)
+			throws SQLException
+	{
+		BigDecimal price = calculatePrice(duration, skipassType);
+		SkipassSkipassTypeMap sstm = new SkipassSkipassTypeMap(skipass.getId(), skipassType.getId(),
+				duration, price.setScale(2, RoundingMode.HALF_UP));
+		sstmDao.add(sstm);
+		skipass.setClientId(client.getId());
+		skipass.setDateFrom(LocalDate.now());
+		skipass.setDateTo(LocalDate.now().plusDays(duration.getDays()));
+		skipass.setRented(true);
+		skipass.setActive(false);
+		skipassDao.update(skipass);
 	}
 
 	private BigDecimal calculatePrice(Duration duration, SkipassType skipassType)

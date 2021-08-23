@@ -59,7 +59,7 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private Button rentEquipmentButton;
 	//TODO dodawanie skipassu z poziomu edycji
-
+	//TODO po dodawaniu skipassu zrobić te liczenie ceny - zacząć dziś i ew jutro skończyć
 	@FXML
 	private TableView<SkipassInfo> skipassesTableView;
 	@FXML
@@ -142,6 +142,7 @@ public class ClientEditWindowController implements Initializable {
 		setReturnAllRentedEquipmentButtonAction();
 		setRentEquipmentButtonAction();
 		setUnlinkSkipassesButtonAction();
+		setAddSkipassButtonAction();
 		Platform.runLater(() -> {
 			fillEditWindowWithCurrentValues();
 			setSkipassesTableViewCellValues();
@@ -385,7 +386,29 @@ public class ClientEditWindowController implements Initializable {
 		});
 	}
 
-	private void refreshSkipassesTableView(Connection connection) throws SQLException
+	private void setAddSkipassButtonAction()
+	{
+		addSkipassButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"add_skipass_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Dodaj skipass");
+				AddSkipassWindowController addSkipassWindowController = fxmlLoader.getController();
+				addSkipassWindowController.setCurrentClient(currentClient);
+				addSkipassWindowController.setParentWindow(this);
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();//TODO
+			}
+		});
+	}
+
+	public void refreshSkipassesTableView(Connection connection) throws SQLException
 	{
 		SkipassDao skipassDao = new SkipassDao(connection);
 		List<Skipass> skipasses = skipassDao.listByClient(currentClient);
