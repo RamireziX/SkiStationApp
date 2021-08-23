@@ -4,37 +4,62 @@ import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
+import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRent;
 import com.awrzosek.ski_station.tables.ski.equipment.rent.EquipmentRentDao;
+import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMap;
 import com.awrzosek.ski_station.tables.ski.skipass.map.SkipassSkipassTypeMapDao;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
+import edit_windows.client.EquipmentRentTypeWindowController;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
-	//TODO dodawanie skipassu i wypożyczenia z poziomu edycji - maybe edit client w menegerze
-	//potem do fr bedzie można dopisać
-	//też przede wysztkim zwracanie wypożyczenia trzeba dodać - buttony
+	@FXML
+	private TableView<Equipment> availableEquipmentTableView;
+	@FXML
+	private TableColumn<Equipment, Long> equipmentIdTableColumn;
+	@FXML
+	private TableColumn<Equipment, String> equipmentSerialNumberColumn;
+	@FXML
+	private TableColumn<Equipment, String> equipmentNameColumn;
+	@FXML
+	private TableColumn<Equipment, String> equipmentTypeColumn;
+	@FXML
+	private TableColumn<Equipment, BigDecimal> equipmentRentPriceColumn;
+	@FXML
+	private TableColumn<Equipment, String> equipmentConditionColumn;
+	@FXML
+	private Button rentEquipmentButton;
+	//TODO dodawanie skipassu z poziomu edycji
+
 	@FXML
 	private TableView<SkipassInfo> skipassesTableView;
 	@FXML
@@ -46,7 +71,8 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private TableColumn<SkipassInfo, Boolean> activeSkipassTableColumn;//TODO zobaczyc może tick i x
 	@FXML
-	private Button addSkipassButton;//TODO te buttony
+	private Button addSkipassButton;
+	//TODO te buttony - moze dodać metody w client manager //potem do fr bedzie można dopisać
 	@FXML
 	private Button deleteSkipassButton;
 
@@ -62,13 +88,11 @@ public class ClientEditWindowController implements Initializable {
 	private TableColumn<RentalInfo, LocalDate> returnDateRentalsTableColumn;
 	@FXML
 	private TableColumn<RentalInfo, String> rentTypeRentalsTableColumn;
-	@FXML
-	private Button rentEquipmentButton; //TODO tu albo otworzyć nowe okno, albo dodać tab z dostępnym sprzętem - i ta
-	// druga opcja będzie łatwiejsza
+
 	@FXML
 	private Button returnEquipmentButton;
 	@FXML
-	private Button returnAllRentedEquipmentButton;//TODO
+	private Button returnAllRentedEquipmentButton;
 
 	@FXML
 	private Button acceptButton;
@@ -116,10 +140,12 @@ public class ClientEditWindowController implements Initializable {
 		setCancelButtonAction();
 		setReturnEquipmentButtonAction();
 		setReturnAllRentedEquipmentButtonAction();
+		setRentEquipmentButtonAction();
 		Platform.runLater(() -> {
 			fillEditWindowWithCurrentValues();
 			setSkipassesTableViewCellValues();
 			setRentalsTableViewColumns();
+			setAvailableEquipmentTableViewCellValues();
 		});
 	}
 
@@ -131,6 +157,19 @@ public class ClientEditWindowController implements Initializable {
 	public void setParentTableView(TableView<Client> clientsTableView)
 	{
 		this.clientsTableView = clientsTableView;
+	}
+
+	public void addRentedEquipment(HashMap<Equipment, RentType> equipmentToRentType)
+	{
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			ClientManager clientManager = new ClientManager(connection);
+			clientManager.addRentedEquipment(currentClient, equipmentToRentType);
+			refreshRentalsTableView(connection);
+		} catch (SQLException exception)
+		{
+			exception.printStackTrace();//TODO
+		}
 	}
 
 	private void setReturnEquipmentButtonAction()
@@ -289,6 +328,53 @@ public class ClientEditWindowController implements Initializable {
 			//TODO spytać czy porzucić edycję
 			Stage stage = getStage(cancelButton);
 			stage.close();
+		});
+	}
+
+	private void setAvailableEquipmentTableViewCellValues()
+	{
+		availableEquipmentTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+		equipmentIdTableColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
+		equipmentSerialNumberColumn.setCellValueFactory(
+				data -> new ReadOnlyStringWrapper(data.getValue().getSerialNumber()));
+		equipmentNameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getName()));
+		equipmentTypeColumn.setCellValueFactory(
+				data -> new ReadOnlyStringWrapper(data.getValue().getType().toString()));
+		equipmentRentPriceColumn.setCellValueFactory(
+				data -> new ReadOnlyObjectWrapper<>(data.getValue().getRentPrice().setScale(2, RoundingMode.HALF_UP)));
+		equipmentConditionColumn.setCellValueFactory(
+				data -> new ReadOnlyStringWrapper(data.getValue().getCondition().toString()));
+
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			EquipmentDao equipmentDao = new EquipmentDao(connection);
+			availableEquipmentTableView.getItems().setAll(equipmentDao.getNotRentedAndNotBroken());
+		} catch (SQLException e)
+		{
+			e.printStackTrace();//TODO pokazanie błędu
+		}
+	}
+
+	private void setRentEquipmentButtonAction()
+	{
+		rentEquipmentButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"../equipment_rent_type_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Typ wypożyczenia");
+				EquipmentRentTypeWindowController equipmentRentTypeWindowController = fxmlLoader.getController();
+				equipmentRentTypeWindowController.setEquipmentTableView(availableEquipmentTableView);
+				equipmentRentTypeWindowController.setParentEditWindowController(this);
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();//TODO
+			}
 		});
 	}
 }

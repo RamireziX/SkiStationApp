@@ -10,6 +10,7 @@ import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
 import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
+import edit_windows.client.EquipmentRentTypeWindowController;
 import edit_windows.client.edit.ClientEditWindowController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -120,14 +121,14 @@ public class ClientAddWindowController implements Initializable {
 			try
 			{
 				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-						"equipment_rent_type_window.fxml"));
+						"../equipment_rent_type_window.fxml"));
 				Parent parent = fxmlLoader.load();
 				Stage stage = new Stage();
 				stage.setScene(new Scene(parent));
 				stage.setTitle("Typ wypożyczenia");
 				EquipmentRentTypeWindowController equipmentRentTypeWindowController = fxmlLoader.getController();
 				equipmentRentTypeWindowController.setEquipmentTableView(equipmentTableView);
-				equipmentRentTypeWindowController.setParentController(this);
+				equipmentRentTypeWindowController.setParentAddWindowController(this);
 				stage.show();
 			} catch (IOException ex)
 			{

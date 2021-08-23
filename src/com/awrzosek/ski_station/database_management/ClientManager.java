@@ -99,14 +99,17 @@ public class ClientManager {
 		}
 	}
 
-	public void addRentedEquipment(Client client, Equipment equipment, RentType rentType)
+	public void addRentedEquipment(Client client, HashMap<Equipment, RentType> equipmentsToRentType)
 	{
 		try
 		{
 			Skipass skipass = skipassDao.listByClient(client).get(0);
-			EquipmentRent equipmentRent = new EquipmentRent(client.getId(), equipment.getId(), LocalDate.now(),
-					skipass.getDateTo(), rentType);
-			equipmentRentDao.add(equipmentRent);
+			for (Map.Entry<Equipment, RentType> eq : equipmentsToRentType.entrySet())
+			{
+				EquipmentRent equipmentRent = new EquipmentRent(client.getId(), eq.getKey().getId(), LocalDate.now(),
+						skipass.getDateTo(), eq.getValue());
+				equipmentRentDao.add(equipmentRent);
+			}
 		} catch (SQLException throwables)
 		{
 			throwables.printStackTrace();

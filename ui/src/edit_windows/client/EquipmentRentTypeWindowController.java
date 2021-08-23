@@ -1,9 +1,10 @@
-package edit_windows.client.add;
+package edit_windows.client;
 
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
+import edit_windows.client.add.ClientAddWindowController;
 import edit_windows.client.edit.ClientEditWindowController;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -25,7 +26,8 @@ public class EquipmentRentTypeWindowController implements Initializable {
 	private ComboBox<RentType> rentTypeComboBox;
 
 	private TableView<Equipment> equipmentTableView;
-	private ClientAddWindowController parentController;
+	private ClientAddWindowController parentAddWindowController;
+	private ClientEditWindowController parentEditWindowController;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -39,9 +41,14 @@ public class EquipmentRentTypeWindowController implements Initializable {
 		this.equipmentTableView = equipmentTableView;
 	}
 
-	public void setParentController(ClientAddWindowController parentController)
+	public void setParentAddWindowController(ClientAddWindowController parentController)
 	{
-		this.parentController = parentController;
+		this.parentAddWindowController = parentController;
+	}
+
+	public void setParentEditWindowController(ClientEditWindowController parentController)
+	{
+		this.parentEditWindowController = parentController;
 	}
 
 	private void setAcceptButtonAction()
@@ -51,7 +58,11 @@ public class EquipmentRentTypeWindowController implements Initializable {
 			List<Equipment> selectedEquipment = equipmentTableView.getSelectionModel().getSelectedItems();
 			HashMap<Equipment, RentType> equipmentToRentType = new HashMap<>();
 			selectedEquipment.forEach(eq -> equipmentToRentType.put(eq, rentType));
-			parentController.addEquipmentToRent(equipmentToRentType);
+			if (parentAddWindowController != null)
+				parentAddWindowController.addEquipmentToRent(equipmentToRentType);
+			else
+				parentEditWindowController.addRentedEquipment(equipmentToRentType);
+
 			Stage stage = ClientEditWindowController.getStage(acceptButton);
 			try (Connection connection = BasicUtils.getConnection())
 			{
@@ -79,7 +90,8 @@ public class EquipmentRentTypeWindowController implements Initializable {
 		rentTypeComboBox.getItems().setAll(RentType.values());
 	}
 
-	private void refreshEquipmentTableView(TableView<Equipment> equipmentTableView, List<Equipment> selectedEquipment, Connection connection)
+	private void refreshEquipmentTableView(TableView<Equipment> equipmentTableView, List<Equipment> selectedEquipment,
+										   Connection connection)
 			throws SQLException
 	{
 		EquipmentDao equipmentDao = new EquipmentDao(connection);
