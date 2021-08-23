@@ -74,7 +74,7 @@ public class ClientEditWindowController implements Initializable {
 	private Button addSkipassButton;
 	//TODO te buttony - moze dodać metody w client manager //potem do fr bedzie można dopisać
 	@FXML
-	private Button deleteSkipassButton;
+	private Button unlinkSkipassesButton;
 
 	@FXML
 	private TableView<RentalInfo> rentalsTableView;
@@ -141,6 +141,7 @@ public class ClientEditWindowController implements Initializable {
 		setReturnEquipmentButtonAction();
 		setReturnAllRentedEquipmentButtonAction();
 		setRentEquipmentButtonAction();
+		setUnlinkSkipassesButtonAction();
 		Platform.runLater(() -> {
 			fillEditWindowWithCurrentValues();
 			setSkipassesTableViewCellValues();
@@ -250,6 +251,8 @@ public class ClientEditWindowController implements Initializable {
 
 	private void setSkipassesTableViewCellValues()
 	{
+		skipassesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
 		activeSkipassTableColumn.setCellValueFactory(
 				data -> new ReadOnlyBooleanWrapper(data.getValue().getSkipass().isActive()));
 		activeSkipassTableColumn.setCellFactory(tc -> new CheckBoxTableCell<>());
@@ -262,27 +265,7 @@ public class ClientEditWindowController implements Initializable {
 
 		try (Connection connection = BasicUtils.getConnection())
 		{
-			SkipassDao skipassDao = new SkipassDao(connection);
-			List<Skipass> skipasses = skipassDao.listByClient(currentClient);
-
-			List<SkipassSkipassTypeMap> sstmList = new ArrayList<>();
-			SkipassSkipassTypeMapDao sstmDao = new SkipassSkipassTypeMapDao(connection);
-			for (Skipass s : skipasses)
-				sstmDao.getBySkipass(s).ifPresent(sstmList::add);
-
-			List<SkipassType> skipassTypes = new ArrayList<>();
-			SkipassTypeDao skipassTypeDao = new SkipassTypeDao(connection);
-			for (SkipassSkipassTypeMap s : sstmList)
-				skipassTypeDao.get(s.getSkipassTypeId()).ifPresent(skipassTypes::add);
-
-			List<SkipassInfo> skipassInfos = new ArrayList<>();
-			int i = 0;
-			for (Skipass s : skipasses)
-			{
-				skipassInfos.add(new SkipassInfo(s, sstmList.get(i), skipassTypes.get(i)));
-				i++;
-			}
-			skipassesTableView.getItems().setAll(skipassInfos);
+			refreshSkipassesTableView(connection);
 		} catch (SQLException e)
 		{
 			e.printStackTrace();//TODO pokazanie błędu
@@ -376,5 +359,54 @@ public class ClientEditWindowController implements Initializable {
 				ex.printStackTrace();//TODO
 			}
 		});
+	}
+
+	private void setUnlinkSkipassesButtonAction()
+	{
+		unlinkSkipassesButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				ClientManager clientManager = new ClientManager(connection);
+				List<SkipassInfo> skipassInfos = skipassesTableView.getSelectionModel().getSelectedItems();
+				List<Skipass> skipasses = new ArrayList<>();
+				for (SkipassInfo si : skipassInfos)
+					skipasses.add(si.getSkipass());
+
+				if (!clientManager.unlinkSelectedSkipasses(currentClient, skipasses))
+					new Alert(Alert.AlertType.ERROR,
+							"Nie można usunąć skipassu/ów!\nKlient musi posiadać przynajmniej jeden skipass!").showAndWait();
+				else
+					refreshSkipassesTableView(connection);
+
+			} catch (SQLException ex)
+			{
+				ex.printStackTrace();//TODO pokazanie błędu
+			}
+		});
+	}
+
+	private void refreshSkipassesTableView(Connection connection) throws SQLException
+	{
+		SkipassDao skipassDao = new SkipassDao(connection);
+		List<Skipass> skipasses = skipassDao.listByClient(currentClient);
+
+		List<SkipassSkipassTypeMap> sstmList = new ArrayList<>();
+		SkipassSkipassTypeMapDao sstmDao = new SkipassSkipassTypeMapDao(connection);
+		for (Skipass s : skipasses)
+			sstmDao.getBySkipass(s).ifPresent(sstmList::add);
+
+		List<SkipassType> skipassTypes = new ArrayList<>();
+		SkipassTypeDao skipassTypeDao = new SkipassTypeDao(connection);
+		for (SkipassSkipassTypeMap s : sstmList)
+			skipassTypeDao.get(s.getSkipassTypeId()).ifPresent(skipassTypes::add);
+
+		List<SkipassInfo> skipassInfos = new ArrayList<>();
+		int i = 0;
+		for (Skipass s : skipasses)
+		{
+			skipassInfos.add(new SkipassInfo(s, sstmList.get(i), skipassTypes.get(i)));
+			i++;
+		}
+		skipassesTableView.getItems().setAll(skipassInfos);
 	}
 }

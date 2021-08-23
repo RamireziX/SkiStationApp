@@ -84,8 +84,8 @@
                 <HBox alignment="CENTER" prefHeight="36.0" prefWidth="355.0" spacing="40.0">
                     <children>
                         <Button fx:id="addSkipassButton" mnemonicParsing="false" text="Dodaj skipass"/>
-                        <Button fx:id="deleteSkipassButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0"
-                                text="Usuń skipass"/>
+                        <Button fx:id="unlinkSkipassesButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0"
+                                text="Usuń zaznaczone"/>
                     </children>
                 </HBox>
             </children>

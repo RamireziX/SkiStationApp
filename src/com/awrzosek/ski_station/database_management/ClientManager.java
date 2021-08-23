@@ -66,7 +66,7 @@ public class ClientManager {
 		{
 			if (!clientDao.hasRentedEquipment(client))
 			{
-				unlinkSkipassAndDelete(client);
+				unlinkSkipassesAndDelete(client);
 				return true;
 			}
 		} catch (SQLException throwables)
@@ -123,21 +123,35 @@ public class ClientManager {
 		return clientDao;
 	}
 
-	private void unlinkSkipassAndDelete(Client client) throws SQLException
+	public boolean unlinkSelectedSkipasses(Client client, List<Skipass> skipasses) throws SQLException
 	{
-		for (Skipass skipass : skipassDao.listByClient(client))
-		{
-			//@formatter:off
+		if (skipassDao.listByClient(client).size() == skipasses.size())
+			return false;
+
+		for (Skipass s : skipasses)
+			unlinkSkipass(s);
+
+		return true;
+	}
+
+	private void unlinkSkipass(Skipass s) throws SQLException
+	{
+		//@formatter:off
 			String query =
 					"select * from " + SkipassSkipassTypeMapConsts.TAB_NAME +
-					" where " + SkipassSkipassTypeMapConsts.FLD_SKIPASS_ID + " = " + skipass.getId();
-			//@formatter:on
-			SkipassSkipassTypeMap sstm = sstmDao.getByQuery(query).orElse(null);
-			if (sstm != null)
-				sstmDao.delete(sstm);
-			skipass.clearData();
-			skipassDao.update(skipass);
-		}
+							" where " + SkipassSkipassTypeMapConsts.FLD_SKIPASS_ID + " = " + s.getId();
+		//@formatter:on
+		SkipassSkipassTypeMap sstm = sstmDao.getByQuery(query).orElse(null);
+		if (sstm != null)
+			sstmDao.delete(sstm);
+		s.clearData();
+		skipassDao.update(s);
+	}
+
+	private void unlinkSkipassesAndDelete(Client client) throws SQLException
+	{
+		for (Skipass s : skipassDao.listByClient(client))
+			unlinkSkipass(s);
 
 		clientDao.delete(client);
 	}
