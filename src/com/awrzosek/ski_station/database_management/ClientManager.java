@@ -117,8 +117,6 @@ public class ClientManager {
 		}
 	}
 
-	//TODO add/delete skipass
-
 	public ClientDao getClientDao()
 	{
 		return clientDao;
