@@ -24,7 +24,6 @@ public class AddSkipassWindowController implements Initializable {
 	private Button acceptButton;
 	@FXML
 	private Button cancelButton;
-	//TODO buttony
 	@FXML
 	private ChoiceBox<Integer> durationChoiceBox;
 	@FXML
@@ -113,7 +112,6 @@ public class AddSkipassWindowController implements Initializable {
 	{
 		cancelButton.setCancelButton(true);
 		cancelButton.setOnAction(e -> {
-			//TODO spytać czy porzucić edycję
 			Stage stage = ClientEditWindowController.getStage(cancelButton);
 			stage.close();
 		});

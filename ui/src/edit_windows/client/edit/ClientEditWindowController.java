@@ -56,10 +56,10 @@ public class ClientEditWindowController implements Initializable {
 	private TableColumn<Equipment, BigDecimal> equipmentRentPriceColumn;
 	@FXML
 	private TableColumn<Equipment, String> equipmentConditionColumn;
+
 	@FXML
 	private Button rentEquipmentButton;
-	//TODO dodawanie skipassu z poziomu edycji
-	//TODO po dodawaniu skipassu zrobić te liczenie ceny - zacząć dziś i ew jutro skończyć
+
 	@FXML
 	private TableView<SkipassInfo> skipassesTableView;
 	@FXML
@@ -71,8 +71,8 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private TableColumn<SkipassInfo, Boolean> activeSkipassTableColumn;//TODO zobaczyc może tick i x
 	@FXML
+
 	private Button addSkipassButton;
-	//TODO te buttony - moze dodać metody w client manager //potem do fr bedzie można dopisać
 	@FXML
 	private Button unlinkSkipassesButton;
 
