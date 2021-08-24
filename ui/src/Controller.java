@@ -1,4 +1,6 @@
+import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
+import com.awrzosek.ski_station.cong_prize_management.SkipassPriceManager;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
@@ -28,6 +30,29 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+	@FXML
+	private TextField cParameterTextField;
+	@FXML
+	private TextField aParameterTextField;
+	@FXML
+	private TextField bParameterTextField;
+	@FXML
+	private TextField priceFromTextField;
+	@FXML
+	private TextField priceToTextField;
+	@FXML
+	private TextField oneDayPriceTextField;
+	@FXML
+	private TextField threeDaysPriceTextField;
+	@FXML
+	private TextField oneWeekPriceTextField;
+	@FXML
+	private TextField twoWeeksPriceTextField;
+	@FXML
+	private Button calculateSkipassPriceButton;
+	@FXML
+	private Button acceptSkipassPriceButton;//TODO ten button
+
 	@FXML //TODO dodać niewidzialna kolumnę z id do employees
 	private TableView<Employee> employeesTableView;
 	@FXML
@@ -89,6 +114,43 @@ public class Controller implements Initializable {
 		setAddClientButtonAction();
 		setEditClientButtonAction();
 		setDeleteClientButtonAction();
+		setCalculateSkipassPriceButtonAction();
+		setAcceptSkipassPriceButtonAction();
+	}
+
+	private void setAcceptSkipassPriceButtonAction()
+	{
+		//TODO zabezpieczenia (format, brak uzupełnionego pola)
+		acceptSkipassPriceButton.setOnAction(e -> {
+			BasicConsts.ONE_DAY_SKIPASS_PRICE = new BigDecimal(oneDayPriceTextField.getText());
+			BasicConsts.THREE_DAYS_SKIPASS_PRICE = new BigDecimal(threeDaysPriceTextField.getText());
+			BasicConsts.ONE_WEEK_SKIPASS_PRICE = new BigDecimal(oneWeekPriceTextField.getText());
+			BasicConsts.TWO_WEEKS_SKIPASS_PRICE = new BigDecimal(twoWeeksPriceTextField.getText());
+		});
+
+	}
+
+	private void setCalculateSkipassPriceButtonAction()
+	{
+		//TODO zabezpieczenia (format, brak uzupełnionego pola) + jakieś większe info że zaakceptowanie ok
+		calculateSkipassPriceButton.setOnAction(e -> {
+			SkipassPriceManager skipassPriceManager = new SkipassPriceManager();
+			BigDecimal c = new BigDecimal(cParameterTextField.getText());
+			BigDecimal a = new BigDecimal(aParameterTextField.getText());
+			BigDecimal b = new BigDecimal(bParameterTextField.getText());
+			BigDecimal priceFrom = new BigDecimal(priceFromTextField.getText());
+			BigDecimal priceTo = new BigDecimal(priceToTextField.getText());
+
+			BigDecimal oneDayPrice = skipassPriceManager.calculateSkipassPrice(c, a, b, priceFrom, priceTo);
+			BigDecimal threeDaysPrice = skipassPriceManager.calculateThreeDaysPrice(oneDayPrice);
+			BigDecimal oneWeekPrice = skipassPriceManager.calculateOneWeekDaysPrice(oneDayPrice);
+			BigDecimal twoWeeksPrice = skipassPriceManager.calculateTwoWeeksDaysPrice(oneDayPrice);
+
+			oneDayPriceTextField.setText(oneDayPrice.toString());
+			threeDaysPriceTextField.setText(threeDaysPrice.toString());
+			oneWeekPriceTextField.setText(oneWeekPrice.toString());
+			twoWeeksPriceTextField.setText(twoWeeksPrice.toString());
+		});
 	}
 
 	private void setAddClientButtonAction()

@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
+	//TODO możnaby pokazywać cenę skipassów
 	@FXML
 	private TableView<Equipment> availableEquipmentTableView;
 	@FXML

@@ -8,7 +8,7 @@ import java.util.*;
 
 public class SkipassPriceManager {//TODO zawrzeć to jakoś fajnie w ui - może być póki co brzydko
 
-	private final static BigDecimal NOK_TO_ZL_IN_DECEMBER_2016 = BigDecimal.valueOf(0.49);
+	private static final BigDecimal NOK_TO_ZL_IN_DECEMBER_2016 = BigDecimal.valueOf(0.49);
 
 	public BigDecimal calculateSkipassPrice(BigDecimal c, BigDecimal a, BigDecimal b, BigDecimal minimalPrice,
 											BigDecimal maximumPrice)
@@ -38,5 +38,23 @@ public class SkipassPriceManager {//TODO zawrzeć to jakoś fajnie w ui - może 
 		BigDecimal finalPriceInZl = finalPrice.multiply(NOK_TO_ZL_IN_DECEMBER_2016);
 
 		return finalPriceInZl.setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public BigDecimal calculateThreeDaysPrice(BigDecimal oneDayPrice)
+	{
+		BigDecimal threeDaysPrice = oneDayPrice.multiply(BigDecimal.valueOf(3)).multiply(BigDecimal.valueOf(0.8));
+		return threeDaysPrice.setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public BigDecimal calculateOneWeekDaysPrice(BigDecimal oneDayPrice)
+	{
+		BigDecimal oneWeekPrice = oneDayPrice.multiply(BigDecimal.valueOf(7)).multiply(BigDecimal.valueOf(0.7));
+		return oneWeekPrice.setScale(2, RoundingMode.HALF_UP);
+	}
+
+	public BigDecimal calculateTwoWeeksDaysPrice(BigDecimal oneDayPrice)
+	{
+		BigDecimal twoWeeksPrice = oneDayPrice.multiply(BigDecimal.valueOf(14)).multiply(BigDecimal.valueOf(0.6));
+		return twoWeeksPrice.setScale(2, RoundingMode.HALF_UP);
 	}
 }

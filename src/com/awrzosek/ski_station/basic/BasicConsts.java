@@ -9,13 +9,14 @@ public final class BasicConsts {
 
 	public static final String EMPTY_STRING = "";
 
+	public static int ACTIVE_NO_OF_CLIENTS;
+
+	//TODO poniższe parametry zapisywać do i czytać z pliku np .properties
 	//te parametry możnaby potem jakoś ustawiać przez program też, ofc skipass prize bedzie liczone
 
 	public static final int MAX_NO_OF_CLIENTS = 50;
 	public static final double SERVICE_RATE_PER_MINUTE = 20.0;
-	public static int ACTIVE_NO_OF_CLIENTS;
 
-	//tego nie mogę dać do enuma - te wartości będą ZMIENNE
 	public static BigDecimal ONE_DAY_SKIPASS_PRICE = new BigDecimal("50.00");
 	public static BigDecimal THREE_DAYS_SKIPASS_PRICE = new BigDecimal("120.00");
 	public static BigDecimal ONE_WEEK_SKIPASS_PRICE = new BigDecimal("250.00");
