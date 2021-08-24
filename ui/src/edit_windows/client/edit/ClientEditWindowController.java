@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ClientEditWindowController implements Initializable {
-	//TODO możnaby pokazywać cenę skipassów
 	@FXML
 	private TableView<Equipment> availableEquipmentTableView;
 	@FXML
@@ -66,13 +65,15 @@ public class ClientEditWindowController implements Initializable {
 	@FXML
 	private TableColumn<SkipassInfo, String> discountSkipassTableColumn;
 	@FXML
+	private TableColumn<SkipassInfo, BigDecimal> priceSkipassTableColumn;
+	@FXML
 	private TableColumn<SkipassInfo, LocalDate> dateFromSkipassTableColumn;
 	@FXML
 	private TableColumn<SkipassInfo, LocalDate> dateToSkipassTableColumn;
 	@FXML
 	private TableColumn<SkipassInfo, Boolean> activeSkipassTableColumn;//TODO zobaczyc może tick i x
-	@FXML
 
+	@FXML
 	private Button addSkipassButton;
 	@FXML
 	private Button unlinkSkipassesButton;
@@ -89,6 +90,8 @@ public class ClientEditWindowController implements Initializable {
 	private TableColumn<RentalInfo, LocalDate> returnDateRentalsTableColumn;
 	@FXML
 	private TableColumn<RentalInfo, String> rentTypeRentalsTableColumn;
+	@FXML
+	private TableColumn<RentalInfo, BigDecimal> priceRentalsTableColumn;
 
 	@FXML
 	private Button returnEquipmentButton;
@@ -173,6 +176,31 @@ public class ClientEditWindowController implements Initializable {
 		{
 			exception.printStackTrace();//TODO
 		}
+	}
+
+	public void refreshSkipassesTableView(Connection connection) throws SQLException
+	{
+		SkipassDao skipassDao = new SkipassDao(connection);
+		List<Skipass> skipasses = skipassDao.listByClient(currentClient);
+
+		List<SkipassSkipassTypeMap> sstmList = new ArrayList<>();
+		SkipassSkipassTypeMapDao sstmDao = new SkipassSkipassTypeMapDao(connection);
+		for (Skipass s : skipasses)
+			sstmDao.getBySkipass(s).ifPresent(sstmList::add);
+
+		List<SkipassType> skipassTypes = new ArrayList<>();
+		SkipassTypeDao skipassTypeDao = new SkipassTypeDao(connection);
+		for (SkipassSkipassTypeMap s : sstmList)
+			skipassTypeDao.get(s.getSkipassTypeId()).ifPresent(skipassTypes::add);
+
+		List<SkipassInfo> skipassInfos = new ArrayList<>();
+		int i = 0;
+		for (Skipass s : skipasses)
+		{
+			skipassInfos.add(new SkipassInfo(s, sstmList.get(i), skipassTypes.get(i)));
+			i++;
+		}
+		skipassesTableView.getItems().setAll(skipassInfos);
 	}
 
 	private void setReturnEquipmentButtonAction()
@@ -264,6 +292,8 @@ public class ClientEditWindowController implements Initializable {
 				data -> new ReadOnlyObjectWrapper<>(data.getValue().getSkipass().getDateTo()));
 		discountSkipassTableColumn.setCellValueFactory(
 				data -> new ReadOnlyStringWrapper(data.getValue().getSkipassType().getDiscountDescription()));
+		priceSkipassTableColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(
+				data.getValue().getSkipassSkipassTypeMap().getPrice().setScale(2, RoundingMode.HALF_UP)));
 
 		try (Connection connection = BasicUtils.getConnection())
 		{
@@ -286,6 +316,9 @@ public class ClientEditWindowController implements Initializable {
 				data -> new ReadOnlyStringWrapper(data.getValue().getEquipment().getName()));
 		typeRentalsTableColumn.setCellValueFactory(
 				data -> new ReadOnlyStringWrapper(data.getValue().getEquipment().getType().toString()));
+		priceRentalsTableColumn.setCellValueFactory(
+				data -> new ReadOnlyObjectWrapper<>(
+						data.getValue().getEquipment().getRentPrice().setScale(2, RoundingMode.HALF_UP)));
 
 		try (Connection connection = BasicUtils.getConnection())
 		{
@@ -407,30 +440,5 @@ public class ClientEditWindowController implements Initializable {
 				ex.printStackTrace();//TODO
 			}
 		});
-	}
-
-	public void refreshSkipassesTableView(Connection connection) throws SQLException
-	{
-		SkipassDao skipassDao = new SkipassDao(connection);
-		List<Skipass> skipasses = skipassDao.listByClient(currentClient);
-
-		List<SkipassSkipassTypeMap> sstmList = new ArrayList<>();
-		SkipassSkipassTypeMapDao sstmDao = new SkipassSkipassTypeMapDao(connection);
-		for (Skipass s : skipasses)
-			sstmDao.getBySkipass(s).ifPresent(sstmList::add);
-
-		List<SkipassType> skipassTypes = new ArrayList<>();
-		SkipassTypeDao skipassTypeDao = new SkipassTypeDao(connection);
-		for (SkipassSkipassTypeMap s : sstmList)
-			skipassTypeDao.get(s.getSkipassTypeId()).ifPresent(skipassTypes::add);
-
-		List<SkipassInfo> skipassInfos = new ArrayList<>();
-		int i = 0;
-		for (Skipass s : skipasses)
-		{
-			skipassInfos.add(new SkipassInfo(s, sstmList.get(i), skipassTypes.get(i)));
-			i++;
-		}
-		skipassesTableView.getItems().setAll(skipassInfos);
 	}
 }
