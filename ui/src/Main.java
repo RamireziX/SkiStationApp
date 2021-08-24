@@ -13,6 +13,10 @@ import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.math.BigDecimal;
@@ -20,6 +24,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -57,12 +62,12 @@ public class Main extends Application {
 
 		//addClientMockup();
 
-//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-//		primaryStage.setTitle("Stacja narciarska");
-//		primaryStage.setScene(new Scene(root, 300, 275));
-//		primaryStage.show();
-//		primaryStage.setMaximized(true);
-//		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
+		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+		primaryStage.setTitle("Stacja narciarska");
+		primaryStage.setScene(new Scene(root, 300, 275));
+		primaryStage.show();
+		primaryStage.setMaximized(true);
+		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
 
 		SkipassPriceManager skipassPriceManager = new SkipassPriceManager();
 		BigDecimal price = skipassPriceManager.calculateSkipassPrice(BigDecimal.valueOf(146.67),
