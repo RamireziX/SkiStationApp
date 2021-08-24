@@ -74,18 +74,30 @@
       </VBox>
     </Tab>
     <Tab text="Panel sprzętu">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <columns>
-                    <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
-                    <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny" />
-                    <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa" />
-                    <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />
-                    <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="119.0" text="Cena wypożyczenia" />
-                    <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="92.0" text="Stan" />
-                </columns>
-            </TableView>
-        </AnchorPane>
+      <VBox>
+         <children>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <buttons>
+                  <Button fx:id="deleteEquipmentButton" mnemonicParsing="false" text="Usuń" />
+                  <Button fx:id="editEquipmentButton" mnemonicParsing="false" text="Edytuj" />
+                  <Button fx:id="addEquipmentButton" mnemonicParsing="false" text="Dodaj" />
+               </buttons>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ButtonBar>
+               <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0">
+                   <columns>
+                       <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
+                       <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny" />
+                       <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa" />
+                       <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />
+                       <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="119.0" text="Cena wypożyczenia" />
+                       <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="92.0" text="Stan" />
+                   </columns>
+               </TableView>
+         </children>
+      </VBox>
     </Tab>
     <Tab text="Panel pracowników">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />

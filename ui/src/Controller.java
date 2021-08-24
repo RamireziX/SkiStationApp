@@ -51,7 +51,7 @@ public class Controller implements Initializable {
 	@FXML
 	private Button calculateSkipassPriceButton;
 	@FXML
-	private Button acceptSkipassPriceButton;//TODO ten button
+	private Button acceptSkipassPriceButton;
 
 	@FXML //TODO dodać niewidzialna kolumnę z id do employees
 	private TableView<Employee> employeesTableView;
@@ -65,6 +65,7 @@ public class Controller implements Initializable {
 	private TableColumn<Employee, String> employeeEmailColumn;
 
 	//TODO może też kolumna czy jest wypożyczony
+	//TODO add edit delete tutaj
 	@FXML
 	private TableView<Equipment> equipmentTableView;
 	@FXML
@@ -79,6 +80,13 @@ public class Controller implements Initializable {
 	private TableColumn<Equipment, BigDecimal> equipmentRentPriceColumn;
 	@FXML
 	private TableColumn<Equipment, String> equipmentConditionColumn;
+
+	@FXML
+	private Button deleteEquipmentButton;//TODO
+	@FXML
+	private Button editEquipmentButton;//TODO + standardowo edit na dwukliku
+	@FXML
+	private Button addEquipmentButton;//TODO
 
 	@FXML
 	private TableView<Client> clientsTableView;
