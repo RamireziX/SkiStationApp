@@ -1,6 +1,7 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.cong_prize_management.QueueManager;
+import com.awrzosek.ski_station.cong_prize_management.SkipassPriceManager;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.initializers.InitializerUtils;
 import com.awrzosek.ski_station.tables.person.client.Client;
@@ -12,17 +13,13 @@ import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
 import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class Main extends Application {
 
@@ -60,12 +57,19 @@ public class Main extends Application {
 
 		//addClientMockup();
 
-		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-		primaryStage.setTitle("Stacja narciarska");
-		primaryStage.setScene(new Scene(root, 300, 275));
-		primaryStage.show();
-		primaryStage.setMaximized(true);
-		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
+//		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+//		primaryStage.setTitle("Stacja narciarska");
+//		primaryStage.setScene(new Scene(root, 300, 275));
+//		primaryStage.show();
+//		primaryStage.setMaximized(true);
+//		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
+
+		SkipassPriceManager skipassPriceManager = new SkipassPriceManager();
+		BigDecimal price = skipassPriceManager.calculateSkipassPrice(BigDecimal.valueOf(146.67),
+				BigDecimal.valueOf(1.709),
+				BigDecimal.valueOf(-0.010), BigDecimal.valueOf(60), BigDecimal.valueOf(1000));
+
+		System.out.println(price);
 
 		//primaryStage.setFullScreen(true);
 		//TODO jakiś progress bar do inicjalizatorów

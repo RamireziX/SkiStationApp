@@ -9,8 +9,6 @@ public class QueueManager {//TODO żeby może zwracało sekundy (ale może to ju
 	// głównie o stability i może nie pokazywać czasu a stabilna/niestabilna
 	public static int CLIENTS_IN_MINUTE;
 
-	//TODO - F2.2 + ta ilość klientów może być w klasie i jakaś metoda co zeruje to co 60 sekund
-
 	public BigDecimal calculateWaitTime() throws Exception
 	{
 		BigDecimal utilization =
