@@ -10,6 +10,7 @@ import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
 import edit_windows.client.add.ClientAddWindowController;
 import edit_windows.client.edit.ClientEditWindowController;
+import edit_windows.equipment.EquipmentAddWindowController;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
@@ -124,6 +125,7 @@ public class Controller implements Initializable {
 		setDeleteClientButtonAction();
 		setCalculateSkipassPriceButtonAction();
 		setAcceptSkipassPriceButtonAction();
+		setAddEquipmentButtonAction();
 	}
 
 	private void setAcceptSkipassPriceButtonAction()
@@ -158,6 +160,27 @@ public class Controller implements Initializable {
 			threeDaysPriceTextField.setText(threeDaysPrice.toString());
 			oneWeekPriceTextField.setText(oneWeekPrice.toString());
 			twoWeeksPriceTextField.setText(twoWeeksPrice.toString());
+		});
+	}
+
+	private void setAddEquipmentButtonAction()
+	{
+		addEquipmentButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"edit_windows/equipment/equipment_add_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Dodawanie sprzętu");
+				EquipmentAddWindowController equipmentWindowController = fxmlLoader.getController();
+				equipmentWindowController.setParentTableView(equipmentTableView);
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();//TODO
+			}
 		});
 	}
 
