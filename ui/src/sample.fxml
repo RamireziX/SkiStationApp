@@ -24,7 +24,7 @@
             <Button fx:id="simulateExitButton" layoutX="123.0" layoutY="290.0" mnemonicParsing="false" text="Wyjście" />
             <Button fx:id="simulateLiftButton" layoutX="204.0" layoutY="290.0" mnemonicParsing="false" text="Wjazd" />
             <Label layoutX="50.0" layoutY="100.0" prefHeight="17.0" prefWidth="163.0" text="Liczba klientów na stacji:" />
-            <Label layoutX="50.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+            <Label fx:id="numberOfActiveSkipasses" layoutX="50.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
             <Label layoutX="373.0" layoutY="31.0" prefHeight="17.0" prefWidth="102.0" text="Parametry:" />
             <TextField fx:id="cParameterTextField" layoutX="360.0" layoutY="53.0" prefHeight="25.0" prefWidth="71.0" text="C" />
             <TextField fx:id="aParameterTextField" layoutX="442.0" layoutY="53.0" prefHeight="25.0" prefWidth="51.0" text="a" />

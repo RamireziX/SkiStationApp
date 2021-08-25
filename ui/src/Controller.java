@@ -44,7 +44,10 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 	@FXML
+	private Label numberOfActiveSkipasses;
+	@FXML
 	private Label waitTimeLabel;
+
 	@FXML
 	private ComboBox<Skipass> skipassComboBox;
 	@FXML
@@ -158,6 +161,7 @@ public class Controller implements Initializable {
 		setSimulateLiftButtonAction();
 
 		setWaitTimeLabelValue();
+		setNumberOfActiveSkipassesValue();
 
 		setAddEquipmentButtonAction();
 		setEditEquipmentButtonAction();
@@ -165,6 +169,10 @@ public class Controller implements Initializable {
 		setDeleteEquipmentButtonAction();
 	}
 
+	private void setNumberOfActiveSkipassesValue()
+	{
+		numberOfActiveSkipasses.setText(String.valueOf(BasicConsts.ACTIVE_NO_OF_CLIENTS));
+	}
 
 	private void setWaitTimeLabelValue()//TODO przerobić żeby był wait time/sugestja przejścia
 	{
@@ -209,8 +217,11 @@ public class Controller implements Initializable {
 					new Alert(Alert.AlertType.ERROR,
 							"Skipass jest nieaktywny, proszę skontaktować się z obsługą!").showAndWait();
 				else
+				{
 					new Alert(Alert.AlertType.INFORMATION,
 							"Wyjście zarejestrowane").showAndWait();
+					setNumberOfActiveSkipassesValue();
+				}
 			} catch (SQLException exception)
 			{
 				exception.printStackTrace();
@@ -230,8 +241,11 @@ public class Controller implements Initializable {
 					new Alert(Alert.AlertType.ERROR,
 							"Skipass jest już aktywny, proszę skontaktować się z obsługą!").showAndWait();
 				else
+				{
 					new Alert(Alert.AlertType.INFORMATION,
 							"Wejście zarejestrowane").showAndWait();
+					setNumberOfActiveSkipassesValue();
+				}
 			} catch (SQLException exception)
 			{
 				exception.printStackTrace();
