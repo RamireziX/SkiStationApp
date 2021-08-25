@@ -15,6 +15,9 @@ import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import edit_windows.client.add.ClientAddWindowController;
 import edit_windows.client.edit.ClientEditWindowController;
 import edit_windows.equipment.EquipmentWindowController;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.fxml.FXML;
@@ -25,6 +28,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -33,10 +37,14 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+	@FXML
+	private Label waitTimeLabel;
 	@FXML
 	private ComboBox<Skipass> skipassComboBox;
 	@FXML
@@ -45,7 +53,6 @@ public class Controller implements Initializable {
 	private Button simulateExitButton;
 	@FXML
 	private Button simulateLiftButton;
-	//TODO symulacja wchodzenia i wychodzenia
 	//TODO czas oczekiwania + wyświetlanie ostrzeżenia + ilość klientów na stacji
 	//TODO jak zdążę to można by dać 2 wyciągi np zamiast 1
 	//TODO można jakąś tabelkę pokazującą skipassy aktywne
@@ -150,10 +157,23 @@ public class Controller implements Initializable {
 		setSimulateExitButtonAction();
 		setSimulateLiftButtonAction();
 
+		setWaitTimeLabelValue();
+
 		setAddEquipmentButtonAction();
 		setEditEquipmentButtonAction();
 		equipmentTableViewDoubleClickOpenEditWindow();
 		setDeleteEquipmentButtonAction();
+	}
+
+
+	private void setWaitTimeLabelValue()//TODO przerobić żeby był wait time/sugestja przejścia
+	{
+		Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			waitTimeLabel.setText(LocalDateTime.now().format(formatter));
+		}), new KeyFrame(Duration.seconds(60)));//do testów można zmniejszyć
+		clock.setCycleCount(Animation.INDEFINITE);
+		clock.play();
 	}
 
 	//TODO te information są dziwne
