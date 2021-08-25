@@ -20,37 +20,32 @@ public class EquipmentManager {
 		equipmentRentDao = new EquipmentRentDao(connection);
 	}
 
-	public void addEquipment(Equipment equipment)
+	public void addEquipment(Equipment equipment) throws SQLException
 	{
-		try
-		{
-			equipmentDao.add(equipment);
-		} catch (SQLException throwables)
-		{
-			throwables.printStackTrace();
-		}
+		equipmentDao.add(equipment);
 	}
 
-	public void removeEquipment(Equipment equipment)
+	public void editEquipment(Equipment equipment) throws SQLException
 	{
-		try
+		equipmentDao.update(equipment);
+	}
+
+	public boolean removeEquipment(Equipment equipment) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * " +
+				" from " + EquipmentRentConsts.TAB_NAME +
+				" where " + EquipmentRentConsts.FLD_EQUIPMENT_ID + " = " + equipment.getId();
+		//@formatter:on
+		Optional<EquipmentRent> equipmentRent = equipmentRentDao.getByQuery(query);
+		if (equipmentRent.isEmpty())
 		{
-			//@formatter:off
-			String query =
-					"select * " +
-					" from " + EquipmentRentConsts.TAB_NAME +
-					" where " + EquipmentRentConsts.FLD_EQUIPMENT_ID + " = " + equipment.getId();
-			//@formatter:on
-			Optional<EquipmentRent> equipmentRent = equipmentRentDao.getByQuery(query);
-			if (equipmentRent.isEmpty())
-				equipmentDao.delete(equipment);
-			else
-				System.err.println("Sprzęt jest już wypożyczony! Usunięcie możliwe po dacie: " +
-						equipmentRent.get().getReturnDate());
-		} catch (SQLException throwables)
-		{
-			throwables.printStackTrace();
+			equipmentDao.delete(equipment);
+			return true;
 		}
+
+		return false;
 	}
 
 	public EquipmentDao getEquipmentDao()

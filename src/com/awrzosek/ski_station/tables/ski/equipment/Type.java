@@ -1,6 +1,6 @@
 package com.awrzosek.ski_station.tables.ski.equipment;
 
-public enum EquipmentType {
+public enum Type {
 	SKIS("Narty"),
 	SNOWBOARD("Snowboard"),
 	SKI_POLE("Kije"),
@@ -10,7 +10,7 @@ public enum EquipmentType {
 
 	private final String label;
 
-	EquipmentType(String label)
+	Type(String label)
 	{
 		this.label = label;
 	}

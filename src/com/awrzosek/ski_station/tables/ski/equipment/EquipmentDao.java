@@ -154,7 +154,7 @@ public class EquipmentDao extends BasicDao<Equipment> {
 
 	protected Equipment processForSelect(ResultSet result) throws SQLException
 	{
-		EquipmentType type = EquipmentType.valueOf(result.getString(FLD_TYPE));
+		Type type = Type.valueOf(result.getString(FLD_TYPE));
 		Condition condition = Condition.valueOf(result.getString(FLD_CONDITION));
 
 		return new Equipment(result.getLong(FLD_ID), result.getString(FLD_NAME), result.getString(FLD_SERIAL_NUMBER),

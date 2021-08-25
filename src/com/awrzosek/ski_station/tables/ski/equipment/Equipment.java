@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class Equipment extends BasicTable {
 	private String name;
 	private String serialNumber;
-	private EquipmentType type;
+	private Type type;
 	private BigDecimal rentPrice;
 	private Condition condition;
 
@@ -15,7 +15,7 @@ public class Equipment extends BasicTable {
 	{
 	}
 
-	public Equipment(Long id, String name, String serialNumber, EquipmentType type, BigDecimal rentPrice,
+	public Equipment(Long id, String name, String serialNumber, Type type, BigDecimal rentPrice,
 					 Condition condition)
 	{
 		super(id);
@@ -26,7 +26,7 @@ public class Equipment extends BasicTable {
 		this.condition = condition;
 	}
 
-	public Equipment(String name, String serialNumber, EquipmentType type, BigDecimal rentPrice,
+	public Equipment(String name, String serialNumber, Type type, BigDecimal rentPrice,
 					 Condition condition)
 	{
 		this.name = name;
@@ -56,12 +56,12 @@ public class Equipment extends BasicTable {
 		this.serialNumber = serialNumber;
 	}
 
-	public EquipmentType getType()
+	public Type getType()
 	{
 		return type;
 	}
 
-	public void setType(EquipmentType type)
+	public void setType(Type type)
 	{
 		this.type = type;
 	}

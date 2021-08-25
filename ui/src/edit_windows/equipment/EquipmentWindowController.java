@@ -4,8 +4,9 @@ import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.EquipmentManager;
 import com.awrzosek.ski_station.tables.ski.equipment.Condition;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
-import com.awrzosek.ski_station.tables.ski.equipment.EquipmentType;
+import com.awrzosek.ski_station.tables.ski.equipment.Type;
 import edit_windows.client.edit.ClientEditWindowController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -13,12 +14,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-public class EquipmentAddWindowController implements Initializable {
+public class EquipmentWindowController implements Initializable {
 	@FXML
 	private TextField serialNumberTextField;
 	@FXML
@@ -26,7 +28,7 @@ public class EquipmentAddWindowController implements Initializable {
 	@FXML
 	private TextField rentPriceTextField;
 	@FXML
-	private ComboBox<EquipmentType> typeComboBox;
+	private ComboBox<Type> typeComboBox;
 	@FXML
 	private ComboBox<Condition> conditionComboBox;
 
@@ -36,6 +38,7 @@ public class EquipmentAddWindowController implements Initializable {
 	private Button cancelButton;
 
 	private TableView<Equipment> parentTableView;
+	private Equipment currentEquipment;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -43,7 +46,15 @@ public class EquipmentAddWindowController implements Initializable {
 		setTypeComboBoxValues();
 		setConditionComboBoxValues();
 		setCancelButtonAction();
-		setAcceptButtonAction();
+		acceptButton.setDefaultButton(true);
+		Platform.runLater(() -> {
+			if (currentEquipment != null)
+			{
+				fillEditWindowWithCurrentValues();
+				setAcceptOnEditButtonAction();
+			} else
+				setAcceptOnAddButtonAction();
+		});
 	}
 
 	public void setParentTableView(TableView<Equipment> parentTableView)
@@ -51,9 +62,46 @@ public class EquipmentAddWindowController implements Initializable {
 		this.parentTableView = parentTableView;
 	}
 
-	private void setAcceptButtonAction()
+	public void setCurrentEquipment(Equipment currentEquipment)
 	{
-		acceptButton.setDefaultButton(true);
+		this.currentEquipment = currentEquipment;
+	}
+
+	private void fillEditWindowWithCurrentValues()
+	{
+		serialNumberTextField.setText(currentEquipment.getSerialNumber());
+		nameTextField.setText(currentEquipment.getName());
+		typeComboBox.setValue(currentEquipment.getType());
+		rentPriceTextField.setText(
+				currentEquipment.getRentPrice().setScale(2, RoundingMode.HALF_UP).toString());
+		conditionComboBox.setValue(currentEquipment.getCondition());
+	}
+
+	private void setAcceptOnEditButtonAction()
+	{
+		acceptButton.setOnAction(e -> {
+			currentEquipment.setSerialNumber(serialNumberTextField.getText());
+			currentEquipment.setName(nameTextField.getText());
+			currentEquipment.setRentPrice(new BigDecimal(rentPriceTextField.getText()));
+			currentEquipment.setCondition(conditionComboBox.getValue());
+			currentEquipment.setType(typeComboBox.getValue());
+			Stage stage = ClientEditWindowController.getStage(acceptButton);
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				EquipmentManager equipmentManager = new EquipmentManager(connection);
+				equipmentManager.editEquipment(currentEquipment);
+				stage.close();
+				parentTableView.getItems().setAll(equipmentManager.getEquipmentDao().getAll());
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+				stage.close();
+			}
+		});
+	}
+
+	private void setAcceptOnAddButtonAction()
+	{
 		acceptButton.setOnAction(e -> {
 			Equipment equipment = new Equipment();
 			equipment.setSerialNumber(serialNumberTextField.getText());
@@ -74,7 +122,6 @@ public class EquipmentAddWindowController implements Initializable {
 				stage.close();
 			}
 		});
-
 	}
 
 	private void setCancelButtonAction()
@@ -89,9 +136,9 @@ public class EquipmentAddWindowController implements Initializable {
 
 	private void setTypeComboBoxValues()
 	{
-		Callback<ListView<EquipmentType>, ListCell<EquipmentType>> factory = lv -> new ListCell<>() {
+		Callback<ListView<Type>, ListCell<Type>> factory = lv -> new ListCell<>() {
 			@Override
-			protected void updateItem(EquipmentType equipmentType, boolean empty)
+			protected void updateItem(Type equipmentType, boolean empty)
 			{
 				super.updateItem(equipmentType, empty);
 				setText(empty ? "" : equipmentType.toString());
@@ -99,7 +146,7 @@ public class EquipmentAddWindowController implements Initializable {
 		};
 		typeComboBox.setCellFactory(factory);
 		typeComboBox.setButtonCell(factory.call(null));
-		typeComboBox.getItems().setAll(EquipmentType.values());
+		typeComboBox.getItems().setAll(Type.values());
 	}
 
 	private void setConditionComboBoxValues()
