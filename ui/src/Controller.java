@@ -2,6 +2,7 @@ import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.cong_prize_management.SkipassPriceManager;
 import com.awrzosek.ski_station.database_management.ClientManager;
+import com.awrzosek.ski_station.database_management.EquipmentManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
@@ -128,6 +129,7 @@ public class Controller implements Initializable {
 		setAddEquipmentButtonAction();
 		setEditEquipmentButtonAction();
 		equipmentTableViewDoubleClickOpenEditWindow();
+		setDeleteEquipmentButtonAction();
 	}
 
 	private void setAcceptSkipassPriceButtonAction()
@@ -139,7 +141,6 @@ public class Controller implements Initializable {
 			BasicConsts.ONE_WEEK_SKIPASS_PRICE = new BigDecimal(oneWeekPriceTextField.getText());
 			BasicConsts.TWO_WEEKS_SKIPASS_PRICE = new BigDecimal(twoWeeksPriceTextField.getText());
 		});
-
 	}
 
 	private void setCalculateSkipassPriceButtonAction()
@@ -233,6 +234,25 @@ public class Controller implements Initializable {
 		equipmentWindowController.setParentTableView(equipmentTableView);
 		equipmentWindowController.setCurrentEquipment(currentEquipment);
 		stage.show();
+	}
+
+	private void setDeleteEquipmentButtonAction()
+	{
+		deleteEquipmentButton.setOnAction(e -> {
+			Equipment equipment = equipmentTableView.getSelectionModel().getSelectedItem();
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				EquipmentManager equipmentManager = new EquipmentManager(connection);
+				if (!equipmentManager.removeEquipment(equipment))
+					new Alert(Alert.AlertType.ERROR,
+							"Sprzęt jest wypożyczony przez klienta, nie można usunąć!").showAndWait();
+				else
+					equipmentTableView.getItems().setAll(equipmentManager.getEquipmentDao().getAll());
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+			}
+		});
 	}
 
 	private void setAddClientButtonAction()
