@@ -18,40 +18,43 @@ public class HardwareConnectionManager {
 	}
 
 	public void displayWaitTime(BigDecimal waitTime)
-	{//TODO to dopiero jak będzie gui
+	{//TODO to dopiero jak będzie gui - pewnie ta metoda pojdzie do controller
 	}
 
-	//TODO można exception albo zwracanie stringa albo boola - żeby gui mogło błąd wyświetlić
-	public void registerEntry(Skipass skipass) throws SQLException
+	public boolean registerEntry(Skipass skipass) throws SQLException
 	{
-		if(!skipass.isActive())
+		if (!skipass.isActive())
 		{
 			BasicConsts.ACTIVE_NO_OF_CLIENTS++;
 			skipass.setActive(true);
 			skipassDao.update(skipass);
+			return true;
 		}
-		else
-			System.out.println("Błąd karnetu, proszę skontaktować się z obsługą!");
+
+		return false;
 	}
 
-	public void registerExit(Skipass skipass) throws SQLException
+	public boolean registerExit(Skipass skipass) throws SQLException
 	{
-		if(skipass.isActive())
+		if (skipass.isActive())
 		{
-			BasicConsts.ACTIVE_NO_OF_CLIENTS++;
+			BasicConsts.ACTIVE_NO_OF_CLIENTS--;
 			skipass.setActive(false);
 			skipassDao.update(skipass);
+			return true;
 		}
-		else
-			System.out.println("Błąd karnetu, proszę skontaktować się z obsługą!");
+
+		return false;
 	}
 
-	public void registerLift(Skipass skipass)
+	public boolean registerLift(Skipass skipass)
 	{
-		if(skipass.isActive())
+		if (skipass.isActive())
+		{
 			QueueManager.CLIENTS_IN_MINUTE++;
-		else
-			System.out.println("Błąd karnetu, proszę skontaktować się z obsługą!");
-	}
+			return true;
+		}
 
+		return false;
+	}
 }

@@ -67,7 +67,6 @@ public class Controller implements Initializable {
 	private TableColumn<Employee, String> employeeEmailColumn;
 
 	//TODO może też kolumna czy jest wypożyczony
-	//TODO add edit delete tutaj
 	@FXML
 	private TableView<Equipment> equipmentTableView;
 	@FXML
@@ -84,7 +83,7 @@ public class Controller implements Initializable {
 	private TableColumn<Equipment, String> equipmentConditionColumn;
 
 	@FXML
-	private Button deleteEquipmentButton;//TODO
+	private Button deleteEquipmentButton;
 	@FXML
 	private Button editEquipmentButton;
 	@FXML
