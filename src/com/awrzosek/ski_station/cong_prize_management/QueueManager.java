@@ -6,7 +6,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class QueueManager {//TODO żeby może zwracało sekundy (ale może to już gui zrobi) + raczej bedziemy opierać
-	// głównie o stability i może nie pokazywać czasu a stabilna/niestabilna
+	// głównie o stability i może nie pokazywać czasu a stabilna/niestabilna, albo pokazywać czas i rzucać ex jak
+	// niestabilna
 	public static int CLIENTS_IN_MINUTE;
 
 	public BigDecimal calculateWaitTime() throws Exception

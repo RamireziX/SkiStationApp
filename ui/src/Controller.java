@@ -3,12 +3,15 @@ import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.cong_prize_management.SkipassPriceManager;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.database_management.EquipmentManager;
+import com.awrzosek.ski_station.hardware_connection.HardwareConnectionManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
 import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
 import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
+import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
+import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import edit_windows.client.add.ClientAddWindowController;
 import edit_windows.client.edit.ClientEditWindowController;
 import edit_windows.equipment.EquipmentWindowController;
@@ -21,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -29,9 +33,22 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
+	@FXML
+	private ComboBox<Skipass> skipassComboBox;
+	@FXML
+	private Button simulateEntryButton;
+	@FXML
+	private Button simulateExitButton;
+	@FXML
+	private Button simulateLiftButton;
+	//TODO symulacja wchodzenia i wychodzenia
+	//TODO czas oczekiwania + wyświetlanie ostrzeżenia + ilość klientów na stacji
+	//TODO jak zdążę to można by dać 2 wyciągi np zamiast 1
+	//TODO można jakąś tabelkę pokazującą skipassy aktywne
 	@FXML
 	private TextField cParameterTextField;
 	@FXML
@@ -115,20 +132,115 @@ public class Controller implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		//TODO pogrupować te calle metod
+		//TODO pogrupować te calle metod w metody
 		setClientsTableViewCellValues();
 		setEquipmentTableViewCellValues();
 		setEmployeesTableViewCellValues();
+
 		clientTableViewDoubleClickOpenEditWindow();
 		setAddClientButtonAction();
 		setEditClientButtonAction();
 		setDeleteClientButtonAction();
+
 		setCalculateSkipassPriceButtonAction();
 		setAcceptSkipassPriceButtonAction();
+
+		setSkipassComboBoxValues();
+		setSimulateEntryButtonAction();
+		setSimulateExitButtonAction();
+		setSimulateLiftButtonAction();
+
 		setAddEquipmentButtonAction();
 		setEditEquipmentButtonAction();
 		equipmentTableViewDoubleClickOpenEditWindow();
 		setDeleteEquipmentButtonAction();
+	}
+
+	//TODO te information są dziwne
+	private void setSimulateLiftButtonAction()
+	{
+		simulateLiftButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				HardwareConnectionManager hcm = new HardwareConnectionManager(connection);
+				Skipass skipass = skipassComboBox.getValue();
+				if (!hcm.registerLift(skipass))
+					new Alert(Alert.AlertType.ERROR,
+							"Skipass jest nieaktywny, proszę skontaktować się z obsługą!").showAndWait();
+				else
+					new Alert(Alert.AlertType.INFORMATION,
+							"Wjazd zarejestrowany").showAndWait();
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
+
+	}
+
+	private void setSimulateExitButtonAction()
+	{
+		simulateExitButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				HardwareConnectionManager hcm = new HardwareConnectionManager(connection);
+				Skipass skipass = skipassComboBox.getValue();
+				if (!hcm.registerExit(skipass))
+					new Alert(Alert.AlertType.ERROR,
+							"Skipass jest nieaktywny, proszę skontaktować się z obsługą!").showAndWait();
+				else
+					new Alert(Alert.AlertType.INFORMATION,
+							"Wyjście zarejestrowane").showAndWait();
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
+	}
+
+
+	private void setSimulateEntryButtonAction()
+	{
+		simulateEntryButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				HardwareConnectionManager hcm = new HardwareConnectionManager(connection);
+				Skipass skipass = skipassComboBox.getValue();
+				if (!hcm.registerEntry(skipass))
+					new Alert(Alert.AlertType.ERROR,
+							"Skipass jest już aktywny, proszę skontaktować się z obsługą!").showAndWait();
+				else
+					new Alert(Alert.AlertType.INFORMATION,
+							"Wejście zarejestrowane").showAndWait();
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
+	}
+
+	private void setSkipassComboBoxValues()
+	{
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			SkipassDao skipassDao = new SkipassDao(connection);
+			List<Skipass> skipasses = skipassDao.getAllRented();
+			Callback<ListView<Skipass>, ListCell<Skipass>> factory = lv -> new ListCell<>() {
+				@Override
+				protected void updateItem(Skipass skipass, boolean empty)
+				{
+					super.updateItem(skipass, empty);
+					setText(empty ? "" : skipass.getId().toString());
+				}
+			};
+			skipassComboBox.setCellFactory(factory);
+			skipassComboBox.setButtonCell(factory.call(null));
+			skipassComboBox.getItems().setAll(skipasses);
+
+		} catch (SQLException exception)
+		{
+			exception.printStackTrace();
+		}
 	}
 
 	private void setAcceptSkipassPriceButtonAction()

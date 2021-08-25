@@ -128,6 +128,17 @@ public class SkipassDao extends BasicDao<Skipass> {
 		return listByQuery(query);
 	}
 
+	public List<Skipass> getAllRented() throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+						" where coalesce(" + FLD_RENTED + ", 0) = 1";
+		//@formatter:on
+
+		return listByQuery(query);
+	}
+
 	public List<Skipass> listByClient(Client client) throws SQLException
 	{
 		//@formatter:off
