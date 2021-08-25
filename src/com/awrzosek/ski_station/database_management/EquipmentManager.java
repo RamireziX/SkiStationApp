@@ -53,4 +53,9 @@ public class EquipmentManager {
 		}
 	}
 
+	public EquipmentDao getEquipmentDao()
+	{
+		return equipmentDao;
+	}
+
 }
