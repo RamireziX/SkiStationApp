@@ -47,10 +47,13 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 	@FXML
+	private TableView<Skipass> activeSkipassesTableView;
+	@FXML
+	private TableColumn<Skipass, Long> activeSkipassesIdTableColumn;
+	@FXML
 	private Label numberOfActiveSkipasses;
 	@FXML
 	private Label waitTimeLabel;
-
 	@FXML
 	private ComboBox<Skipass> skipassComboBox;
 	@FXML
@@ -60,7 +63,6 @@ public class Controller implements Initializable {
 	@FXML
 	private Button simulateLiftButton;
 	//TODO jak zdążę to można by dać 2 wyciągi np zamiast 1
-	//TODO można jakąś tabelkę pokazującą skipassy aktywne
 	@FXML
 	private TextField cParameterTextField;
 	@FXML
@@ -161,6 +163,7 @@ public class Controller implements Initializable {
 		setSimulateEntryButtonAction();
 		setSimulateExitButtonAction();
 		setSimulateLiftButtonAction();
+		setActiveSkipassesTableViewCellValues();
 
 		setWaitTimeLabelValue();
 		setNumberOfActiveSkipassesValue();
@@ -169,6 +172,20 @@ public class Controller implements Initializable {
 		setEditEquipmentButtonAction();
 		equipmentTableViewDoubleClickOpenEditWindow();
 		setDeleteEquipmentButtonAction();
+	}
+
+	private void setActiveSkipassesTableViewCellValues()
+	{
+		activeSkipassesTableView.setPlaceholder(new Label(BasicConsts.EMPTY_STRING));
+		activeSkipassesIdTableColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			SkipassDao skipassDao = new SkipassDao(connection);
+			activeSkipassesTableView.getItems().setAll(skipassDao.getAllActive());
+		} catch (SQLException e)
+		{
+			e.printStackTrace();//TODO pokazanie błędu
+		}
 	}
 
 	private void setNumberOfActiveSkipassesValue()
@@ -235,6 +252,7 @@ public class Controller implements Initializable {
 					new Alert(Alert.AlertType.INFORMATION,
 							"Wyjście zarejestrowane").showAndWait();
 					setNumberOfActiveSkipassesValue();
+					activeSkipassesTableView.getItems().setAll(hcm.getSkipassDao().getAllActive());
 				}
 			} catch (SQLException exception)
 			{
@@ -259,6 +277,7 @@ public class Controller implements Initializable {
 					new Alert(Alert.AlertType.INFORMATION,
 							"Wejście zarejestrowane").showAndWait();
 					setNumberOfActiveSkipassesValue();
+					activeSkipassesTableView.getItems().setAll(hcm.getSkipassDao().getAllActive());
 				}
 			} catch (SQLException exception)
 			{

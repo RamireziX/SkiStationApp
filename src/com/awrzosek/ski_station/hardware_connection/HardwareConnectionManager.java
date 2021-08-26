@@ -5,7 +5,6 @@ import com.awrzosek.ski_station.cong_prize_management.QueueManager;
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,10 +14,6 @@ public class HardwareConnectionManager {
 	public HardwareConnectionManager(Connection connection)
 	{
 		skipassDao = new SkipassDao(connection);
-	}
-
-	public void displayWaitTime(BigDecimal waitTime)
-	{//TODO to dopiero jak będzie gui - pewnie ta metoda pojdzie do controller
 	}
 
 	public boolean registerEntry(Skipass skipass) throws SQLException
@@ -57,4 +52,10 @@ public class HardwareConnectionManager {
 
 		return false;
 	}
+
+	public SkipassDao getSkipassDao()
+	{
+		return skipassDao;
+	}
+
 }
