@@ -87,6 +87,7 @@ public class Controller implements Initializable {
 	private Button acceptSkipassPriceButton;
 
 	@FXML //TODO dodać niewidzialna kolumnę z id do employees
+	//TODO to + logowanie
 	private TableView<Employee> employeesTableView;
 	@FXML
 	private TableColumn<Employee, String> employeeFirstNameColumn;
