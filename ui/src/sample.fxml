@@ -16,7 +16,7 @@
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="521.0" prefWidth="760.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <Tab text="Panel główny">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="660.0">
-            <Label fx:id="waitTimeLabel" layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="147.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
+            <Label fx:id="waitTimeLabel" layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="201.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
             <Label layoutX="50.0" layoutY="31.0" prefHeight="17.0" prefWidth="163.0" text="Czas oczekiwania na wjazd:" />
             <Label layoutX="41.0" layoutY="206.0" prefHeight="17.0" prefWidth="163.0" text="Symulacja działania stacji" />
             <Label layoutX="41.0" layoutY="232.0" prefHeight="17.0" prefWidth="163.0" text="Wybierz wypożyczony skipass:" />

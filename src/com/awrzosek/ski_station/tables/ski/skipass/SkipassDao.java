@@ -139,6 +139,17 @@ public class SkipassDao extends BasicDao<Skipass> {
 		return listByQuery(query);
 	}
 
+	public List<Skipass> getAllActive() throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+						" where coalesce(" + FLD_ACTIVE + ", 0) = 1";
+		//@formatter:on
+
+		return listByQuery(query);
+	}
+
 	public List<Skipass> listByClient(Client client) throws SQLException
 	{
 		//@formatter:off

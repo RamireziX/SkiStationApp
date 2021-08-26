@@ -1,6 +1,8 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
+import com.awrzosek.ski_station.cong_prize_management.QueueManager;
 import com.awrzosek.ski_station.cong_prize_management.SkipassPriceManager;
+import com.awrzosek.ski_station.cong_prize_management.StabilityException;
 import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.database_management.EquipmentManager;
 import com.awrzosek.ski_station.hardware_connection.HardwareConnectionManager;
@@ -26,6 +28,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -37,7 +40,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -56,7 +59,6 @@ public class Controller implements Initializable {
 	private Button simulateExitButton;
 	@FXML
 	private Button simulateLiftButton;
-	//TODO czas oczekiwania + wyświetlanie ostrzeżenia + ilość klientów na stacji
 	//TODO jak zdążę to można by dać 2 wyciągi np zamiast 1
 	//TODO można jakąś tabelkę pokazującą skipassy aktywne
 	@FXML
@@ -174,14 +176,26 @@ public class Controller implements Initializable {
 		numberOfActiveSkipasses.setText(String.valueOf(BasicConsts.ACTIVE_NO_OF_CLIENTS));
 	}
 
-	private void setWaitTimeLabelValue()//TODO przerobić żeby był wait time/sugestja przejścia
+	private void setWaitTimeLabelValue()
 	{
-		Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-			waitTimeLabel.setText(LocalDateTime.now().format(formatter));
-		}), new KeyFrame(Duration.seconds(60)));//do testów można zmniejszyć
-		clock.setCycleCount(Animation.INDEFINITE);
-		clock.play();
+		QueueManager queueManager = new QueueManager();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("mm:ss");
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(60), e -> {
+			try
+			{
+				Long waitTimeSeconds = queueManager.calculateWaitTime();
+				LocalTime waitTime = LocalTime.ofSecondOfDay(waitTimeSeconds);
+				waitTimeLabel.setText(waitTime.format(formatter));
+				waitTimeLabel.setTextFill(Color.BLACK);
+			} catch (StabilityException ex)
+			{
+				waitTimeLabel.setText(ex.getMessage());
+				waitTimeLabel.setTextFill(Color.RED);
+			}
+			QueueManager.CLIENTS_IN_MINUTE = 0;
+		}));
+		timeline.setCycleCount(Animation.INDEFINITE);
+		timeline.play();
 	}
 
 	//TODO te information są dziwne

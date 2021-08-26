@@ -5,21 +5,21 @@ import com.awrzosek.ski_station.basic.BasicConsts;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class QueueManager {//TODO żeby może zwracało sekundy (ale może to już gui zrobi) + raczej bedziemy opierać
-	// głównie o stability i może nie pokazywać czasu a stabilna/niestabilna, albo pokazywać czas i rzucać ex jak
-	// niestabilna
+public class QueueManager {
 	public static int CLIENTS_IN_MINUTE;
 
-	public BigDecimal calculateWaitTime() throws Exception
+	public Long calculateWaitTime() throws StabilityException
 	{
 		BigDecimal utilization =
 				BigDecimal.valueOf(CLIENTS_IN_MINUTE / BasicConsts.SERVICE_RATE_PER_MINUTE);
+
 		if (utilization.compareTo(BigDecimal.ONE) < 0)
 		{
 			BigDecimal divisor =
 					BigDecimal.valueOf(2 * BasicConsts.SERVICE_RATE_PER_MINUTE * (1 - utilization.doubleValue()));
-			return utilization.divide(divisor, 10, RoundingMode.HALF_UP);
+			BigDecimal quotient = utilization.divide(divisor, 10, RoundingMode.HALF_UP);
+			return quotient.multiply(BigDecimal.valueOf(60)).longValue();
 		} else
-			throw new Exception("stability exc");//TODO jakoś to ogarnąć
+			throw new StabilityException("Uwaga! Długi czas oczekiwania!");
 	}
 }

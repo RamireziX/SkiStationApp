@@ -1,16 +1,7 @@
 import com.awrzosek.ski_station.basic.BasicConsts;
 import com.awrzosek.ski_station.basic.BasicUtils;
-import com.awrzosek.ski_station.cong_prize_management.QueueManager;
-import com.awrzosek.ski_station.database_management.ClientManager;
 import com.awrzosek.ski_station.initializers.InitializerUtils;
-import com.awrzosek.ski_station.tables.person.client.Client;
-import com.awrzosek.ski_station.tables.person.client.ClientDao;
-import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
-import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
-import com.awrzosek.ski_station.tables.ski.equipment.rent.RentType;
-import com.awrzosek.ski_station.tables.ski.skipass.map.Duration;
-import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassType;
-import com.awrzosek.ski_station.tables.ski.skipass.type.SkipassTypeDao;
+import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,9 +10,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -35,30 +23,13 @@ public class Main extends Application {
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		//TODO jak już przejdziesz przez func rec to popraw też use cases
 
-		Thread setClientsToZero = new Thread(() -> {
-			try
-			{
-				while (true)
-				{
-					QueueManager.CLIENTS_IN_MINUTE = 0;
-					//noinspection BusyWait
-					Thread.sleep(60000);
-				}
-
-			} catch (InterruptedException e)
-			{
-				e.printStackTrace();//TODO
-			}
-		});
-
-		setClientsToZero.setDaemon(true);
-		setClientsToZero.start();
-
-		BasicConsts.ACTIVE_NO_OF_CLIENTS = 0;
-
+		//TODO jakiś progress bar do inicjalizatorów
 		InitializerUtils.run();
 
-		//addClientMockup();
+		try (Connection connection = BasicUtils.getConnection())
+		{
+			BasicConsts.ACTIVE_NO_OF_CLIENTS = new SkipassDao(connection).getAllActive().size();
+		}
 
 		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
@@ -66,48 +37,6 @@ public class Main extends Application {
 		primaryStage.show();
 		primaryStage.setMaximized(true);
 		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
-
-		//primaryStage.setFullScreen(true);
-		//TODO jakiś progress bar do inicjalizatorów
-
-	}
-
-	private void deleteClientMockup() throws SQLException
-	{
-		try (Connection connection = BasicUtils.getConnection())
-		{
-			ClientDao clientDao = new ClientDao(connection);
-			Client client = clientDao.get(1L).orElse(null);
-			ClientManager clientManager = new ClientManager(connection);
-
-			clientManager.removeAllRentedEquipment(client);
-			clientManager.removeClient(client);
-		}
-	}
-
-	private void addClientMockup() throws SQLException
-	{
-		try (Connection connection = BasicUtils.getConnection())
-		{
-			ClientManager clientManager = new ClientManager(connection);
-			Client client =
-					new Client("Alexander", BasicConsts.EMPTY_STRING, "Kowal", null, "123", "321", "phone",
-							"email", null);
-			List<Equipment> equipments =
-					new EquipmentDao(connection).listByQuery("select * from EQUIPMENT limit 2");
-
-			List<SkipassType> skipassTypes = (new SkipassTypeDao(connection).listByQuery("select * from " +
-					"SKIPASS_TYPE" +
-					" limit 1"));
-
-			HashMap<Equipment, RentType> equipmentToRentType = new HashMap<>();
-			for (Equipment equipment : equipments)
-			{
-				equipmentToRentType.put(equipment, RentType.STAY);
-			}
-
-			clientManager.addClient(client, equipmentToRentType, skipassTypes, Duration.ONE_WEEK);
-		}
 	}
 
 	public static void main(String[] args)
