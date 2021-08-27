@@ -41,7 +41,7 @@ public class EmployeeManager {
 			return true;
 		} catch (SQLException e)
 		{
-			if (e.getSQLState().startsWith("23"))
+			if (e.getMessage().contains(EmployeeConsts.TAB_NAME + "." + EmployeeConsts.FLD_LOGIN))
 				return false;
 			else
 				throw e;

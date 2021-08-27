@@ -89,7 +89,7 @@ public class Controller implements Initializable {
 
 	@FXML
 	//TODO to + logowanie + dodać kolumnę z loginem
-	private TableView<Employee> employeesTableView;
+	private TableView<Employee> employeeTableView;
 	@FXML
 	private TableColumn<Employee, Long> employeeIdColumn;
 	@FXML
@@ -152,6 +152,8 @@ public class Controller implements Initializable {
 	@FXML
 	private Button addClientButton;
 
+	//TODO może olać funkcje dodatkowe i pisanie o inicjalizatorach w pracy
+
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
@@ -183,6 +185,8 @@ public class Controller implements Initializable {
 		setDeleteEquipmentButtonAction();
 
 		setAddEmployeeButtonAction();
+		setEditEmployeeButtonAction();
+		employeeTableViewDoubleClickOpenEditWindow();
 	}
 
 	private void setActiveSkipassesTableViewCellValues()
@@ -355,25 +359,53 @@ public class Controller implements Initializable {
 		});
 	}
 
-	private void setAddEquipmentButtonAction()
+	private void setEditEmployeeButtonAction()
 	{
-		addEquipmentButton.setOnAction(e -> {
+		editEmployeeButton.setOnAction(e -> {
 			try
 			{
-				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
-						"edit_windows/equipment/equipment_window.fxml"));
-				Parent parent = fxmlLoader.load();
-				Stage stage = new Stage();
-				stage.setScene(new Scene(parent));
-				stage.setTitle("Dodawanie sprzętu");
-				EquipmentWindowController equipmentWindowController = fxmlLoader.getController();
-				equipmentWindowController.setParentTableView(equipmentTableView);
-				stage.show();
+				Employee currentEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+				showEditEmployeeWindow(currentEmployee);
 			} catch (IOException ex)
 			{
 				ex.printStackTrace();//TODO
 			}
 		});
+	}
+
+	private void employeeTableViewDoubleClickOpenEditWindow()
+	{
+		employeeTableView.setRowFactory(tv -> {
+			TableRow<Employee> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && !row.isEmpty())
+				{
+					try
+					{
+						Employee employee = row.getItem();
+						showEditEmployeeWindow(employee);
+					} catch (Exception e)
+					{
+						e.printStackTrace();//TODO
+					}
+				}
+			});
+			return row;
+		});
+	}
+
+	private void showEditEmployeeWindow(Employee currentEmployee) throws IOException
+	{
+		FXMLLoader fxmlLoader =
+				new FXMLLoader(getClass().getResource("edit_windows/employee/employee_window.fxml"));
+		Parent parent = fxmlLoader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(parent));
+		stage.setTitle("Edycja pracownika " + currentEmployee.getFullName());
+		EmployeeWindowController employeeWindowController = fxmlLoader.getController();
+		employeeWindowController.setParentTableView(employeeTableView);
+		employeeWindowController.setCurrentEmployee(currentEmployee);
+		stage.show();
 	}
 
 	private void setAddEmployeeButtonAction()
@@ -388,7 +420,28 @@ public class Controller implements Initializable {
 				stage.setScene(new Scene(parent));
 				stage.setTitle("Dodawanie pracownika");
 				EmployeeWindowController employeeWindowController = fxmlLoader.getController();
-				employeeWindowController.setParentTableView(employeesTableView);
+				employeeWindowController.setParentTableView(employeeTableView);
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setAddEquipmentButtonAction()
+	{
+		addEquipmentButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"edit_windows/equipment/equipment_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Dodawanie sprzętu");
+				EquipmentWindowController equipmentWindowController = fxmlLoader.getController();
+				equipmentWindowController.setParentTableView(equipmentTableView);
 				stage.show();
 			} catch (IOException ex)
 			{
@@ -609,7 +662,7 @@ public class Controller implements Initializable {
 		try (Connection connection = BasicUtils.getConnection())
 		{
 			EmployeeDao employeeDao = new EmployeeDao(connection);
-			employeesTableView.getItems().setAll(employeeDao.getAll());
+			employeeTableView.getItems().setAll(employeeDao.getAll());
 		} catch (SQLException e)
 		{
 			e.printStackTrace();//TODO pokazanie błędu

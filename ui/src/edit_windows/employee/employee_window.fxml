@@ -52,7 +52,7 @@
                               <TextField fx:id="personalIdNumberTextField" layoutX="374.0" layoutY="30.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                               <TextField fx:id="phoneTextField" layoutX="374.0" layoutY="84.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                               <TextField fx:id="emailTextField" layoutX="374.0" layoutY="138.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                              <DatePicker fx:id="dateofBirthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <DatePicker fx:id="dateOfBirthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

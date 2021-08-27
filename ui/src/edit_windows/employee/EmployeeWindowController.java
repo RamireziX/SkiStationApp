@@ -4,6 +4,7 @@ import com.awrzosek.ski_station.basic.BasicUtils;
 import com.awrzosek.ski_station.database_management.EmployeeManager;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
 import edit_windows.client.edit.ClientEditWindowController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -30,7 +31,7 @@ public class EmployeeWindowController implements Initializable {
 	@FXML
 	private TextField emailTextField;
 	@FXML
-	private DatePicker dateofBirthDatePicker;
+	private DatePicker dateOfBirthDatePicker;
 
 	@FXML
 	private TextField streetNameTextField;
@@ -63,12 +64,21 @@ public class EmployeeWindowController implements Initializable {
 	private Button cancelButton;
 
 	private TableView<Employee> parentTableView;
+	private Employee currentEmployee;
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
 	{
-		setAcceptOnAddButtonAction();
+		acceptButton.setDefaultButton(true);
 		setCancelButtonAction();
+		Platform.runLater(() -> {
+			if (currentEmployee != null)
+			{
+				fillEditWindowWithCurrentValues();
+				setAcceptOnEditButtonAction();
+			} else
+				setAcceptOnAddButtonAction();
+		});
 	}
 
 	public void setParentTableView(TableView<Employee> parentTableView)
@@ -76,9 +86,39 @@ public class EmployeeWindowController implements Initializable {
 		this.parentTableView = parentTableView;
 	}
 
+	public void setCurrentEmployee(Employee currentEmployee)
+	{
+		this.currentEmployee = currentEmployee;
+	}
+
+	private void setAcceptOnEditButtonAction()
+	{
+		acceptButton.setOnAction(e -> {
+			setPersonalInfo(currentEmployee);
+			setAddressInfo(currentEmployee);
+			setLoginInfo(currentEmployee);
+			setPaymentInfo(currentEmployee);
+			Stage stage = ClientEditWindowController.getStage(acceptButton);
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				EmployeeManager employeeManager = new EmployeeManager(connection);
+				if (employeeManager.edit(currentEmployee))
+				{
+					parentTableView.getItems().setAll(employeeManager.getEmployeeDao().getAll());
+					stage.close();
+				} else
+					new Alert(Alert.AlertType.ERROR,
+							"Login \"" + currentEmployee.getLogin() + "\" jest już zajęty!").showAndWait();
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+				stage.close();
+			}
+		});
+	}
+
 	private void setAcceptOnAddButtonAction()
 	{
-		acceptButton.setDefaultButton(true);
 		acceptButton.setOnAction(e -> {
 			Employee employee = new Employee();
 			setPersonalInfo(employee);
@@ -132,8 +172,8 @@ public class EmployeeWindowController implements Initializable {
 		employee.setFirstName(firstNameTextField.getText());
 		employee.setSecondName(secondNameTextField.getText());
 		employee.setSurname(surnameTextField.getText());
-		if (dateofBirthDatePicker.getValue() != null)
-			employee.setDateOfBirth(dateofBirthDatePicker.getValue());
+		if (dateOfBirthDatePicker.getValue() != null)
+			employee.setDateOfBirth(dateOfBirthDatePicker.getValue());
 		employee.setPesel(peselTextField.getText());
 		employee.setPersonalIdNumber(personalIdNumberTextField.getText());
 		employee.setPhone(phoneTextField.getText());
@@ -148,5 +188,31 @@ public class EmployeeWindowController implements Initializable {
 			Stage stage = ClientEditWindowController.getStage(cancelButton);
 			stage.close();
 		});
+	}
+
+	private void fillEditWindowWithCurrentValues()
+	{
+		firstNameTextField.setText(currentEmployee.getFirstName());
+		secondNameTextField.setText(currentEmployee.getSecondName());
+		surnameTextField.setText(currentEmployee.getSurname());
+		dateOfBirthDatePicker.setValue(currentEmployee.getDateOfBirth());
+		peselTextField.setText(currentEmployee.getPesel());
+		personalIdNumberTextField.setText(currentEmployee.getPersonalIdNumber());
+		phoneTextField.setText(currentEmployee.getPhone());
+		emailTextField.setText(currentEmployee.getEMail());
+
+		streetNameTextField.setText(currentEmployee.getStreetName());
+		streetNrTextField.setText(currentEmployee.getStreetNr());
+		buildingNrTextField.setText(currentEmployee.getBuildingNr());
+		aptNrTextField.setText(currentEmployee.getAptNr());
+		cityTextField.setText(currentEmployee.getCity());
+		voivodeshipTextField.setText(currentEmployee.getVoivodeship());
+		zipcodeTextField.setText(currentEmployee.getZipcode());
+
+		accountNrTextField.setText(currentEmployee.getAccountNr());
+		bankNameTextField.setText(currentEmployee.getBankName());
+
+		loginTextField.setText(currentEmployee.getLogin());
+		passwdPasswordField.setText(currentEmployee.getPasswd());
 	}
 }

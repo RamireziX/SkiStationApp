@@ -118,7 +118,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </ButtonBar>
-              <TableView fx:id="employeesTableView" prefHeight="371.0" prefWidth="600.0">
+              <TableView fx:id="employeeTableView" prefHeight="371.0" prefWidth="600.0">
                   <columns>
                       <TableColumn fx:id="employeeIdColumn" prefWidth="75.0" text="id" visible="false" />
                       <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię" />
