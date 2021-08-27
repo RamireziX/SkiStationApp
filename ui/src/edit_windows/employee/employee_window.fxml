@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox prefHeight="285.0" prefWidth="497.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edit_windows.employee.EmployeeWindowController">
+   <children>
+      <TabPane>
+         <tabs>
+            <Tab closable="false" text="Dane podstawowe">
+               <content>
+                  <VBox prefHeight="298.0" prefWidth="497.0">
+                     <children>
+                        <GridPane hgap="5.0" prefHeight="226.0" prefWidth="486.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="158.0" minWidth="10.0" prefWidth="83.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="134.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="105.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="141.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Imię" textAlignment="RIGHT" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="17.0" maxWidth="1.7976931348623157E308" text="Drugie imię" textAlignment="RIGHT" GridPane.rowIndex="1" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="47.0" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="141.0" text="Nazwisko" textAlignment="RIGHT" GridPane.rowIndex="2" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="77.0" maxWidth="1.7976931348623157E308" text="Data urodzenia" textAlignment="RIGHT" GridPane.rowIndex="3" />
+                              <TextField fx:id="firstNameTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                              <TextField fx:id="secondNameTextField" layoutX="188.0" layoutY="13.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="20.0" layoutY="34.0" maxWidth="1.7976931348623157E308" text="Pesel" textAlignment="RIGHT" GridPane.columnIndex="2" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="242.0" layoutY="34.0" maxWidth="1.7976931348623157E308" text="Nr dok. tożsamości" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="242.0" layoutY="88.0" maxWidth="1.7976931348623157E308" text="Nr telefonu" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="242.0" layoutY="142.0" maxWidth="1.7976931348623157E308" text="Email" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <TextField fx:id="surnameTextField" layoutX="110.0" layoutY="84.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="peselTextField" layoutX="110.0" layoutY="30.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" />
+                              <TextField fx:id="personalIdNumberTextField" layoutX="374.0" layoutY="30.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField fx:id="phoneTextField" layoutX="374.0" layoutY="84.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <TextField fx:id="emailTextField" layoutX="374.0" layoutY="138.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <DatePicker fx:id="dateofBirthDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </GridPane>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Dane adresowe">
+              <content>
+                  <GridPane hgap="5.0" prefHeight="386.0" prefWidth="497.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="111.0" minWidth="10.0" prefWidth="75.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="165.0" minWidth="10.0" prefWidth="146.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="78.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.0" minWidth="10.0" prefWidth="163.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Ulica" textAlignment="RIGHT" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="66.0" maxWidth="1.7976931348623157E308" text="Nr budynku" textAlignment="RIGHT" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="195.0" maxWidth="1.7976931348623157E308" text="Miasto" textAlignment="RIGHT" GridPane.rowIndex="2" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="66.0" maxWidth="1.7976931348623157E308" text="Nr ulicy" textAlignment="RIGHT" GridPane.columnIndex="2" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="259.0" layoutY="66.0" maxWidth="1.7976931348623157E308" text="Nr mieszkania" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="259.0" layoutY="147.0" maxWidth="1.7976931348623157E308" text="Województwo" textAlignment="RIGHT" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="259.0" layoutY="244.0" maxWidth="1.7976931348623157E308" text="Kod pocztowy" textAlignment="RIGHT" GridPane.rowIndex="3" />
+                        <TextField fx:id="streetNameTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="buildingNrTextField" layoutX="135.0" layoutY="46.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="cityTextField" layoutX="135.0" layoutY="143.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="zipcodeTextField" layoutX="135.0" layoutY="240.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="streetNrTextField" layoutX="135.0" layoutY="336.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" />
+                        <TextField fx:id="aptNrTextField" layoutX="383.0" layoutY="46.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <TextField fx:id="voivodeshipTextField" layoutX="383.0" layoutY="143.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+              </content>
+            </Tab>
+            <Tab closable="false" text="Dane do rozliczenia">
+               <content>
+                  <GridPane hgap="10.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="230.0" minWidth="10.0" prefWidth="90.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="428.0" minWidth="10.0" prefWidth="297.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="388.0" minWidth="10.0" prefWidth="70.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="95.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="135.0" minHeight="10.0" prefHeight="67.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Numer rachunku" textAlignment="RIGHT" />
+                        <TextField fx:id="accountNrTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="98.0" maxWidth="1.7976931348623157E308" text="Bank" textAlignment="RIGHT" GridPane.rowIndex="1" />
+                        <TextField fx:id="bankNameTextField" layoutX="259.0" layoutY="94.0" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Dane logowania">
+               <content>
+                  <GridPane hgap="10.0" prefHeight="221.0" prefWidth="422.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="244.0" minWidth="10.0" prefWidth="90.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="10.0" prefWidth="298.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="471.0" minWidth="4.0" prefWidth="70.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Login" textAlignment="RIGHT" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="10.0" layoutY="98.0" maxWidth="1.7976931348623157E308" text="Hasło" textAlignment="RIGHT" GridPane.rowIndex="1" />
+                        <TextField fx:id="loginTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
+                        <PasswordField fx:id="passwdPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <HBox alignment="CENTER" prefHeight="69.0" prefWidth="497.0" spacing="50.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <children>
+            <Button fx:id="acceptButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Ok" />
+            <Button fx:id="cancelButton" mnemonicParsing="false" text="Anuluj" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>

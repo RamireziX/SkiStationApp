@@ -16,6 +16,7 @@ import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import edit_windows.client.add.ClientAddWindowController;
 import edit_windows.client.edit.ClientEditWindowController;
+import edit_windows.employee.EmployeeWindowController;
 import edit_windows.equipment.EquipmentWindowController;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -49,7 +50,7 @@ public class Controller implements Initializable {
 	@FXML
 	private TableView<Skipass> activeSkipassesTableView;
 	@FXML
-	private TableColumn<Skipass, Long> activeSkipassesIdTableColumn;
+	private TableColumn<Skipass, Long> activeSkipassIdTableColumn;
 	@FXML
 	private Label numberOfActiveSkipasses;
 	@FXML
@@ -90,6 +91,8 @@ public class Controller implements Initializable {
 	//TODO to + logowanie
 	private TableView<Employee> employeesTableView;
 	@FXML
+	private TableColumn<Employee, Long> employeeIdColumn;
+	@FXML
 	private TableColumn<Employee, String> employeeFirstNameColumn;
 	@FXML
 	private TableColumn<Employee, String> employeeSurnameColumn;
@@ -97,6 +100,12 @@ public class Controller implements Initializable {
 	private TableColumn<Employee, String> employeePhoneColumn;
 	@FXML
 	private TableColumn<Employee, String> employeeEmailColumn;
+	@FXML
+	private Button deleteEmployeeButton;
+	@FXML
+	private Button editEmployeeButton;
+	@FXML
+	private Button addEmployeeButton;
 
 	//TODO może też kolumna czy jest wypożyczony
 	@FXML
@@ -113,7 +122,6 @@ public class Controller implements Initializable {
 	private TableColumn<Equipment, BigDecimal> equipmentRentPriceColumn;
 	@FXML
 	private TableColumn<Equipment, String> equipmentConditionColumn;
-
 	@FXML
 	private Button deleteEquipmentButton;
 	@FXML
@@ -173,12 +181,14 @@ public class Controller implements Initializable {
 		setEditEquipmentButtonAction();
 		equipmentTableViewDoubleClickOpenEditWindow();
 		setDeleteEquipmentButtonAction();
+
+		setAddEmployeeButtonAction();
 	}
 
 	private void setActiveSkipassesTableViewCellValues()
 	{
 		activeSkipassesTableView.setPlaceholder(new Label(BasicConsts.EMPTY_STRING));
-		activeSkipassesIdTableColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
+		activeSkipassIdTableColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
 		try (Connection connection = BasicUtils.getConnection())
 		{
 			SkipassDao skipassDao = new SkipassDao(connection);
@@ -358,6 +368,27 @@ public class Controller implements Initializable {
 				stage.setTitle("Dodawanie sprzętu");
 				EquipmentWindowController equipmentWindowController = fxmlLoader.getController();
 				equipmentWindowController.setParentTableView(equipmentTableView);
+				stage.show();
+			} catch (IOException ex)
+			{
+				ex.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setAddEmployeeButtonAction()
+	{
+		addEmployeeButton.setOnAction(e -> {
+			try
+			{
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+						"edit_windows/employee/employee_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Dodawanie pracownika");
+				EmployeeWindowController employeeWindowController = fxmlLoader.getController();
+				employeeWindowController.setParentTableView(employeesTableView);
 				stage.show();
 			} catch (IOException ex)
 			{
@@ -569,6 +600,7 @@ public class Controller implements Initializable {
 
 	private void setEmployeesTableViewCellValues()
 	{
+		employeeIdColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
 		employeeFirstNameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getFirstName()));
 		employeeSurnameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSurname()));
 		employeePhoneColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getPhone()));

@@ -46,7 +46,7 @@
          <ComboBox fx:id="skipassComboBox" layoutX="41.0" layoutY="256.0" prefWidth="150.0" />
          <TableView fx:id="activeSkipassesTableView" layoutX="35.0" layoutY="361.0" prefHeight="200.0" prefWidth="55.0">
            <columns>
-             <TableColumn fx:id="activeSkipassesIdTableColumn" maxWidth="54.0" minWidth="-1.0" prefWidth="54.0" text="ID" />
+             <TableColumn fx:id="activeSkipassIdTableColumn" maxWidth="54.0" minWidth="-1.0" prefWidth="54.0" text="ID" />
            </columns>
          </TableView>
          <Label layoutX="35.0" layoutY="340.0" prefHeight="17.0" prefWidth="163.0" text="Aktywne skipassy:" />
@@ -106,15 +106,29 @@
       </VBox>
     </Tab>
     <Tab text="Panel pracowników">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        <TableView fx:id="employeesTableView" prefHeight="371.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <columns>
-                <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię" />
-                <TableColumn fx:id="employeeSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                <TableColumn fx:id="employeePhoneColumn" prefWidth="63.0" text="Nr. tel." />
-                <TableColumn fx:id="employeeEmailColumn" prefWidth="63.0" text="Email" />
-            </columns>
-        </TableView>
+      <VBox>
+         <children>
+            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+               <buttons>
+                  <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" text="Usuń" />
+                  <Button fx:id="editEmployeeButton" mnemonicParsing="false" text="Edytuj" />
+                  <Button fx:id="addEmployeeButton" mnemonicParsing="false" text="Dodaj" />
+               </buttons>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ButtonBar>
+              <TableView fx:id="employeesTableView" prefHeight="371.0" prefWidth="600.0">
+                  <columns>
+                      <TableColumn fx:id="employeeIdColumn" prefWidth="75.0" text="id" visible="false" />
+                      <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię" />
+                      <TableColumn fx:id="employeeSurnameColumn" prefWidth="75.0" text="Nazwisko" />
+                      <TableColumn fx:id="employeePhoneColumn" prefWidth="63.0" text="Nr. tel." />
+                      <TableColumn fx:id="employeeEmailColumn" prefWidth="63.0" text="Email" />
+                  </columns>
+              </TableView>
+         </children>
+      </VBox>
     </Tab>
     <Tab text="Funkcje dodatkowe">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
