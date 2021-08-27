@@ -4,6 +4,7 @@ import com.awrzosek.ski_station.cong_prize_management.QueueManager;
 import com.awrzosek.ski_station.cong_prize_management.SkipassPriceManager;
 import com.awrzosek.ski_station.cong_prize_management.StabilityException;
 import com.awrzosek.ski_station.database_management.ClientManager;
+import com.awrzosek.ski_station.database_management.EmployeeManager;
 import com.awrzosek.ski_station.database_management.EquipmentManager;
 import com.awrzosek.ski_station.hardware_connection.HardwareConnectionManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
@@ -46,7 +47,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class MainWindowController implements Initializable {
+	//TODO browsery
 	@FXML
 	private TableView<Skipass> activeSkipassesTableView;
 	@FXML
@@ -88,7 +90,7 @@ public class Controller implements Initializable {
 	private Button acceptSkipassPriceButton;
 
 	@FXML
-	//TODO to + logowanie + dodać kolumnę z loginem
+	//TODO logowanie + dodać kolumnę z loginem
 	private TableView<Employee> employeeTableView;
 	@FXML
 	private TableColumn<Employee, Long> employeeIdColumn;
@@ -187,6 +189,7 @@ public class Controller implements Initializable {
 		setAddEmployeeButtonAction();
 		setEditEmployeeButtonAction();
 		employeeTableViewDoubleClickOpenEditWindow();
+		setDeleteEmployeeButtonAction();
 	}
 
 	private void setActiveSkipassesTableViewCellValues()
@@ -357,6 +360,26 @@ public class Controller implements Initializable {
 			oneWeekPriceTextField.setText(oneWeekPrice.toString());
 			twoWeeksPriceTextField.setText(twoWeeksPrice.toString());
 		});
+	}
+
+	private void setDeleteEmployeeButtonAction()
+	{
+		deleteEmployeeButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				EmployeeManager employeeManager = new EmployeeManager(connection);
+				Employee currentEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+				if (!employeeManager.delete(currentEmployee))
+					new Alert(Alert.AlertType.ERROR,
+							"Pracownik " + currentEmployee.getLogin() + " jest teraz zalogowany!").showAndWait();
+				else
+					employeeTableView.getItems().setAll(employeeManager.getEmployeeDao().getAll());
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
+
 	}
 
 	private void setEditEmployeeButtonAction()

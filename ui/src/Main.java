@@ -31,7 +31,7 @@ public class Main extends Application {
 			BasicConsts.ACTIVE_NO_OF_CLIENTS = new SkipassDao(connection).getAllActive().size();
 		}
 
-		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main_window.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
 		primaryStage.setScene(new Scene(root, 300, 275));
 		primaryStage.show();

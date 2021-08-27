@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class EmployeeManager {
 	private EmployeeDao employeeDao;
 
-	//TODO jak starczy czasu to encrypting password - najpierw w gui potem w database najlepiej
+	//TODO jak starczy czasu to encrypting password - w database
 	public EmployeeManager(Connection connection)
 	{
 		this.employeeDao = new EmployeeDao(connection);

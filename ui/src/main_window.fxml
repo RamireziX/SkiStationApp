@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1050.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1050.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainWindowController">
     <Tab text="Panel główny">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="569.0" prefWidth="847.0">
             <Label fx:id="waitTimeLabel" layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="201.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
