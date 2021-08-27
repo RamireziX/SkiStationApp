@@ -1,6 +1,7 @@
 package com.awrzosek.ski_station.database_management;
 
 import com.awrzosek.ski_station.tables.person.employee.Employee;
+import com.awrzosek.ski_station.tables.person.employee.EmployeeConsts;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
 
 import java.sql.Connection;
@@ -24,6 +25,22 @@ public class EmployeeManager {
 			return true;
 		} catch (SQLException e)
 		{
+			if (e.getMessage().contains(EmployeeConsts.TAB_NAME + "." + EmployeeConsts.FLD_LOGIN))
+				return false;
+			else
+				throw e;
+		}
+	}
+
+	//TODO metoda copiego paste'a
+	public boolean edit(Employee employee) throws SQLException
+	{
+		try
+		{
+			employeeDao.update(employee);
+			return true;
+		} catch (SQLException e)
+		{
 			if (e.getSQLState().startsWith("23"))
 				return false;
 			else
@@ -36,5 +53,10 @@ public class EmployeeManager {
 	{
 		employeeDao.delete(employee);
 		return true;
+	}
+
+	public EmployeeDao getEmployeeDao()
+	{
+		return employeeDao;
 	}
 }

@@ -146,7 +146,9 @@ public class EmployeeDao extends BasicDao<Employee> {
 
 	protected Employee processForSelect(ResultSet result) throws SQLException
 	{
-		LocalDate dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
+		LocalDate dateOfBirth = null;
+		if (result.getDate(FLD_DATE_OF_BIRTH) != null)
+			dateOfBirth = result.getDate(FLD_DATE_OF_BIRTH).toLocalDate();
 
 		return new Employee(result.getLong(FLD_ID), result.getString(FLD_FIRST_NAME),
 				result.getString(FLD_SECOND_NAME), result.getString(FLD_SURNAME), dateOfBirth,
@@ -162,7 +164,7 @@ public class EmployeeDao extends BasicDao<Employee> {
 		preparedStatement.setString(1, employee.getFirstName());
 		preparedStatement.setString(2, employee.getSecondName());
 		preparedStatement.setString(3, employee.getSurname());
-		preparedStatement.setDate(4, Date.valueOf(employee.getDateOfBirth()));
+		setDateNullsafe(4, employee.getDateOfBirth(), preparedStatement);
 		preparedStatement.setString(5, employee.getPesel());
 		preparedStatement.setString(6, employee.getPersonalIdNumber());
 		preparedStatement.setString(7, employee.getPhone());

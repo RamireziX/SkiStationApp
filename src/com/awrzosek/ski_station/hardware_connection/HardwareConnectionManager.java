@@ -57,5 +57,4 @@ public class HardwareConnectionManager {
 	{
 		return skipassDao;
 	}
-
 }
