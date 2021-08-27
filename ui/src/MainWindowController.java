@@ -48,6 +48,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
+	//TODO dodawanie dowolnej ilości pustych skipassów i max liczbe klientów na stacji od tego uzależnić
+	//TODO dodawanie ulg - i to można wrzucić w funkcje dodatkowe
 	//TODO browsery
 	@FXML
 	private TableView<Skipass> activeSkipassesTableView;
@@ -90,10 +92,12 @@ public class MainWindowController implements Initializable {
 	private Button acceptSkipassPriceButton;
 
 	@FXML
-	//TODO logowanie + dodać kolumnę z loginem
+	//TODO logowanie
 	private TableView<Employee> employeeTableView;
 	@FXML
 	private TableColumn<Employee, Long> employeeIdColumn;
+	@FXML
+	private TableColumn<Employee, String> employeeLoginColumn;
 	@FXML
 	private TableColumn<Employee, String> employeeFirstNameColumn;
 	@FXML
@@ -154,7 +158,7 @@ public class MainWindowController implements Initializable {
 	@FXML
 	private Button addClientButton;
 
-	//TODO może olać funkcje dodatkowe i pisanie o inicjalizatorach w pracy
+	//TODO olać customowe inicjalizatory i pisanie o nich w pracy
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle)
@@ -677,6 +681,7 @@ public class MainWindowController implements Initializable {
 	private void setEmployeesTableViewCellValues()
 	{
 		employeeIdColumn.setCellValueFactory(data -> new ReadOnlyObjectWrapper<>(data.getValue().getId()));
+		employeeLoginColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getLogin()));
 		employeeFirstNameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getFirstName()));
 		employeeSurnameColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getSurname()));
 		employeePhoneColumn.setCellValueFactory(data -> new ReadOnlyStringWrapper(data.getValue().getPhone()));

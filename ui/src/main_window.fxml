@@ -1,136 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
-
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1050.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainWindowController">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0"
+         prefWidth="1050.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1"
+         xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainWindowController">
     <Tab text="Panel główny">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="569.0" prefWidth="847.0">
-            <Label fx:id="waitTimeLabel" layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="201.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
-            <Label layoutX="50.0" layoutY="31.0" prefHeight="17.0" prefWidth="163.0" text="Czas oczekiwania na wjazd:" />
-            <Label layoutX="41.0" layoutY="206.0" prefHeight="17.0" prefWidth="163.0" text="Symulacja działania stacji" />
-            <Label layoutX="41.0" layoutY="232.0" prefHeight="17.0" prefWidth="163.0" text="Wybierz wypożyczony skipass:" />
-            <Button fx:id="simulateEntryButton" layoutX="41.0" layoutY="290.0" mnemonicParsing="false" text="Wejście" />
-            <Button fx:id="simulateExitButton" layoutX="123.0" layoutY="290.0" mnemonicParsing="false" text="Wyjście" />
-            <Button fx:id="simulateLiftButton" layoutX="204.0" layoutY="290.0" mnemonicParsing="false" text="Wjazd" />
-            <Label layoutX="50.0" layoutY="100.0" prefHeight="17.0" prefWidth="163.0" text="Liczba klientów na stacji:" />
-            <Label fx:id="numberOfActiveSkipasses" layoutX="50.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
-            <Label layoutX="373.0" layoutY="31.0" prefHeight="17.0" prefWidth="102.0" text="Parametry:" />
-            <TextField fx:id="cParameterTextField" layoutX="360.0" layoutY="53.0" prefHeight="25.0" prefWidth="71.0" text="C" />
-            <TextField fx:id="aParameterTextField" layoutX="442.0" layoutY="53.0" prefHeight="25.0" prefWidth="51.0" text="a" />
-            <TextField fx:id="bParameterTextField" layoutX="499.0" layoutY="53.0" prefHeight="25.0" prefWidth="58.0" text="b" />
-            <Button fx:id="calculateSkipassPriceButton" layoutX="381.0" layoutY="88.0" mnemonicParsing="false" text="Oblicz cenę" />
-         <TextField fx:id="priceFromTextField" layoutX="566.0" layoutY="53.0" prefHeight="25.0" prefWidth="54.0" />
-         <Label layoutX="565.0" layoutY="31.0" prefHeight="17.0" prefWidth="56.0" text="Cena od:" />
-         <Label layoutX="630.0" layoutY="31.0" prefHeight="17.0" prefWidth="56.0" text="do:" />
-         <TextField fx:id="priceToTextField" layoutX="631.0" layoutY="53.0" prefHeight="25.0" prefWidth="54.0" />
-         <Button fx:id="acceptSkipassPriceButton" layoutX="471.0" layoutY="336.0" mnemonicParsing="false" text="Zaakceptuj" />
-         <Label layoutX="376.0" layoutY="146.0" prefHeight="17.0" prefWidth="73.0" text="Cena 1 dzień:" />
-         <Label layoutX="380.0" layoutY="193.0" prefHeight="17.0" prefWidth="73.0" text="Cena 3 dni:" />
-         <Label layoutX="376.0" layoutY="247.0" prefHeight="17.0" prefWidth="73.0" text="Cena 7 dni:" />
-         <Label layoutX="375.0" layoutY="295.0" prefHeight="17.0" prefWidth="73.0" text="Cena 14 dni:" />
-         <TextField fx:id="oneDayPriceTextField" layoutX="453.0" layoutY="142.0" prefHeight="25.0" prefWidth="103.0" />
-         <TextField fx:id="threeDaysPriceTextField" layoutX="453.0" layoutY="189.0" prefHeight="25.0" prefWidth="103.0" />
-         <TextField fx:id="oneWeekPriceTextField" layoutX="453.0" layoutY="243.0" prefHeight="25.0" prefWidth="103.0" />
-         <TextField fx:id="twoWeeksPriceTextField" layoutX="453.0" layoutY="291.0" prefHeight="25.0" prefWidth="103.0" />
-         <ComboBox fx:id="skipassComboBox" layoutX="41.0" layoutY="256.0" prefWidth="150.0" />
-         <TableView fx:id="activeSkipassesTableView" layoutX="35.0" layoutY="361.0" prefHeight="200.0" prefWidth="55.0">
-           <columns>
-             <TableColumn fx:id="activeSkipassIdTableColumn" maxWidth="54.0" minWidth="-1.0" prefWidth="54.0" text="ID" />
-           </columns>
-         </TableView>
-         <Label layoutX="35.0" layoutY="340.0" prefHeight="17.0" prefWidth="163.0" text="Aktywne skipassy:" />
+            <Label fx:id="waitTimeLabel" layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="201.0"
+                   style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"/>
+            <Label layoutX="50.0" layoutY="31.0" prefHeight="17.0" prefWidth="163.0" text="Czas oczekiwania na wjazd:"/>
+            <Label layoutX="41.0" layoutY="206.0" prefHeight="17.0" prefWidth="163.0"
+                   text="Symulacja działania stacji"/>
+            <Label layoutX="41.0" layoutY="232.0" prefHeight="17.0" prefWidth="163.0"
+                   text="Wybierz wypożyczony skipass:"/>
+            <Button fx:id="simulateEntryButton" layoutX="41.0" layoutY="290.0" mnemonicParsing="false" text="Wejście"/>
+            <Button fx:id="simulateExitButton" layoutX="123.0" layoutY="290.0" mnemonicParsing="false" text="Wyjście"/>
+            <Button fx:id="simulateLiftButton" layoutX="204.0" layoutY="290.0" mnemonicParsing="false" text="Wjazd"/>
+            <Label layoutX="50.0" layoutY="100.0" prefHeight="17.0" prefWidth="163.0"
+                   text="Liczba klientów na stacji:"/>
+            <Label fx:id="numberOfActiveSkipasses" layoutX="50.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0"
+                   style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;"/>
+            <Label layoutX="373.0" layoutY="31.0" prefHeight="17.0" prefWidth="102.0" text="Parametry:"/>
+            <TextField fx:id="cParameterTextField" layoutX="360.0" layoutY="53.0" prefHeight="25.0" prefWidth="71.0"
+                       text="C"/>
+            <TextField fx:id="aParameterTextField" layoutX="442.0" layoutY="53.0" prefHeight="25.0" prefWidth="51.0"
+                       text="a"/>
+            <TextField fx:id="bParameterTextField" layoutX="499.0" layoutY="53.0" prefHeight="25.0" prefWidth="58.0"
+                       text="b"/>
+            <Button fx:id="calculateSkipassPriceButton" layoutX="381.0" layoutY="88.0" mnemonicParsing="false"
+                    text="Oblicz cenę"/>
+            <TextField fx:id="priceFromTextField" layoutX="566.0" layoutY="53.0" prefHeight="25.0" prefWidth="54.0"/>
+            <Label layoutX="565.0" layoutY="31.0" prefHeight="17.0" prefWidth="56.0" text="Cena od:"/>
+            <Label layoutX="630.0" layoutY="31.0" prefHeight="17.0" prefWidth="56.0" text="do:"/>
+            <TextField fx:id="priceToTextField" layoutX="631.0" layoutY="53.0" prefHeight="25.0" prefWidth="54.0"/>
+            <Button fx:id="acceptSkipassPriceButton" layoutX="471.0" layoutY="336.0" mnemonicParsing="false"
+                    text="Zaakceptuj"/>
+            <Label layoutX="376.0" layoutY="146.0" prefHeight="17.0" prefWidth="73.0" text="Cena 1 dzień:"/>
+            <Label layoutX="380.0" layoutY="193.0" prefHeight="17.0" prefWidth="73.0" text="Cena 3 dni:"/>
+            <Label layoutX="376.0" layoutY="247.0" prefHeight="17.0" prefWidth="73.0" text="Cena 7 dni:"/>
+            <Label layoutX="375.0" layoutY="295.0" prefHeight="17.0" prefWidth="73.0" text="Cena 14 dni:"/>
+            <TextField fx:id="oneDayPriceTextField" layoutX="453.0" layoutY="142.0" prefHeight="25.0"
+                       prefWidth="103.0"/>
+            <TextField fx:id="threeDaysPriceTextField" layoutX="453.0" layoutY="189.0" prefHeight="25.0"
+                       prefWidth="103.0"/>
+            <TextField fx:id="oneWeekPriceTextField" layoutX="453.0" layoutY="243.0" prefHeight="25.0"
+                       prefWidth="103.0"/>
+            <TextField fx:id="twoWeeksPriceTextField" layoutX="453.0" layoutY="291.0" prefHeight="25.0"
+                       prefWidth="103.0"/>
+            <ComboBox fx:id="skipassComboBox" layoutX="41.0" layoutY="256.0" prefWidth="150.0"/>
+            <TableView fx:id="activeSkipassesTableView" layoutX="35.0" layoutY="361.0" prefHeight="200.0"
+                       prefWidth="55.0">
+                <columns>
+                    <TableColumn fx:id="activeSkipassIdTableColumn" maxWidth="54.0" minWidth="-1.0" prefWidth="54.0"
+                                 text="ID"/>
+                </columns>
+            </TableView>
+            <Label layoutX="35.0" layoutY="340.0" prefHeight="17.0" prefWidth="163.0" text="Aktywne skipassy:"/>
         </AnchorPane>
     </Tab>
     <Tab text="Panel klientów">
-      <VBox>
-         <children>
-            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-              <buttons>
-                <Button fx:id="deleteClientButton" mnemonicParsing="false" text="Usuń" />
-                  <Button fx:id="editClientButton" mnemonicParsing="false" text="Edytuj" />
-                  <Button fx:id="addClientButton" mnemonicParsing="false" text="Dodaj" />
-              </buttons>
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </ButtonBar>
-               <TableView fx:id="clientsTableView">
-                   <columns>
-                       <TableColumn fx:id="clientIdColumn" prefWidth="75.0" text="id" visible="false" />
-                       <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię" />
-                       <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                       <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel" />
-                       <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia" />
-                       <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Nr. tel." />
-                       <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email" />
-                   </columns>
-               </TableView>
-         </children>
-      </VBox>
+        <VBox>
+            <children>
+                <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                        <Button fx:id="deleteClientButton" mnemonicParsing="false" text="Usuń"/>
+                        <Button fx:id="editClientButton" mnemonicParsing="false" text="Edytuj"/>
+                        <Button fx:id="addClientButton" mnemonicParsing="false" text="Dodaj"/>
+                    </buttons>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </ButtonBar>
+                <TableView fx:id="clientsTableView">
+                    <columns>
+                        <TableColumn fx:id="clientIdColumn" prefWidth="75.0" text="id" visible="false"/>
+                        <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię"/>
+                        <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko"/>
+                        <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel"/>
+                        <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia"/>
+                        <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Nr. tel."/>
+                        <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
     </Tab>
     <Tab text="Panel sprzętu">
-      <VBox>
-         <children>
-            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-               <buttons>
-                  <Button fx:id="deleteEquipmentButton" mnemonicParsing="false" text="Usuń" />
-                  <Button fx:id="editEquipmentButton" mnemonicParsing="false" text="Edytuj" />
-                  <Button fx:id="addEquipmentButton" mnemonicParsing="false" text="Dodaj" />
-               </buttons>
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </ButtonBar>
-               <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0">
-                   <columns>
-                       <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
-                       <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny" />
-                       <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa" />
-                       <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />
-                       <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="119.0" text="Cena wypożyczenia" />
-                       <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="92.0" text="Stan" />
-                   </columns>
-               </TableView>
-         </children>
-      </VBox>
+        <VBox>
+            <children>
+                <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                        <Button fx:id="deleteEquipmentButton" mnemonicParsing="false" text="Usuń"/>
+                        <Button fx:id="editEquipmentButton" mnemonicParsing="false" text="Edytuj"/>
+                        <Button fx:id="addEquipmentButton" mnemonicParsing="false" text="Dodaj"/>
+                    </buttons>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </ButtonBar>
+                <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0">
+                    <columns>
+                        <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false"/>
+                        <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny"/>
+                        <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa"/>
+                        <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu"/>
+                        <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="119.0"
+                                     text="Cena wypożyczenia"/>
+                        <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="92.0" text="Stan"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
     </Tab>
     <Tab text="Panel pracowników">
-      <VBox>
-         <children>
-            <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
-               <buttons>
-                  <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" text="Usuń" />
-                  <Button fx:id="editEmployeeButton" mnemonicParsing="false" text="Edytuj" />
-                  <Button fx:id="addEmployeeButton" mnemonicParsing="false" text="Dodaj" />
-               </buttons>
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </ButtonBar>
-              <TableView fx:id="employeeTableView" prefHeight="371.0" prefWidth="600.0">
-                  <columns>
-                      <TableColumn fx:id="employeeIdColumn" prefWidth="75.0" text="id" visible="false" />
-                      <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię" />
-                      <TableColumn fx:id="employeeSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                      <TableColumn fx:id="employeePhoneColumn" prefWidth="63.0" text="Nr. tel." />
-                      <TableColumn fx:id="employeeEmailColumn" prefWidth="63.0" text="Email" />
-                  </columns>
-              </TableView>
-         </children>
-      </VBox>
+        <VBox>
+            <children>
+                <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                    <buttons>
+                        <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" text="Usuń"/>
+                        <Button fx:id="editEmployeeButton" mnemonicParsing="false" text="Edytuj"/>
+                        <Button fx:id="addEmployeeButton" mnemonicParsing="false" text="Dodaj"/>
+                    </buttons>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
+                </ButtonBar>
+                <TableView fx:id="employeeTableView" prefHeight="371.0" prefWidth="600.0">
+                    <columns>
+                        <TableColumn fx:id="employeeIdColumn" prefWidth="75.0" text="id" visible="false"/>
+                        <TableColumn fx:id="employeeLoginColumn" prefWidth="75.0" text="Login"/>
+                        <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię"/>
+                        <TableColumn fx:id="employeeSurnameColumn" prefWidth="75.0" text="Nazwisko"/>
+                        <TableColumn fx:id="employeePhoneColumn" prefWidth="63.0" text="Nr. tel."/>
+                        <TableColumn fx:id="employeeEmailColumn" prefWidth="63.0" text="Email"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
     </Tab>
     <Tab text="Funkcje dodatkowe">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
     </Tab>
 </TabPane>
