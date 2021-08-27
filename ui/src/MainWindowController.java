@@ -92,7 +92,7 @@ public class MainWindowController implements Initializable {
 	private Button acceptSkipassPriceButton;
 
 	@FXML
-	//TODO logowanie
+	//TODO logowanie + pokazać kto jest zalogowany teraz
 	private TableView<Employee> employeeTableView;
 	@FXML
 	private TableColumn<Employee, Long> employeeIdColumn;
@@ -158,6 +158,8 @@ public class MainWindowController implements Initializable {
 	@FXML
 	private Button addClientButton;
 
+	private Employee loggedInEmployee;
+
 	//TODO olać customowe inicjalizatory i pisanie o nich w pracy
 
 	@Override
@@ -194,6 +196,11 @@ public class MainWindowController implements Initializable {
 		setEditEmployeeButtonAction();
 		employeeTableViewDoubleClickOpenEditWindow();
 		setDeleteEmployeeButtonAction();
+	}
+
+	public void setLoggedInEmployee(Employee loggedInEmployee)
+	{
+		this.loggedInEmployee = loggedInEmployee;
 	}
 
 	private void setActiveSkipassesTableViewCellValues()
@@ -373,7 +380,7 @@ public class MainWindowController implements Initializable {
 			{
 				EmployeeManager employeeManager = new EmployeeManager(connection);
 				Employee currentEmployee = employeeTableView.getSelectionModel().getSelectedItem();
-				if (!employeeManager.delete(currentEmployee))
+				if (!employeeManager.delete(currentEmployee, loggedInEmployee))
 					new Alert(Alert.AlertType.ERROR,
 							"Pracownik " + currentEmployee.getLogin() + " jest teraz zalogowany!").showAndWait();
 				else

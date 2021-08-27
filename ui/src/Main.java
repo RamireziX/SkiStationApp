@@ -23,7 +23,6 @@ public class Main extends Application {
 		//TODO jak już będzie interfejs graficzny to ogarnąć pokazywanie błędów
 		//TODO jak już przejdziesz przez func rec to popraw też use cases
 
-		//TODO jakiś progress bar do inicjalizatorów
 		InitializerUtils.run();
 
 		try (Connection connection = BasicUtils.getConnection())
@@ -31,11 +30,11 @@ public class Main extends Application {
 			BasicConsts.ACTIVE_NO_OF_CLIENTS = new SkipassDao(connection).getAllActive().size();
 		}
 
-		Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("main_window.fxml")));
+		Parent parent = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login_window.fxml")));
 		primaryStage.setTitle("Stacja narciarska");
-		primaryStage.setScene(new Scene(root, 300, 275));
+		primaryStage.setScene(new Scene(parent));
 		primaryStage.show();
-		primaryStage.setMaximized(true);
+		primaryStage.setMaximized(false);
 		primaryStage.onCloseRequestProperty().setValue(e -> Platform.exit());
 	}
 

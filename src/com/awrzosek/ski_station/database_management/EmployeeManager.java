@@ -48,11 +48,24 @@ public class EmployeeManager {
 		}
 	}
 
-	//TODO sprawdzanie czy nie jest aktualnie zalogowany
-	public boolean delete(Employee employee) throws SQLException
+	public boolean delete(Employee employee, Employee loggedInEmployee) throws SQLException
 	{
+		if (employee.getId().compareTo(loggedInEmployee.getId()) == 0)
+			return false;
+
 		employeeDao.delete(employee);
+
 		return true;
+	}
+
+	public Employee authenticateLogin(String login, String password) throws SQLException
+	{
+		Employee employee = employeeDao.findByLogin(login).orElse(null);
+
+		if (employee == null || (!employee.getPasswd().equals(password)))
+			return null;
+
+		return employee;
 	}
 
 	public EmployeeDao getEmployeeDao()

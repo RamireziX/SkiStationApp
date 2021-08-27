@@ -144,6 +144,16 @@ public class EmployeeDao extends BasicDao<Employee> {
 		return getByQuery(query).isEmpty();
 	}
 
+	public Optional<Employee> findByLogin(String login) throws SQLException
+	{
+		//@formatter:off
+		String query =
+				"select * from " + TAB_NAME +
+				" where " + FLD_LOGIN + " = '" + login + "'";
+		//@formatter:on
+		return getByQuery(query);
+	}
+
 	protected Employee processForSelect(ResultSet result) throws SQLException
 	{
 		LocalDate dateOfBirth = null;
