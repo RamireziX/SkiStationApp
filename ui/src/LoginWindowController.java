@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -38,23 +37,26 @@ public class LoginWindowController implements Initializable {
 				EmployeeManager employeeManager = new EmployeeManager(connection);
 				Employee employee = employeeManager.authenticateLogin(loginTextField.getText(),
 						passwordField.getText());
-				if (employee == null)
-					new Alert(Alert.AlertType.ERROR,
-							"Nieprawidłowy login lub hasło!").showAndWait();
-				else
-				{
-					FXMLLoader fxmlLoader =
-							new FXMLLoader(getClass().getResource("main_window.fxml"));
-					Parent parent = fxmlLoader.load();
-					Stage stage = new Stage();
-					stage.setScene(new Scene(parent));
-					stage.setTitle("Stacja narciarska; zalogowany pracownik: " + employee.getLogin());
-					stage.setMaximized(true);
-					MainWindowController mainWindowController = fxmlLoader.getController();
-					mainWindowController.setLoggedInEmployee(employee);
-					stage.show();
-					mainStage.close();
-				}
+				employee = new Employee();
+				employee.setLogin("temp");
+				//TODO tymczasowo wyrzucam dla wygody
+//				if (employee == null)
+//					new Alert(Alert.AlertType.ERROR,
+//							"Nieprawidłowy login lub hasło!").showAndWait();
+//				else
+//				{
+				FXMLLoader fxmlLoader =
+						new FXMLLoader(getClass().getResource("main_window.fxml"));
+				Parent parent = fxmlLoader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(parent));
+				stage.setTitle("Stacja narciarska; zalogowany pracownik: " + employee.getLogin());
+				stage.setMaximized(true);
+				MainWindowController mainWindowController = fxmlLoader.getController();
+				mainWindowController.setLoggedInEmployee(employee);
+				stage.show();
+				mainStage.close();
+				//}
 			} catch (SQLException | IOException exception)
 			{
 				exception.printStackTrace();//TODO

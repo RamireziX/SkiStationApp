@@ -8,6 +8,7 @@ import com.awrzosek.ski_station.database_management.EmployeeManager;
 import com.awrzosek.ski_station.database_management.EquipmentManager;
 import com.awrzosek.ski_station.hardware_connection.HardwareConnectionManager;
 import com.awrzosek.ski_station.tables.person.client.Client;
+import com.awrzosek.ski_station.tables.person.client.ClientConsts;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
@@ -40,6 +41,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -48,9 +50,25 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
+	//TODO browsery
+	@FXML
+	private TextField nameClientBrowserTextField;
+	@FXML
+	private TextField surnameClientBrowserTextField;
+	@FXML
+	private TextField peselClientBrowserTextField;
+	@FXML
+	private TextField phoneClientBrowserTextField;
+	@FXML
+	private TextField emailClientBrowserTextField;
+	@FXML
+	private DatePicker dateEnteredClientBrowserDatePicker;
+	@FXML
+	private Button clientBrowserFilterButton;
+	@FXML
+	private Button clientBrowserClearButton;
 	//TODO dodawanie dowolnej ilości pustych skipassów i max liczbe klientów na stacji od tego uzależnić
 	//TODO dodawanie ulg - i to można wrzucić w funkcje dodatkowe
-	//TODO browsery
 	@FXML
 	private TableView<Skipass> activeSkipassesTableView;
 	@FXML
@@ -92,7 +110,6 @@ public class MainWindowController implements Initializable {
 	private Button acceptSkipassPriceButton;
 
 	@FXML
-	//TODO logowanie + pokazać kto jest zalogowany teraz
 	private TableView<Employee> employeeTableView;
 	@FXML
 	private TableColumn<Employee, Long> employeeIdColumn;
@@ -136,7 +153,7 @@ public class MainWindowController implements Initializable {
 	private Button addEquipmentButton;
 
 	@FXML
-	private TableView<Client> clientsTableView;
+	private TableView<Client> clientTableView;
 	@FXML
 	private TableColumn<Client, Long> clientIdColumn;
 	@FXML
@@ -174,6 +191,8 @@ public class MainWindowController implements Initializable {
 		setAddClientButtonAction();
 		setEditClientButtonAction();
 		setDeleteClientButtonAction();
+		setClientBrowserFilterButton();
+		setClientBrowserClearButton();
 
 		setCalculateSkipassPriceButtonAction();
 		setAcceptSkipassPriceButtonAction();
@@ -201,6 +220,68 @@ public class MainWindowController implements Initializable {
 	public void setLoggedInEmployee(Employee loggedInEmployee)
 	{
 		this.loggedInEmployee = loggedInEmployee;
+	}
+
+	private void setClientBrowserFilterButton()
+	{
+		clientBrowserFilterButton.setOnAction(e -> {
+			String firstName = nameClientBrowserTextField.getText();
+			String surname = surnameClientBrowserTextField.getText();
+			String pesel = peselClientBrowserTextField.getText();
+			String phone = phoneClientBrowserTextField.getText();
+			String email = emailClientBrowserTextField.getText();
+			LocalDate dateEntered = dateEnteredClientBrowserDatePicker.getValue();
+			//@formatter:off
+			String query =//TODO layout
+					"select * from " + ClientConsts.TAB_NAME +
+					" where 1=1" +
+					(!firstName.equals(BasicConsts.EMPTY_STRING) ?
+					 	" and " + ClientConsts.FLD_FIRST_NAME + " = '" + firstName + "'" :
+						BasicConsts.EMPTY_STRING) +
+					(!surname.equals(BasicConsts.EMPTY_STRING) ?
+						" and " + ClientConsts.FLD_SURNAME + " = '" + surname + "'" :
+						BasicConsts.EMPTY_STRING) +
+					(!pesel.equals(BasicConsts.EMPTY_STRING) ?
+						" and " + ClientConsts.FLD_PESEL + " = '" + pesel + "'" :
+						BasicConsts.EMPTY_STRING) +
+					(!phone.equals(BasicConsts.EMPTY_STRING) ?
+						" and " + ClientConsts.FLD_PHONE + " = '" + phone + "'" :
+						BasicConsts.EMPTY_STRING) +
+					(!email.equals(BasicConsts.EMPTY_STRING) ?
+						" and " + ClientConsts.FLD_E_MAIL + " = '" + email + "'" :
+						BasicConsts.EMPTY_STRING) +
+					(!(dateEntered == null) ?
+						" and " + ClientConsts.FLD_DATE_ENTERED + " = " + Date.valueOf(dateEntered).getTime() + "" :
+						BasicConsts.EMPTY_STRING);
+			//@formatter:on
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				clientTableView.getItems().setAll(new ClientDao(connection).listByQuery(query));
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setClientBrowserClearButton()
+	{
+		clientBrowserClearButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				nameClientBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				surnameClientBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				peselClientBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				phoneClientBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				emailClientBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				dateEnteredClientBrowserDatePicker.setValue(null);
+				clientTableView.getItems().setAll(new ClientDao(connection).getAll());
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
+
 	}
 
 	private void setActiveSkipassesTableViewCellValues()
@@ -564,7 +645,7 @@ public class MainWindowController implements Initializable {
 				stage.setScene(new Scene(parent));
 				stage.setTitle("Dodawanie klienta");
 				ClientAddWindowController clientAddWindowController = fxmlLoader.getController();
-				clientAddWindowController.setParentTableView(clientsTableView);
+				clientAddWindowController.setParentTableView(clientTableView);
 				stage.show();
 			} catch (IOException ex)
 			{
@@ -576,7 +657,7 @@ public class MainWindowController implements Initializable {
 	private void setDeleteClientButtonAction()
 	{
 		deleteClientButton.setOnAction(e -> {
-			Client client = clientsTableView.getSelectionModel().getSelectedItem();
+			Client client = clientTableView.getSelectionModel().getSelectedItem();
 			try (Connection connection = BasicUtils.getConnection())
 			{
 				ClientManager clientManager = new ClientManager(connection);
@@ -584,7 +665,7 @@ public class MainWindowController implements Initializable {
 					new Alert(Alert.AlertType.ERROR,
 							"Klient ma wypożyczony sprzęt, który należy zwrócić!").showAndWait();
 				else
-					ClientEditWindowController.refreshClientsTableView(clientManager.getClientDao(), clientsTableView);
+					ClientEditWindowController.refreshClientsTableView(clientManager.getClientDao(), clientTableView);
 			} catch (SQLException exception)
 			{
 				exception.printStackTrace();//TODO
@@ -597,7 +678,7 @@ public class MainWindowController implements Initializable {
 		editClientButton.setOnAction(e -> {
 			try
 			{
-				Client client = clientsTableView.getSelectionModel().getSelectedItem();
+				Client client = clientTableView.getSelectionModel().getSelectedItem();
 				showEditClientWindow(client);
 			} catch (Exception ex)
 			{
@@ -608,7 +689,7 @@ public class MainWindowController implements Initializable {
 
 	private void clientTableViewDoubleClickOpenEditWindow()
 	{
-		clientsTableView.setRowFactory(tv -> {
+		clientTableView.setRowFactory(tv -> {
 			TableRow<Client> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && !row.isEmpty())
@@ -635,7 +716,7 @@ public class MainWindowController implements Initializable {
 		Stage stage = new Stage();
 		stage.setScene(new Scene(parent));
 		ClientEditWindowController clientEditWindowController = fxmlLoader.getController();
-		clientEditWindowController.setParentTableView(clientsTableView);
+		clientEditWindowController.setParentTableView(clientTableView);
 		clientEditWindowController.setCurrentClient(client);
 		stage.setTitle("Edycja klienta: " + client.getFullName());
 		stage.show();
@@ -655,7 +736,7 @@ public class MainWindowController implements Initializable {
 		try (Connection connection = BasicUtils.getConnection())
 		{
 			ClientDao clientDao = new ClientDao(connection);
-			clientsTableView.getItems().setAll(clientDao.getAll());
+			clientTableView.getItems().setAll(clientDao.getAll());
 		} catch (SQLException e)
 		{
 			e.printStackTrace();//TODO pokazanie błędu
