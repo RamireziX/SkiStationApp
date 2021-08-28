@@ -11,6 +11,7 @@ import com.awrzosek.ski_station.tables.person.client.Client;
 import com.awrzosek.ski_station.tables.person.client.ClientConsts;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
+import com.awrzosek.ski_station.tables.person.employee.EmployeeConsts;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
 import com.awrzosek.ski_station.tables.ski.equipment.*;
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
@@ -50,6 +51,21 @@ import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
 	@FXML
+	private TextField loginEmployeeBrowserTextField;
+	@FXML
+	private TextField nameEmployeeBrowserTextField;
+	@FXML
+	private TextField phoneEmployeeBrowserTextField;
+	@FXML
+	private TextField surnameEmployeeBrowserTextField;
+	@FXML
+	private TextField emailEmployeeBrowserTextField;
+	@FXML
+	private Button employeeBrowserFilterButton;
+	@FXML
+	private Button employeeBrowserClearButton;
+
+	@FXML
 	private TextField serialNumberEquipmentBrowserTextField;
 	@FXML
 	private TextField nameEquipmentBrowserTextField;
@@ -63,7 +79,7 @@ public class MainWindowController implements Initializable {
 	private Button equipmentBrowserFilterButton;
 	@FXML
 	private Button equipmentBrowserClearButton;
-	//TODO browsery + pomyśleć jak je oddzielić od tabeli wizualnie
+
 	@FXML
 	private TextField nameClientBrowserTextField;
 	@FXML
@@ -232,6 +248,8 @@ public class MainWindowController implements Initializable {
 		setEditEmployeeButtonAction();
 		employeeTableViewDoubleClickOpenEditWindow();
 		setDeleteEmployeeButtonAction();
+		setEmployeeBrowserFilterButton();
+		setEmployeeBrowserClearButton();
 	}
 
 	public void setLoggedInEmployee(Employee loggedInEmployee)
@@ -267,6 +285,63 @@ public class MainWindowController implements Initializable {
 		conditionEquipmentBrowserComboBox.setCellFactory(factory);
 		conditionEquipmentBrowserComboBox.setButtonCell(factory.call(null));
 		conditionEquipmentBrowserComboBox.getItems().setAll(Condition.values());
+	}
+
+	private void setEmployeeBrowserFilterButton()
+	{
+		employeeBrowserFilterButton.setOnAction(e -> {
+			String login = loginEmployeeBrowserTextField.getText();
+			String name = nameEmployeeBrowserTextField.getText();
+			String surname = surnameEmployeeBrowserTextField.getText();
+			String phone = phoneEmployeeBrowserTextField.getText();
+			String email = emailEmployeeBrowserTextField.getText();
+
+			//@formatter:off
+			String query =
+					"select * from " + EmployeeConsts.TAB_NAME +
+							" where 1=1" +
+							(!login.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EmployeeConsts.FLD_LOGIN + " = '" + login + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(!name.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EmployeeConsts.FLD_FIRST_NAME + " = '" + name + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(!surname.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EmployeeConsts.FLD_SURNAME + " = '" + surname + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(!phone.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EmployeeConsts.FLD_PHONE + " = '" + phone + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(!email.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EmployeeConsts.FLD_E_MAIL + " = '" + email + "'" :
+									BasicConsts.EMPTY_STRING);
+			//@formatter:on
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				employeeTableView.getItems().setAll(new EmployeeDao(connection).listByQuery(query));
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setEmployeeBrowserClearButton()
+	{
+		employeeBrowserClearButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				loginEmployeeBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				nameEmployeeBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				surnameEmployeeBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				emailEmployeeBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				phoneEmployeeBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				employeeTableView.getItems().setAll(new EmployeeDao(connection).getAll());
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
 	}
 
 	private void setEquipmentBrowserFilterButton()
