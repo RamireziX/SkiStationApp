@@ -12,8 +12,7 @@ import com.awrzosek.ski_station.tables.person.client.ClientConsts;
 import com.awrzosek.ski_station.tables.person.client.ClientDao;
 import com.awrzosek.ski_station.tables.person.employee.Employee;
 import com.awrzosek.ski_station.tables.person.employee.EmployeeDao;
-import com.awrzosek.ski_station.tables.ski.equipment.Equipment;
-import com.awrzosek.ski_station.tables.ski.equipment.EquipmentDao;
+import com.awrzosek.ski_station.tables.ski.equipment.*;
 import com.awrzosek.ski_station.tables.ski.skipass.Skipass;
 import com.awrzosek.ski_station.tables.ski.skipass.SkipassDao;
 import edit_windows.client.add.ClientAddWindowController;
@@ -50,7 +49,21 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainWindowController implements Initializable {
-	//TODO browsery
+	@FXML
+	private TextField serialNumberEquipmentBrowserTextField;
+	@FXML
+	private TextField nameEquipmentBrowserTextField;
+	@FXML
+	private TextField rentPriceEquipmentBrowserTextField;
+	@FXML
+	private ComboBox<Type> typeEquipmentBrowserComboBox;
+	@FXML
+	private ComboBox<Condition> conditionEquipmentBrowserComboBox;
+	@FXML
+	private Button equipmentBrowserFilterButton;
+	@FXML
+	private Button equipmentBrowserClearButton;
+	//TODO browsery + pomyśleć jak je oddzielić od tabeli wizualnie
 	@FXML
 	private TextField nameClientBrowserTextField;
 	@FXML
@@ -210,6 +223,10 @@ public class MainWindowController implements Initializable {
 		setEditEquipmentButtonAction();
 		equipmentTableViewDoubleClickOpenEditWindow();
 		setDeleteEquipmentButtonAction();
+		setTypeComboBoxValues();
+		setConditionComboBoxValues();
+		setEquipmentBrowserClearButton();
+		setEquipmentBrowserFilterButton();
 
 		setAddEmployeeButtonAction();
 		setEditEmployeeButtonAction();
@@ -222,6 +239,94 @@ public class MainWindowController implements Initializable {
 		this.loggedInEmployee = loggedInEmployee;
 	}
 
+	private void setTypeComboBoxValues()
+	{
+		Callback<ListView<Type>, ListCell<Type>> factory = lv -> new ListCell<>() {
+			@Override
+			protected void updateItem(Type equipmentType, boolean empty)
+			{
+				super.updateItem(equipmentType, empty);
+				setText(empty ? "" : equipmentType.toString());
+			}
+		};
+		typeEquipmentBrowserComboBox.setCellFactory(factory);
+		typeEquipmentBrowserComboBox.setButtonCell(factory.call(null));
+		typeEquipmentBrowserComboBox.getItems().setAll(Type.values());
+	}
+
+	private void setConditionComboBoxValues()
+	{
+		Callback<ListView<Condition>, ListCell<Condition>> factory = lv -> new ListCell<>() {
+			@Override
+			protected void updateItem(Condition condition, boolean empty)
+			{
+				super.updateItem(condition, empty);
+				setText(empty ? "" : condition.toString());
+			}
+		};
+		conditionEquipmentBrowserComboBox.setCellFactory(factory);
+		conditionEquipmentBrowserComboBox.setButtonCell(factory.call(null));
+		conditionEquipmentBrowserComboBox.getItems().setAll(Condition.values());
+	}
+
+	private void setEquipmentBrowserFilterButton()
+	{
+		equipmentBrowserFilterButton.setOnAction(e -> {
+			String serialNumber = serialNumberEquipmentBrowserTextField.getText();
+			String name = nameEquipmentBrowserTextField.getText();
+			BigDecimal rentPrice = null;
+			if (!rentPriceEquipmentBrowserTextField.getText().equals(BasicConsts.EMPTY_STRING))
+				rentPrice = new BigDecimal(rentPriceEquipmentBrowserTextField.getText());
+			Type type = typeEquipmentBrowserComboBox.getValue();
+			Condition condition = conditionEquipmentBrowserComboBox.getValue();
+			//@formatter:off
+			String query =
+					"select * from " + EquipmentConsts.TAB_NAME +
+							" where 1=1" +
+							(!serialNumber.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EquipmentConsts.FLD_SERIAL_NUMBER + " = '" + serialNumber + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(!name.equals(BasicConsts.EMPTY_STRING) ?
+									" and " + EquipmentConsts.FLD_NAME + " = '" + name + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(rentPrice != null ?
+									" and " + EquipmentConsts.FLD_RENT_PRICE + " = " + rentPrice :
+									BasicConsts.EMPTY_STRING) +
+							(type != null ?
+									" and " + EquipmentConsts.FLD_TYPE + " = '" + type.name() + "'" :
+									BasicConsts.EMPTY_STRING) +
+							(condition != null ?
+									" and " + EquipmentConsts.FLD_CONDITION + " = '" + condition.name() + "'" :
+									BasicConsts.EMPTY_STRING);
+			//@formatter:on
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				equipmentTableView.getItems().setAll(new EquipmentDao(connection).listByQuery(query));
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();//TODO
+			}
+		});
+	}
+
+	private void setEquipmentBrowserClearButton()
+	{
+		equipmentBrowserClearButton.setOnAction(e -> {
+			try (Connection connection = BasicUtils.getConnection())
+			{
+				serialNumberEquipmentBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				nameEquipmentBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				rentPriceEquipmentBrowserTextField.setText(BasicConsts.EMPTY_STRING);
+				typeEquipmentBrowserComboBox.setValue(null);
+				conditionEquipmentBrowserComboBox.setValue(null);
+				equipmentTableView.getItems().setAll(new EquipmentDao(connection).getAll());
+			} catch (SQLException exception)
+			{
+				exception.printStackTrace();
+			}
+		});
+	}
+
 	private void setClientBrowserFilterButton()
 	{
 		clientBrowserFilterButton.setOnAction(e -> {
@@ -232,7 +337,7 @@ public class MainWindowController implements Initializable {
 			String email = emailClientBrowserTextField.getText();
 			LocalDate dateEntered = dateEnteredClientBrowserDatePicker.getValue();
 			//@formatter:off
-			String query =//TODO layout
+			String query =
 					"select * from " + ClientConsts.TAB_NAME +
 					" where 1=1" +
 					(!firstName.equals(BasicConsts.EMPTY_STRING) ?
@@ -251,7 +356,7 @@ public class MainWindowController implements Initializable {
 						" and " + ClientConsts.FLD_E_MAIL + " = '" + email + "'" :
 						BasicConsts.EMPTY_STRING) +
 					(!(dateEntered == null) ?
-						" and " + ClientConsts.FLD_DATE_ENTERED + " = " + Date.valueOf(dateEntered).getTime() + "" :
+						" and " + ClientConsts.FLD_DATE_ENTERED + " = " + Date.valueOf(dateEntered).getTime() :
 						BasicConsts.EMPTY_STRING);
 			//@formatter:on
 			try (Connection connection = BasicUtils.getConnection())
@@ -281,7 +386,6 @@ public class MainWindowController implements Initializable {
 				exception.printStackTrace();
 			}
 		});
-
 	}
 
 	private void setActiveSkipassesTableViewCellValues()
