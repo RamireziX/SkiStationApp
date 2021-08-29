@@ -16,7 +16,6 @@ public class EmployeeManager {
 		this.employeeDao = new EmployeeDao(connection);
 	}
 
-	//TODO przetestować czy rzeczywiście działa jak nieunikalny login
 	public boolean add(Employee employee) throws SQLException
 	{
 		try

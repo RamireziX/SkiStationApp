@@ -96,7 +96,8 @@ public class MainWindowController implements Initializable {
 	private Button clientBrowserFilterButton;
 	@FXML
 	private Button clientBrowserClearButton;
-	//TODO dodawanie dowolnej ilości pustych skipassów i max liczbe klientów na stacji od tego uzależnić
+	//TODO jak starczy czasu - dodawanie dowolnej ilości pustych skipassów i max liczbe klientów na stacji od tego
+	// uzależnić
 	//TODO dodawanie ulg - i to można wrzucić w funkcje dodatkowe
 	@FXML
 	private TableView<Skipass> activeSkipassesTableView;
