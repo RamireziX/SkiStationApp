@@ -172,10 +172,13 @@ public class ClientAddWindowController implements Initializable {
 				//TODO jakieś zapytanie czy na pewno
 				ClientManager clientManager = new ClientManager(connection);
 				ClientDao clientDao = clientManager.getClientDao();
-				//TODO obsłużyć błędy z menegera - np brak skipassów
-				clientManager.addClient(client, equipmentToRentType, skipassTypes, duration);
-				stage.close();
-				ClientEditWindowController.refreshClientsTableView(clientDao, clientsTableView);
+				if (clientManager.addClient(client, equipmentToRentType, skipassTypes, duration))
+				{
+					stage.close();
+					ClientEditWindowController.refreshClientsTableView(clientDao, clientsTableView);
+				} else
+					new Alert(Alert.AlertType.ERROR,
+							"Brak dostępnych skipassów!").showAndWait();
 			} catch (SQLException exception)
 			{
 				exception.printStackTrace();//TODO

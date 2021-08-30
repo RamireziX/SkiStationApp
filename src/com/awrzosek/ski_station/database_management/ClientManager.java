@@ -39,10 +39,9 @@ public class ClientManager {
 		sstmDao = new SkipassSkipassTypeMapDao(connection);
 	}
 
-	public void addClient(Client client, HashMap<Equipment, RentType> equipmentsToRentType,
-						  List<SkipassType> skipassTypes, Duration duration)
+	public boolean addClient(Client client, HashMap<Equipment, RentType> equipmentsToRentType,
+							 List<SkipassType> skipassTypes, Duration duration)
 	{
-		//TODO pomyśleć co z pokazywaniem błędów - ale to jak już będzie gui
 		try
 		{
 			List<Skipass> skipasses = skipassDao.getNotRented(skipassTypes.size());
@@ -52,13 +51,15 @@ public class ClientManager {
 				initSkipasses(skipasses, skipassTypes, client, duration);
 				if (equipmentsToRentType != null)
 					rentEquipments(equipmentsToRentType, client, duration);
-			} else
-				System.err.println("Wystąpił błąd - brak dostępnych skipassów!");//TODO może raczej boolean i false
 
+				return true;
+			}
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
+
+		return false;
 	}
 
 	public boolean removeClient(Client client)
