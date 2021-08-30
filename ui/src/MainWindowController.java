@@ -138,6 +138,8 @@ public class MainWindowController implements Initializable {
 	private Button calculateSkipassPriceButton;
 	@FXML
 	private Button acceptSkipassPriceButton;
+	@FXML
+	private Button clearSkipassPriceButton;
 
 	@FXML
 	private TableView<Employee> employeeTableView;
@@ -226,6 +228,7 @@ public class MainWindowController implements Initializable {
 
 		setCalculateSkipassPriceButtonAction();
 		setAcceptSkipassPriceButtonAction();
+		setClearSkipassPriceButtonAction();
 
 		setSkipassComboBoxValues();
 		setSimulateEntryButtonAction();
@@ -608,6 +611,22 @@ public class MainWindowController implements Initializable {
 			BasicConsts.THREE_DAYS_SKIPASS_PRICE = new BigDecimal(threeDaysPriceTextField.getText());
 			BasicConsts.ONE_WEEK_SKIPASS_PRICE = new BigDecimal(oneWeekPriceTextField.getText());
 			BasicConsts.TWO_WEEKS_SKIPASS_PRICE = new BigDecimal(twoWeeksPriceTextField.getText());
+		});
+	}
+
+	private void setClearSkipassPriceButtonAction()
+	{
+		clearSkipassPriceButton.setOnAction(e -> {
+			cParameterTextField.setText(BasicConsts.EMPTY_STRING);
+			aParameterTextField.setText(BasicConsts.EMPTY_STRING);
+			bParameterTextField.setText(BasicConsts.EMPTY_STRING);
+			priceFromTextField.setText(BasicConsts.EMPTY_STRING);
+			priceToTextField.setText(BasicConsts.EMPTY_STRING);
+			oneDayPriceTextField.setText(BasicConsts.EMPTY_STRING);
+			threeDaysPriceTextField.setText(BasicConsts.EMPTY_STRING);
+			oneWeekPriceTextField.setText(BasicConsts.EMPTY_STRING);
+			threeDaysPriceTextField.setText(BasicConsts.EMPTY_STRING);
+			twoWeeksPriceTextField.setText(BasicConsts.EMPTY_STRING);
 		});
 	}
 

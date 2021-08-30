@@ -11,7 +11,6 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -19,61 +18,271 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1050.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainWindowController">
+<TabPane prefHeight="495.0" prefWidth="889.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainWindowController">
     <Tab text="Panel główny">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="569.0" prefWidth="847.0">
-            <Label fx:id="waitTimeLabel" layoutX="50.0" layoutY="48.0" prefHeight="34.0" prefWidth="201.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
-            <Label layoutX="50.0" layoutY="31.0" prefHeight="17.0" prefWidth="163.0" text="Czas oczekiwania na wjazd:" />
-            <Label layoutX="41.0" layoutY="206.0" prefHeight="17.0" prefWidth="163.0" text="Symulacja działania stacji" />
-            <Label layoutX="41.0" layoutY="232.0" prefHeight="17.0" prefWidth="163.0" text="Wybierz wypożyczony skipass:" />
-            <Button fx:id="simulateEntryButton" layoutX="41.0" layoutY="290.0" mnemonicParsing="false" text="Wejście" />
-            <Button fx:id="simulateExitButton" layoutX="123.0" layoutY="290.0" mnemonicParsing="false" text="Wyjście" />
-            <Button fx:id="simulateLiftButton" layoutX="204.0" layoutY="290.0" mnemonicParsing="false" text="Wjazd" />
-            <Label layoutX="50.0" layoutY="100.0" prefHeight="17.0" prefWidth="163.0" text="Liczba klientów na stacji:" />
-            <Label fx:id="numberOfActiveSkipasses" layoutX="50.0" layoutY="117.0" prefHeight="34.0" prefWidth="104.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;" />
-            <Label layoutX="373.0" layoutY="31.0" prefHeight="17.0" prefWidth="102.0" text="Parametry:" />
-            <TextField fx:id="cParameterTextField" layoutX="360.0" layoutY="53.0" prefHeight="25.0" prefWidth="71.0" text="C" />
-            <TextField fx:id="aParameterTextField" layoutX="442.0" layoutY="53.0" prefHeight="25.0" prefWidth="51.0" text="a" />
-            <TextField fx:id="bParameterTextField" layoutX="499.0" layoutY="53.0" prefHeight="25.0" prefWidth="58.0" text="b" />
-            <Button fx:id="calculateSkipassPriceButton" layoutX="381.0" layoutY="88.0" mnemonicParsing="false" text="Oblicz cenę" />
-            <TextField fx:id="priceFromTextField" layoutX="566.0" layoutY="53.0" prefHeight="25.0" prefWidth="54.0" />
-            <Label layoutX="565.0" layoutY="31.0" prefHeight="17.0" prefWidth="56.0" text="Cena od:" />
-            <Label layoutX="630.0" layoutY="31.0" prefHeight="17.0" prefWidth="56.0" text="do:" />
-            <TextField fx:id="priceToTextField" layoutX="631.0" layoutY="53.0" prefHeight="25.0" prefWidth="54.0" />
-            <Button fx:id="acceptSkipassPriceButton" layoutX="471.0" layoutY="336.0" mnemonicParsing="false" text="Zaakceptuj" />
-            <Label layoutX="376.0" layoutY="146.0" prefHeight="17.0" prefWidth="73.0" text="Cena 1 dzień:" />
-            <Label layoutX="380.0" layoutY="193.0" prefHeight="17.0" prefWidth="73.0" text="Cena 3 dni:" />
-            <Label layoutX="376.0" layoutY="247.0" prefHeight="17.0" prefWidth="73.0" text="Cena 7 dni:" />
-            <Label layoutX="375.0" layoutY="295.0" prefHeight="17.0" prefWidth="73.0" text="Cena 14 dni:" />
-            <TextField fx:id="oneDayPriceTextField" layoutX="453.0" layoutY="142.0" prefHeight="25.0" prefWidth="103.0" />
-            <TextField fx:id="threeDaysPriceTextField" layoutX="453.0" layoutY="189.0" prefHeight="25.0" prefWidth="103.0" />
-            <TextField fx:id="oneWeekPriceTextField" layoutX="453.0" layoutY="243.0" prefHeight="25.0" prefWidth="103.0" />
-            <TextField fx:id="twoWeeksPriceTextField" layoutX="453.0" layoutY="291.0" prefHeight="25.0" prefWidth="103.0" />
-            <ComboBox fx:id="skipassComboBox" layoutX="41.0" layoutY="256.0" prefWidth="150.0" />
-            <TableView fx:id="activeSkipassesTableView" layoutX="35.0" layoutY="361.0" prefHeight="200.0" prefWidth="55.0">
-                <columns>
-                    <TableColumn fx:id="activeSkipassIdTableColumn" maxWidth="54.0" minWidth="-1.0" prefWidth="54.0" text="ID" />
-                </columns>
-            </TableView>
-            <Label layoutX="35.0" layoutY="340.0" prefHeight="17.0" prefWidth="163.0" text="Aktywne skipassy:" />
-        </AnchorPane>
+      <HBox prefHeight="466.0" prefWidth="936.0">
+         <children>
+            <VBox prefHeight="602.0" prefWidth="249.0">
+               <children>
+                     <Label prefHeight="35.0" prefWidth="155.0" text="Cena karnetu:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="20.0" prefWidth="77.0" text="Parametry:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                           <TextField fx:id="cParameterTextField" prefHeight="25.0" prefWidth="71.0" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <TextField fx:id="aParameterTextField" prefHeight="25.0" prefWidth="51.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <TextField fx:id="bParameterTextField" prefHeight="25.0" prefWidth="58.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <Button fx:id="calculateSkipassPriceButton" mnemonicParsing="false" text="Oblicz cenę" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                           <TextField fx:id="priceFromTextField" prefHeight="25.0" prefWidth="54.0" GridPane.columnIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="56.0" text="Cena od:" GridPane.columnIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                           <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="56.0" text="do:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                           <TextField fx:id="priceToTextField" prefHeight="25.0" prefWidth="54.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="17.0" text="C">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="17.0" text="a" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="17.0" text="b" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </GridPane>
+                  <GridPane hgap="10.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                           <Button fx:id="acceptSkipassPriceButton" alignment="CENTER_RIGHT" mnemonicParsing="false" text="Zaakceptuj" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                           <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="93.0" text="Cena 1 dzień:">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                           <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="73.0" text="Cena 3 dni:" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                           <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="73.0" text="Cena 7 dni:" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                           <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="20.0" prefWidth="92.0" text="Cena 14 dni:" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                           <TextField fx:id="oneDayPriceTextField" prefHeight="25.0" prefWidth="103.0" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <TextField fx:id="threeDaysPriceTextField" prefHeight="25.0" prefWidth="103.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <TextField fx:id="oneWeekPriceTextField" prefHeight="25.0" prefWidth="103.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                           <TextField fx:id="twoWeeksPriceTextField" prefHeight="25.0" prefWidth="103.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="clearSkipassPriceButton" alignment="CENTER_RIGHT" layoutX="37.0" layoutY="190.0" mnemonicParsing="false" text="Czyść" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                     <padding>
+                        <Insets top="20.0" />
+                     </padding>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox prefHeight="491.0" prefWidth="340.0" spacing="10.0">
+               <children>
+                     <Label prefHeight="35.0" prefWidth="281.0" text="Symulacja działania stacji:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                     <Label prefHeight="20.0" prefWidth="178.0" text="Czas oczekiwania na wjazd:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                     <Label fx:id="waitTimeLabel" prefHeight="34.0" prefWidth="216.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                     <Label prefHeight="20.0" prefWidth="210.0" text="Wybierz wypożyczony skipass:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                     <ComboBox fx:id="skipassComboBox" prefHeight="34.0" prefWidth="172.0" />
+                  <Label layoutX="10.0" layoutY="55.0" prefHeight="17.0" prefWidth="163.0" text="Symulacja bramek:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <HBox spacing="20.0">
+                     <children>
+                           <Button fx:id="simulateEntryButton" mnemonicParsing="false" text="Wejście">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                           <Button fx:id="simulateExitButton" mnemonicParsing="false" text="Wyjście">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                           <Button fx:id="simulateLiftButton" mnemonicParsing="false" text="Wjazd">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </VBox>
+            <VBox prefHeight="491.0" prefWidth="265.0">
+               <children>
+                     <Label prefHeight="35.0" prefWidth="268.0" text="Liczba klientów na stacji:">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                     <Label fx:id="numberOfActiveSkipasses" prefHeight="37.0" prefWidth="102.0" style=" -fx-border-color:black; -fx-border-width: 1; -fx-border-style: solid;">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                     <Label prefHeight="17.0" prefWidth="163.0" text="Aktywne skipassy:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </Label>
+                     <TableView fx:id="activeSkipassesTableView" maxWidth="-Infinity" prefHeight="226.0" prefWidth="56.0">
+                         <columns>
+                             <TableColumn fx:id="activeSkipassIdTableColumn" maxWidth="54.0" minWidth="-1.0" prefWidth="54.0" text="ID" />
+                         </columns>
+                     </TableView>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
     </Tab>
     <Tab text="Panel klientów">
       <HBox>
          <children>
-            <VBox prefHeight="428.0" prefWidth="248.0">
+            <VBox prefHeight="466.0" prefWidth="294.0">
                <children>
                   <Label prefHeight="51.0" prefWidth="232.0" text="Filtrowanie">
                      <padding>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font size="14.0" />
-                     </font></Label>
-                  <GridPane hgap="5.0" prefHeight="200.0" prefWidth="248.0">
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <GridPane hgap="10.0" prefHeight="233.0" prefWidth="260.0" vgap="10.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="124.0" minWidth="10.0" prefWidth="124.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="106.0" minWidth="10.0" prefWidth="99.0" />
                     </columnConstraints>
                     <rowConstraints>
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -84,18 +293,62 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Imię" textAlignment="RIGHT" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwisko" GridPane.rowIndex="1" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="PESEL" GridPane.rowIndex="2" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Telefon" GridPane.rowIndex="3" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Email" GridPane.rowIndex="4" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="129.0" text="Data wprowadzenia" GridPane.rowIndex="5" />
-                        <TextField fx:id="nameClientBrowserTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                        <TextField fx:id="surnameClientBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="peselClientBrowserTextField" prefHeight="25.0" prefWidth="118.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="phoneClientBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="emailClientBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <DatePicker fx:id="dateEnteredClientBrowserDatePicker" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Imię" textAlignment="RIGHT">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwisko" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="PESEL" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Telefon" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Email" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" prefHeight="17.0" prefWidth="129.0" text="Data wprowadzenia" GridPane.rowIndex="5">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nameClientBrowserTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="surnameClientBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="peselClientBrowserTextField" prefHeight="25.0" prefWidth="118.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="phoneClientBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="emailClientBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                        <DatePicker fx:id="dateEnteredClientBrowserDatePicker" prefHeight="76.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -109,8 +362,16 @@
                         <Insets />
                      </opaqueInsets>
                      <children>
-                        <Button fx:id="clientBrowserFilterButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Filtruj" />
-                        <Button fx:id="clientBrowserClearButton" mnemonicParsing="false" text="Czyść" />
+                        <Button fx:id="clientBrowserFilterButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="59.0" text="Filtruj">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="clientBrowserClearButton" mnemonicParsing="false" text="Czyść">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -118,30 +379,42 @@
                   </HBox>
                </children>
             </VBox>
-              <VBox>
+              <VBox prefHeight="523.0" prefWidth="655.0">
                   <children>
                       <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                           <buttons>
-                              <Button fx:id="deleteClientButton" mnemonicParsing="false" text="Usuń" />
-                              <Button fx:id="editClientButton" mnemonicParsing="false" text="Edytuj" />
-                              <Button fx:id="addClientButton" mnemonicParsing="false" text="Dodaj" />
+                              <Button fx:id="deleteClientButton" mnemonicParsing="false" text="Usuń">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                              <Button fx:id="editClientButton" mnemonicParsing="false" text="Edytuj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                              <Button fx:id="addClientButton" mnemonicParsing="false" text="Dodaj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
                           </buttons>
                           <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                           </VBox.margin>
                       </ButtonBar>
-                      <TableView fx:id="clientTableView">
+                      <TableView fx:id="clientTableView" prefHeight="454.0" prefWidth="524.0">
                           <columns>
                               <TableColumn fx:id="clientIdColumn" prefWidth="75.0" text="id" visible="false" />
-                              <TableColumn fx:id="clientFirstNameColumn" prefWidth="75.0" text="Imię" />
-                              <TableColumn fx:id="clientSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                              <TableColumn fx:id="clientPeselColumn" prefWidth="75.0" text="Pesel" />
-                              <TableColumn fx:id="clientDateEnteredColumn" prefWidth="130.0" text="Data wprowadzenia" />
-                              <TableColumn fx:id="clientPhoneColumn" prefWidth="63.0" text="Telefon" />
-                              <TableColumn fx:id="clientEmailColumn" prefWidth="63.0" text="Email" />
+                              <TableColumn fx:id="clientFirstNameColumn" prefWidth="109.0" text="Imię" />
+                              <TableColumn fx:id="clientSurnameColumn" prefWidth="84.0" text="Nazwisko" />
+                              <TableColumn fx:id="clientPeselColumn" prefWidth="77.0" text="Pesel" />
+                              <TableColumn fx:id="clientDateEnteredColumn" prefWidth="121.0" text="Data wprowadzenia" />
+                              <TableColumn fx:id="clientPhoneColumn" prefWidth="109.0" text="Telefon" />
+                              <TableColumn fx:id="clientEmailColumn" minWidth="8.0" prefWidth="103.0" text="Email" />
                           </columns>
                       </TableView>
                   </children>
+               <padding>
+                  <Insets bottom="20.0" right="20.0" />
+               </padding>
               </VBox>
          </children>
       </HBox>
@@ -149,14 +422,14 @@
     <Tab text="Panel sprzętu">
       <HBox>
          <children>
-            <VBox prefHeight="428.0" prefWidth="248.0">
+            <VBox prefHeight="466.0" prefWidth="366.0">
                <children>
                   <Label prefHeight="51.0" prefWidth="232.0" text="Filtrowanie">
                      <padding>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font size="14.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <GridPane hgap="5.0" prefHeight="200.0" prefWidth="248.0">
@@ -172,16 +445,40 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Numer seryjny" textAlignment="RIGHT" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwa" GridPane.rowIndex="1" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Rodzaj" GridPane.rowIndex="2" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Cena wypożyczenia" GridPane.rowIndex="3" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Stan" GridPane.rowIndex="4" />
-                        <TextField fx:id="serialNumberEquipmentBrowserTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                        <TextField fx:id="nameEquipmentBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="rentPriceEquipmentBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <ComboBox fx:id="typeEquipmentBrowserComboBox" prefHeight="25.0" prefWidth="215.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <ComboBox fx:id="conditionEquipmentBrowserComboBox" prefHeight="25.0" prefWidth="319.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Numer seryjny" textAlignment="RIGHT">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwa" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Rodzaj" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Cena wypożyczenia" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Stan" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <TextField fx:id="serialNumberEquipmentBrowserTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="nameEquipmentBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="rentPriceEquipmentBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <ComboBox fx:id="typeEquipmentBrowserComboBox" prefHeight="30.0" prefWidth="137.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="conditionEquipmentBrowserComboBox" prefHeight="31.0" prefWidth="131.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -190,13 +487,19 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </GridPane>
-                  <HBox alignment="CENTER" prefHeight="69.0" prefWidth="204.0" spacing="25.0">
+                  <HBox alignment="CENTER" prefHeight="69.0" prefWidth="263.0" spacing="25.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                      <children>
-                        <Button fx:id="equipmentBrowserFilterButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Filtruj" />
-                        <Button fx:id="equipmentBrowserClearButton" mnemonicParsing="false" text="Czyść" />
+                        <Button fx:id="equipmentBrowserFilterButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="61.0" text="Filtruj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                        <Button fx:id="equipmentBrowserClearButton" mnemonicParsing="false" text="Czyść">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -204,29 +507,41 @@
                   </HBox>
                </children>
             </VBox>
-              <VBox>
+              <VBox prefHeight="466.0" prefWidth="724.0">
                   <children>
-                      <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
+                      <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="39.0" prefWidth="619.0">
                           <buttons>
-                              <Button fx:id="deleteEquipmentButton" mnemonicParsing="false" text="Usuń" />
-                              <Button fx:id="editEquipmentButton" mnemonicParsing="false" text="Edytuj" />
-                              <Button fx:id="addEquipmentButton" mnemonicParsing="false" text="Dodaj" />
+                              <Button fx:id="deleteEquipmentButton" mnemonicParsing="false" text="Usuń">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                              <Button fx:id="editEquipmentButton" mnemonicParsing="false" text="Edytuj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                              <Button fx:id="addEquipmentButton" mnemonicParsing="false" text="Dodaj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
                           </buttons>
                           <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                           </VBox.margin>
                       </ButtonBar>
-                      <TableView fx:id="equipmentTableView" prefHeight="371.0" prefWidth="600.0">
+                      <TableView fx:id="equipmentTableView" prefHeight="453.0" prefWidth="638.0">
                           <columns>
                               <TableColumn fx:id="equipmentIdTableColumn" prefWidth="75.0" visible="false" />
                               <TableColumn fx:id="equipmentSerialNumberColumn" prefWidth="106.0" text="Numer seryjny" />
-                              <TableColumn fx:id="equipmentNameColumn" prefWidth="116.0" text="Nazwa" />
-                              <TableColumn fx:id="equipmentTypeColumn" prefWidth="93.0" text="Rodzaj sprzętu" />
-                              <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="119.0" text="Cena wypożyczenia" />
-                              <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="92.0" text="Stan" />
+                              <TableColumn fx:id="equipmentNameColumn" prefWidth="145.0" text="Nazwa" />
+                              <TableColumn fx:id="equipmentTypeColumn" prefWidth="114.0" text="Rodzaj sprzętu" />
+                              <TableColumn fx:id="equipmentRentPriceColumn" minWidth="0.0" prefWidth="117.0" text="Cena wypożyczenia" />
+                              <TableColumn fx:id="equipmentConditionColumn" minWidth="0.0" prefWidth="120.0" text="Stan" />
                           </columns>
                       </TableView>
                   </children>
+               <padding>
+                  <Insets bottom="20.0" right="20.0" />
+               </padding>
               </VBox>
          </children>
       </HBox>
@@ -234,14 +549,14 @@
     <Tab text="Panel pracowników">
       <HBox>
          <children>
-            <VBox prefHeight="428.0" prefWidth="248.0">
+            <VBox prefHeight="466.0" prefWidth="300.0">
                <children>
                   <Label prefHeight="51.0" prefWidth="232.0" text="Filtrowanie">
                      <padding>
                         <Insets left="10.0" right="10.0" top="10.0" />
                      </padding>
                      <font>
-                        <Font size="14.0" />
+                        <Font size="18.0" />
                      </font>
                   </Label>
                   <GridPane hgap="5.0" prefHeight="200.0" prefWidth="248.0">
@@ -257,16 +572,46 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Login" textAlignment="RIGHT" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Imię" GridPane.rowIndex="1" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwisko" GridPane.rowIndex="2" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Telefon" GridPane.rowIndex="3" />
-                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Email" GridPane.rowIndex="4" />
-                        <TextField fx:id="loginEmployeeBrowserTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1" />
-                        <TextField fx:id="nameEmployeeBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="phoneEmployeeBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <TextField fx:id="surnameEmployeeBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="emailEmployeeBrowserTextField" layoutX="137.0" layoutY="98.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" text="Login" textAlignment="RIGHT">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Imię" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Nazwisko" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Telefon" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Email" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <TextField fx:id="loginEmployeeBrowserTextField" prefHeight="25.0" prefWidth="190.0" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="nameEmployeeBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="phoneEmployeeBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="surnameEmployeeBrowserTextField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
+                        <TextField fx:id="emailEmployeeBrowserTextField" layoutX="137.0" layoutY="98.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <font>
+                              <Font size="14.0" />
+                           </font></TextField>
                      </children>
                      <VBox.margin>
                         <Insets />
@@ -280,8 +625,14 @@
                         <Insets />
                      </opaqueInsets>
                      <children>
-                        <Button fx:id="employeeBrowserFilterButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Filtruj" />
-                        <Button fx:id="employeeBrowserClearButton" mnemonicParsing="false" text="Czyść" />
+                        <Button fx:id="employeeBrowserFilterButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="61.0" text="Filtruj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                        <Button fx:id="employeeBrowserClearButton" mnemonicParsing="false" text="Czyść">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" />
@@ -296,30 +647,39 @@
                   <children>
                       <ButtonBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0">
                           <buttons>
-                              <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" text="Usuń" />
-                              <Button fx:id="editEmployeeButton" mnemonicParsing="false" text="Edytuj" />
-                              <Button fx:id="addEmployeeButton" mnemonicParsing="false" text="Dodaj" />
+                              <Button fx:id="deleteEmployeeButton" mnemonicParsing="false" text="Usuń">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                              <Button fx:id="editEmployeeButton" mnemonicParsing="false" text="Edytuj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
+                              <Button fx:id="addEmployeeButton" mnemonicParsing="false" text="Dodaj">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Button>
                           </buttons>
                           <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                           </VBox.margin>
                       </ButtonBar>
-                      <TableView fx:id="employeeTableView" prefHeight="371.0" prefWidth="600.0">
+                      <TableView fx:id="employeeTableView" prefHeight="450.0" prefWidth="633.0">
                           <columns>
                               <TableColumn fx:id="employeeIdColumn" prefWidth="75.0" text="id" visible="false" />
-                              <TableColumn fx:id="employeeLoginColumn" prefWidth="75.0" text="Login" />
-                              <TableColumn fx:id="employeeFirstNameColumn" prefWidth="75.0" text="Imię" />
-                              <TableColumn fx:id="employeeSurnameColumn" prefWidth="75.0" text="Nazwisko" />
-                              <TableColumn fx:id="employeePhoneColumn" prefWidth="63.0" text="Telefon" />
-                              <TableColumn fx:id="employeeEmailColumn" prefWidth="63.0" text="Email" />
+                              <TableColumn fx:id="employeeLoginColumn" prefWidth="98.0" text="Login" />
+                              <TableColumn fx:id="employeeFirstNameColumn" prefWidth="109.0" text="Imię" />
+                              <TableColumn fx:id="employeeSurnameColumn" prefWidth="129.0" text="Nazwisko" />
+                              <TableColumn fx:id="employeePhoneColumn" minWidth="0.0" prefWidth="133.0" text="Telefon" />
+                              <TableColumn fx:id="employeeEmailColumn" prefWidth="130.0" text="Email" />
                           </columns>
                       </TableView>
                   </children>
+               <padding>
+                  <Insets bottom="20.0" right="20.0" />
+               </padding>
               </VBox>
          </children>
       </HBox>
-    </Tab>
-    <Tab text="Funkcje dodatkowe">
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
     </Tab>
 </TabPane>

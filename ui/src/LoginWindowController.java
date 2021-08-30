@@ -51,7 +51,7 @@ public class LoginWindowController implements Initializable {
 				Stage stage = new Stage();
 				stage.setScene(new Scene(parent));
 				stage.setTitle("Stacja narciarska; zalogowany pracownik: " + employee.getLogin());
-				stage.setMaximized(true);
+				//stage.setMaximized(true);
 				MainWindowController mainWindowController = fxmlLoader.getController();
 				mainWindowController.setLoggedInEmployee(employee);
 				stage.show();
